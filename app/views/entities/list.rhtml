@@ -1,0 +1,113 @@
+<% if params["id"]%>
+<H1 id="list_title"><%= t(@entity.name,{:scope => "account"}) %></H1>
+<%= help_info("madb_help_info_entities_list_intro")%>
+<span class="button_style"><%= link_to_function t("madb_create_new_entity",  :vars => { 'entity_name' => t(@entity.name, :scope => "account")}), "$('addition_form_div').style.display='block'; new Form.focusFirstElement($('addition_form_div'));"%></span>
+  <div id="addition_form_div" class="hidden">
+		<%#  :update => "#{@entity.name}_list_div" ,
+		%>
+    <!--
+		<%= form_remote_tag  :url => { :controller => "entities", :action => "apply_edit", :id => params["id"] }, :complete => "
+		if (request.getResponseHeader('Content-Type').match('text/plain')!=null)
+		{
+		request.responseText.split(' ').each( function(value,index) {
+			Element.removeClassName( value,'valid_form_value');
+			Element.removeClassName( value,'unchecked_form_value');
+			Element.addClassName( value,'invalid_form_value');
+					});
+			return;
+		}
+		$('#{@entity.name}_list_div').innerHTML=request.responseText;
+		new Form.reset_madb_form (document.forms[0]);
+		Element.hide('addition_form_div');
+    Fat.fade_element('tr_#{@entity.name}_list_'+request.getResponseHeader('MYOWNDB_highlight')) ;
+    id = 'tr_#{@entity.name}_list_'+request.getResponseHeader('MYOWNDB_highlight');
+    setTimeout('reset_style(\\''+id+'\\');',3000);
+
+    " %>
+    -->
+
+    <form id="addition_form" method="post" onsubmit="return dojoformfunction(this);" <%= %{enctype="multipart/form-data"} if @entity.has_file_attachment_detail? %>>
+
+    <input type="hidden" name="instance_id" value="-1">
+    <input type="hidden" name="entity" value="<%=@entity.id%>">
+    <%= render :partial => "entity_form", :object => @instance %>
+    <%=submit_tag t('madb_submit')%> <%= link_to_function t("madb_cancel"), "$('addition_form_div').style.display='none'; new Form.reset_madb_form (document.forms[0]);"%>
+    </form>
+<script type="text/javascript">
+function dojoformfunction(f)
+{
+  Effect.Appear('xhr_message',{duration:0.5,queue:'end'});
+  dojo.io.bind({
+      url:"/app/entities/apply_edit",
+      headers: {'X-Requested-With': 'XMLHttpRequest'},
+      encoding:'utf-8',
+      load: function(t, txt, e) {
+
+// needed due to problem with IframeIO: http://trac.dojotoolkit.org/ticket/674
+if (txt!=null)
+  data=txt
+else
+{
+  data = dojo.io.iframeContentWindow(dojo.io.IframeTransport.iframe).document.body.innerHTML;
+  if (data.match(/<pre>(.*)<\/pre>/i)) {
+      // Internet Explorer [Jon Aquino 2006-05-06]
+      data = RegExp.$1;
+  }
+}
+if (data.match(/(.{8}_([\w\s]+_[\w\s]*)\[\d\](_\w+)*(######)?)+/))
+{
+  ids = data.split('######');
+  <%# comment needed for test code
+  %>
+  for(var i=0;i</*>*/ids.length; i++)
+  {
+      value = ids[i];
+			YAHOO.util.Dom.removeClass( value,'valid_form_value');
+			YAHOO.util.Dom.removeClass( value,'unchecked_form_value');
+			YAHOO.util.Dom.addClass( value,'invalid_form_value');
+
+  }
+}
+else if (data.match(/__ERROR__.*/))
+{
+  message = data.replace('__ERROR__','');
+  alert(message);
+}
+else
+{
+		list_div = $('<%=@entity.name%>_list_div');
+    list_div.innerHTML=data;
+    highlighted_row = YAHOO.util.Dom.getElementsByClassName("highlight", "tr", list_div);
+    dojo.lfx.html.highlight(highlighted_row, [255, 255, 51], 500).play(1500);
+    f.reset();
+    var invalid_fields = YAHOO.util.Dom.getElementsByClassName('invalid_form_value', 'input',f);
+    try {
+    YAHOO.util.Dom.batch(invalid_fields, function (e) {YAHOO.util.Dom.removeClass( e,'invalid_form_value');YAHOO.util.Dom.addClass( e,'unchecked_form_value'); });
+    }
+    catch(e)
+    {
+    }
+    Element.hide(f.parentNode);
+}
+    Effect.Fade('xhr_message',{duration:0.5,queue:'end'});
+
+                },
+      error: function(t, e) {
+                  alert("Error!... " + e.message);
+                },
+      formNode:f,
+      method:"post"
+  })
+
+return false;
+}
+
+new Form.focusFirstElement($('addition_form_div'));
+</script>
+
+  </div>
+<% end %>
+
+<div id="<%= @list_id%>_div">
+<%= render_component :controller => "entities", :action => "entities_list", :id => params["id"] %>
+</div>

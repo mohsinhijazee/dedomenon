@@ -1,0 +1,271 @@
+!_TAG_FILE_FORMAT	2	/extended format; --format=1 will not append ;" to lines/
+!_TAG_FILE_SORTED	1	/0=unsorted, 1=sorted, 2=foldcase/
+!_TAG_PROGRAM_AUTHOR	Darren Hiebert	/dhiebert@users.sourceforge.net/
+!_TAG_PROGRAM_NAME	Exuberant Ctags	//
+!_TAG_PROGRAM_URL	http://ctags.sourceforge.net	/official site/
+!_TAG_PROGRAM_VERSION	5.6	//
+AddBreakpoint	ruby-debug/commands/breakpoints.rb	/^  class AddBreakpoint < Command # :nodoc:$/;"	c	class:Debugger
+BreakpointsCommand	ruby-debug/commands/breakpoints.rb	/^  class BreakpointsCommand < Command # :nodoc:$/;"	c
+CatchCommand	ruby-debug/commands/catchpoint.rb	/^  class CatchCommand < Command # :nodoc:$/;"	c	class:Debugger
+ColumnizeFunctions	ruby-debug/helper.rb	/^  module ColumnizeFunctions$/;"	m	class:Debugger
+Command	ruby-debug/command.rb	/^  class Command # :nodoc:$/;"	c	class:Debugger
+Context	ruby-debug.rb	/^  class Context$/;"	c	class:Debugger
+ContinueCommand	ruby-debug/commands/stepping.rb	/^  class ContinueCommand < Command # :nodoc:$/;"	c
+ControlCommandProcessor	ruby-debug/processor.rb	/^  class ControlCommandProcessor # :nodoc:$/;"	c	class:Debugger
+ControlState	ruby-debug/processor.rb	/^  class ControlState # :nodoc:$/;"	c	class:Debugger
+Debugger	ruby-debug.rb	/^module Debugger$/;"	m
+Debugger	ruby-debug/command.rb	/^module Debugger$/;"	m
+Debugger	ruby-debug/commands/breakpoints.rb	/^module Debugger$/;"	m
+Debugger	ruby-debug/commands/catchpoint.rb	/^module Debugger$/;"	m
+Debugger	ruby-debug/commands/control.rb	/^module Debugger$/;"	m
+Debugger	ruby-debug/commands/eval.rb	/^module Debugger$/;"	m
+Debugger	ruby-debug/commands/frame.rb	/^module Debugger$/;"	m
+Debugger	ruby-debug/commands/inspect.rb	/^module Debugger$/;"	m
+Debugger	ruby-debug/commands/load.rb	/^module Debugger$/;"	m
+Debugger	ruby-debug/commands/stepping.rb	/^module Debugger$/;"	m
+Debugger	ruby-debug/commands/threads.rb	/^module Debugger$/;"	m
+Debugger	ruby-debug/commands/variables.rb	/^module Debugger$/;"	m
+Debugger	ruby-debug/event_processor.rb	/^ module Debugger$/;"	m
+Debugger	ruby-debug/helper.rb	/^module Debugger$/;"	m
+Debugger	ruby-debug/interface.rb	/^module Debugger  $/;"	m
+Debugger	ruby-debug/processor.rb	/^module Debugger$/;"	m
+Debugger	ruby-debug/xml_printer.rb	/^module Debugger$/;"	m
+DeleteBreakpointCommand	ruby-debug/commands/breakpoints.rb	/^  class DeleteBreakpointCommand < Command # :nodoc:$/;"	c
+DownCommand	ruby-debug/commands/frame.rb	/^  class DownCommand < Command # :nodoc:$/;"	c
+EvalCommand	ruby-debug/commands/eval.rb	/^  class EvalCommand < Command # :nodoc:$/;"	c	class:Debugger
+EventHandler	ruby-debug/event_processor.rb	/^   class EventHandler$/;"	c	class:Debugger
+Exception	ruby-debug.rb	/^  class Exception # :nodoc:$/;"	c
+FinishCommand	ruby-debug/commands/stepping.rb	/^  class FinishCommand < Command # :nodoc:$/;"	c
+FrameCommand	ruby-debug/commands/frame.rb	/^  class FrameCommand < Command # :nodoc:$/;"	c
+FrameFunctions	ruby-debug/commands/frame.rb	/^  module FrameFunctions # :nodoc:$/;"	m	class:Debugger
+InspectCommand	ruby-debug/commands/inspect.rb	/^  class InspectCommand < Command$/;"	c	class:Debugger
+InterruptCommand	ruby-debug/commands/control.rb	/^  class InterruptCommand < Command # :nodoc:$/;"	c
+Kernel	ruby-debug.rb	/^  module Kernel$/;"	m
+LoadCommand	ruby-debug/commands/load.rb	/^  class LoadCommand < Command  $/;"	c	class:Debugger
+NextCommand	ruby-debug/commands/stepping.rb	/^  class NextCommand < Command # :nodoc:$/;"	c	class:Debugger
+PPCommand	ruby-debug/commands/eval.rb	/^  class PPCommand < Command # :nodoc:$/;"	c
+ParseFunctions	ruby-debug/helper.rb	/^  module ParseFunctions$/;"	m	class:Debugger.ColumnizeFunctions
+QuitCommand	ruby-debug/commands/control.rb	/^  class QuitCommand < Command # :nodoc:$/;"	c	class:Debugger
+RemoteInterface	ruby-debug/interface.rb	/^  class RemoteInterface # :nodoc:$/;"	c	class:Debugger
+RestartCommand	ruby-debug/commands/control.rb	/^  class RestartCommand < Command # :nodoc:$/;"	c
+StartCommand	ruby-debug/commands/control.rb	/^  class StartCommand < Command # :nodoc:$/;"	c
+State	ruby-debug/processor.rb	/^  class State # :nodoc:$/;"	c	class:Debugger
+StepCommand	ruby-debug/commands/stepping.rb	/^  class StepCommand < Command # :nodoc:$/;"	c
+ThreadCurrentCommand	ruby-debug/commands/threads.rb	/^  class ThreadCurrentCommand < Command # :nodoc:$/;"	c
+ThreadFunctions	ruby-debug/commands/threads.rb	/^  module ThreadFunctions # :nodoc:$/;"	m	class:Debugger
+ThreadListCommand	ruby-debug/commands/threads.rb	/^  class ThreadListCommand < Command # :nodoc:$/;"	c	class:Debugger
+ThreadResumeCommand	ruby-debug/commands/threads.rb	/^  class ThreadResumeCommand < Command # :nodoc:$/;"	c
+ThreadStopCommand	ruby-debug/commands/threads.rb	/^  class ThreadStopCommand < Command # :nodoc:$/;"	c
+ThreadSwitchCommand	ruby-debug/commands/threads.rb	/^  class ThreadSwitchCommand < Command # :nodoc:$/;"	c
+UpCommand	ruby-debug/commands/frame.rb	/^  class UpCommand < Command # :nodoc:$/;"	c
+VarConstantCommand	ruby-debug/commands/variables.rb	/^  class VarConstantCommand < Command # :nodoc:$/;"	c	class:Debugger
+VarGlobalCommand	ruby-debug/commands/variables.rb	/^  class VarGlobalCommand < Command # :nodoc:$/;"	c
+VarInstanceCommand	ruby-debug/commands/variables.rb	/^  class VarInstanceCommand < Command # :nodoc:$/;"	c
+VarLocalCommand	ruby-debug/commands/variables.rb	/^  class VarLocalCommand < Command # :nodoc:$/;"	c
+WhereCommand	ruby-debug/commands/frame.rb	/^  class WhereCommand < Command # :nodoc:$/;"	c	class:Debugger
+XmlPrinter	ruby-debug/xml_printer.rb	/^  class XmlPrinter # :nodoc:$/;"	c	class:Debugger
+adjust_frame	ruby-debug/commands/frame.rb	/^    def adjust_frame(frame_pos, absolute)$/;"	f	class:Debugger.FrameFunctions
+at_breakpoint	ruby-debug.rb	/^    def at_breakpoint(breakpoint)$/;"	f	class:Debugger.Context
+at_breakpoint	ruby-debug/event_processor.rb	/^     def at_breakpoint(context, breakpoint)$/;"	f	class:Debugger
+at_catchpoint	ruby-debug.rb	/^    def at_catchpoint(excpt)$/;"	f	class:Debugger.Context
+at_catchpoint	ruby-debug/event_processor.rb	/^     def at_catchpoint(context, excpt)$/;"	f	class:Debugger
+at_line	ruby-debug.rb	/^    def at_line(file, line)$/;"	f	class:Debugger.Context
+at_line	ruby-debug/event_processor.rb	/^     def at_line(context, file, line)$/;"	f	class:Debugger
+at_line?	ruby-debug/event_processor.rb	/^     def at_line?$/;"	f	class:Debugger
+at_tracing	ruby-debug.rb	/^    def at_tracing(file, line)$/;"	f	class:Debugger.Context
+at_tracing	ruby-debug/event_processor.rb	/^     def at_tracing(context, file, line)$/;"	f	class:Debugger
+binding_n	ruby-debug.rb	/^    def binding_n(n = 0)$/;"	f	class:Kernel
+clear_references	ruby-debug/commands/inspect.rb	/^    def self.clear_references$/;"	F	class:Debugger.InspectCommand
+close	ruby-debug/interface.rb	/^    def close$/;"	f	class:Debugger.RemoteInterface
+columnize	ruby-debug/helper.rb	/^    def columnize(list, displaywidth=80)$/;"	f	class:Debugger.ColumnizeFunctions
+commands	ruby-debug/command.rb	/^      def commands$/;"	f	class:Debugger.Command
+context	ruby-debug/processor.rb	/^    def context$/;"	f	class:Debugger.ControlState
+debug_eval	ruby-debug/command.rb	/^    def debug_eval(str, b = get_binding)$/;"	f	class:Debugger
+debug_silent_eval	ruby-debug/command.rb	/^    def debug_silent_eval(str)$/;"	f	class:Debugger
+debugger	ruby-debug.rb	/^    def debugger(steps = 1)$/;"	f	class:Kernel
+execute	ruby-debug/commands/breakpoints.rb	/^    def execute$/;"	f	class:BreakpointsCommand
+execute	ruby-debug/commands/breakpoints.rb	/^    def execute$/;"	f	class:Debugger.AddBreakpoint
+execute	ruby-debug/commands/breakpoints.rb	/^    def execute$/;"	f	class:DeleteBreakpointCommand
+execute	ruby-debug/commands/catchpoint.rb	/^    def execute$/;"	f	class:Debugger.CatchCommand
+execute	ruby-debug/commands/control.rb	/^    def execute$/;"	f	class:Debugger.QuitCommand
+execute	ruby-debug/commands/control.rb	/^    def execute$/;"	f	class:InterruptCommand
+execute	ruby-debug/commands/control.rb	/^    def execute$/;"	f	class:RestartCommand
+execute	ruby-debug/commands/control.rb	/^    def execute$/;"	f	class:StartCommand
+execute	ruby-debug/commands/eval.rb	/^    def execute$/;"	f	class:Debugger.EvalCommand
+execute	ruby-debug/commands/eval.rb	/^    def execute$/;"	f	class:PPCommand
+execute	ruby-debug/commands/frame.rb	/^    def execute$/;"	f	class:Debugger.WhereCommand
+execute	ruby-debug/commands/frame.rb	/^    def execute$/;"	f	class:DownCommand
+execute	ruby-debug/commands/frame.rb	/^    def execute$/;"	f	class:FrameCommand
+execute	ruby-debug/commands/frame.rb	/^    def execute$/;"	f	class:UpCommand
+execute	ruby-debug/commands/inspect.rb	/^    def execute$/;"	f	class:Debugger.InspectCommand
+execute	ruby-debug/commands/load.rb	/^    def execute$/;"	f	class:Debugger.LoadCommand
+execute	ruby-debug/commands/stepping.rb	/^    def execute$/;"	f	class:ContinueCommand
+execute	ruby-debug/commands/stepping.rb	/^    def execute$/;"	f	class:Debugger.NextCommand
+execute	ruby-debug/commands/stepping.rb	/^    def execute$/;"	f	class:FinishCommand
+execute	ruby-debug/commands/stepping.rb	/^    def execute$/;"	f	class:StepCommand
+execute	ruby-debug/commands/threads.rb	/^    def execute$/;"	f	class:Debugger.ThreadListCommand
+execute	ruby-debug/commands/threads.rb	/^    def execute$/;"	f	class:ThreadCurrentCommand
+execute	ruby-debug/commands/threads.rb	/^    def execute$/;"	f	class:ThreadResumeCommand
+execute	ruby-debug/commands/threads.rb	/^    def execute$/;"	f	class:ThreadStopCommand
+execute	ruby-debug/commands/threads.rb	/^    def execute$/;"	f	class:ThreadSwitchCommand
+execute	ruby-debug/commands/variables.rb	/^    def execute$/;"	f	class:Debugger.VarConstantCommand
+execute	ruby-debug/commands/variables.rb	/^    def execute$/;"	f	class:VarGlobalCommand
+execute	ruby-debug/commands/variables.rb	/^    def execute$/;"	f	class:VarInstanceCommand
+execute	ruby-debug/commands/variables.rb	/^    def execute$/;"	f	class:VarLocalCommand
+file	ruby-debug/processor.rb	/^    def file$/;"	f	class:Debugger.ControlState
+get_binding	ruby-debug/command.rb	/^    def get_binding$/;"	f	class:Debugger
+get_context	ruby-debug/command.rb	/^    def get_context(thnum)$/;"	f	class:Debugger
+get_int	ruby-debug/helper.rb	/^    def get_int(str, cmd, min=nil, max=nil, default=1)$/;"	f	class:Debugger.ColumnizeFunctions.ParseFunctions
+get_onoff	ruby-debug/helper.rb	/^    def get_onoff(arg, default=nil, print_error=true)$/;"	f	class:Debugger.ColumnizeFunctions.ParseFunctions
+help	ruby-debug/commands/breakpoints.rb	/^      def help(cmd)$/;"	f	class:BreakpointsCommand
+help	ruby-debug/commands/breakpoints.rb	/^      def help(cmd)$/;"	f	class:Debugger.AddBreakpoint
+help	ruby-debug/commands/breakpoints.rb	/^      def help(cmd)$/;"	f	class:DeleteBreakpointCommand
+help	ruby-debug/commands/catchpoint.rb	/^      def help(cmd)$/;"	f	class:Debugger.CatchCommand
+help	ruby-debug/commands/control.rb	/^      def help(cmd)$/;"	f	class:Debugger.QuitCommand
+help	ruby-debug/commands/control.rb	/^      def help(cmd)$/;"	f	class:InterruptCommand
+help	ruby-debug/commands/control.rb	/^      def help(cmd)$/;"	f	class:RestartCommand
+help	ruby-debug/commands/control.rb	/^      def help(cmd)$/;"	f	class:StartCommand
+help	ruby-debug/commands/eval.rb	/^      def help(cmd)$/;"	f	class:Debugger.EvalCommand
+help	ruby-debug/commands/eval.rb	/^      def help(cmd)$/;"	f	class:PPCommand
+help	ruby-debug/commands/frame.rb	/^      def help(cmd)$/;"	f	class:Debugger.WhereCommand
+help	ruby-debug/commands/frame.rb	/^      def help(cmd)$/;"	f	class:DownCommand
+help	ruby-debug/commands/frame.rb	/^      def help(cmd)$/;"	f	class:FrameCommand
+help	ruby-debug/commands/frame.rb	/^      def help(cmd)$/;"	f	class:UpCommand
+help	ruby-debug/commands/stepping.rb	/^      def help(cmd)$/;"	f	class:ContinueCommand
+help	ruby-debug/commands/stepping.rb	/^      def help(cmd)$/;"	f	class:Debugger.NextCommand
+help	ruby-debug/commands/stepping.rb	/^      def help(cmd)$/;"	f	class:FinishCommand
+help	ruby-debug/commands/stepping.rb	/^      def help(cmd)$/;"	f	class:StepCommand
+help	ruby-debug/commands/threads.rb	/^      def help(cmd)$/;"	f	class:Debugger.ThreadListCommand
+help	ruby-debug/commands/threads.rb	/^      def help(cmd)$/;"	f	class:ThreadCurrentCommand
+help	ruby-debug/commands/threads.rb	/^      def help(cmd)$/;"	f	class:ThreadResumeCommand
+help	ruby-debug/commands/threads.rb	/^      def help(cmd)$/;"	f	class:ThreadStopCommand
+help	ruby-debug/commands/threads.rb	/^      def help(cmd)$/;"	f	class:ThreadSwitchCommand
+help	ruby-debug/commands/variables.rb	/^      def help(cmd)$/;"	f	class:Debugger.VarConstantCommand
+help	ruby-debug/commands/variables.rb	/^      def help(cmd)$/;"	f	class:VarGlobalCommand
+help	ruby-debug/commands/variables.rb	/^      def help(cmd)$/;"	f	class:VarInstanceCommand
+help	ruby-debug/commands/variables.rb	/^      def help(cmd)$/;"	f	class:VarLocalCommand
+help_command	ruby-debug/commands/breakpoints.rb	/^      def help_command$/;"	f	class:BreakpointsCommand
+help_command	ruby-debug/commands/breakpoints.rb	/^      def help_command$/;"	f	class:Debugger.AddBreakpoint
+help_command	ruby-debug/commands/breakpoints.rb	/^      def help_command$/;"	f	class:DeleteBreakpointCommand
+help_command	ruby-debug/commands/catchpoint.rb	/^      def help_command$/;"	f	class:Debugger.CatchCommand
+help_command	ruby-debug/commands/control.rb	/^      def help_command$/;"	f	class:Debugger.QuitCommand
+help_command	ruby-debug/commands/control.rb	/^      def help_command$/;"	f	class:InterruptCommand
+help_command	ruby-debug/commands/control.rb	/^      def help_command$/;"	f	class:RestartCommand
+help_command	ruby-debug/commands/control.rb	/^      def help_command$/;"	f	class:StartCommand
+help_command	ruby-debug/commands/eval.rb	/^      def help_command$/;"	f	class:Debugger.EvalCommand
+help_command	ruby-debug/commands/eval.rb	/^      def help_command$/;"	f	class:PPCommand
+help_command	ruby-debug/commands/frame.rb	/^      def help_command$/;"	f	class:Debugger.WhereCommand
+help_command	ruby-debug/commands/frame.rb	/^      def help_command$/;"	f	class:DownCommand
+help_command	ruby-debug/commands/frame.rb	/^      def help_command$/;"	f	class:FrameCommand
+help_command	ruby-debug/commands/frame.rb	/^      def help_command$/;"	f	class:UpCommand
+help_command	ruby-debug/commands/stepping.rb	/^      def help_command$/;"	f	class:ContinueCommand
+help_command	ruby-debug/commands/stepping.rb	/^      def help_command$/;"	f	class:Debugger.NextCommand
+help_command	ruby-debug/commands/stepping.rb	/^      def help_command$/;"	f	class:FinishCommand
+help_command	ruby-debug/commands/stepping.rb	/^      def help_command$/;"	f	class:StepCommand
+help_command	ruby-debug/commands/threads.rb	/^      def help_command$/;"	f	class:Debugger.ThreadListCommand
+help_command	ruby-debug/commands/threads.rb	/^      def help_command$/;"	f	class:ThreadCurrentCommand
+help_command	ruby-debug/commands/threads.rb	/^      def help_command$/;"	f	class:ThreadResumeCommand
+help_command	ruby-debug/commands/threads.rb	/^      def help_command$/;"	f	class:ThreadStopCommand
+help_command	ruby-debug/commands/threads.rb	/^      def help_command$/;"	f	class:ThreadSwitchCommand
+help_command	ruby-debug/commands/variables.rb	/^      def help_command$/;"	f	class:Debugger.VarConstantCommand
+help_command	ruby-debug/commands/variables.rb	/^      def help_command$/;"	f	class:VarGlobalCommand
+help_command	ruby-debug/commands/variables.rb	/^      def help_command$/;"	f	class:VarInstanceCommand
+help_command	ruby-debug/commands/variables.rb	/^      def help_command$/;"	f	class:VarLocalCommand
+inherited	ruby-debug/command.rb	/^      def inherited(klass)$/;"	f	class:Debugger.Command
+initialize	ruby-debug/command.rb	/^    def initialize(state, printer)$/;"	f	class:Debugger
+initialize	ruby-debug/event_processor.rb	/^     def initialize(interface)$/;"	f	class:Debugger.EventHandler
+initialize	ruby-debug/interface.rb	/^    def initialize(socket)$/;"	f	class:Debugger.RemoteInterface
+initialize	ruby-debug/processor.rb	/^    def initialize$/;"	f	class:Debugger.State
+initialize	ruby-debug/processor.rb	/^    def initialize(interface)$/;"	f	class:Debugger.ControlCommandProcessor
+initialize	ruby-debug/processor.rb	/^    def initialize(interface, commands)$/;"	f	class:Debugger.ControlState
+initialize	ruby-debug/xml_printer.rb	/^    def initialize(interface)$/;"	f	class:Debugger.XmlPrinter
+interrupt	ruby-debug.rb	/^    def interrupt$/;"	f	class:Debugger
+interrupt	ruby-debug.rb	/^    def interrupt$/;"	f	class:Debugger.Context
+interrupt_last	ruby-debug.rb	/^    def interrupt_last$/;"	f	class:Debugger
+line_at	ruby-debug/command.rb	/^    def line_at(file, line)$/;"	f	class:Debugger
+load_commands	ruby-debug/command.rb	/^      def load_commands$/;"	f	class:Debugger.Command
+main	ruby-debug.rb	/^    def main(host, port)$/;"	f	class:Debugger
+match	ruby-debug/command.rb	/^    def match(input)$/;"	f	class:Debugger
+match	ruby-debug/commands/eval.rb	/^    def match(input)$/;"	f	class:Debugger.EvalCommand
+method_missing	ruby-debug/command.rb	/^      def method_missing(meth, *args, &block)$/;"	f	class:Debugger.Command
+method_missing	ruby-debug/command.rb	/^    def method_missing(meth, *args, &block)$/;"	f	class:Debugger
+options	ruby-debug/command.rb	/^      def options$/;"	f	class:Debugger.Command
+parse_thread_num	ruby-debug/commands/threads.rb	/^    def parse_thread_num(subcmd, arg)$/;"	f	class:Debugger.ThreadFunctions
+print	ruby-debug/command.rb	/^    def print(*args)$/;"	f	class:Debugger
+print	ruby-debug/interface.rb	/^    def print(*args)$/;"	f	class:Debugger.RemoteInterface
+print	ruby-debug/processor.rb	/^    def print(*args)$/;"	f	class:Debugger.ControlCommandProcessor
+print	ruby-debug/processor.rb	/^    def print(*args)$/;"	f	class:Debugger.ControlState
+print	ruby-debug/processor.rb	/^    def print(*args)$/;"	f	class:Debugger.State
+print	ruby-debug/xml_printer.rb	/^    def print(*params)$/;"	f	class:Debugger.XmlPrinter
+print_array	ruby-debug/xml_printer.rb	/^    def print_array(array)$/;"	f	class:Debugger.XmlPrinter
+print_at_line	ruby-debug/xml_printer.rb	/^    def print_at_line(file, line)$/;"	f	class:Debugger.XmlPrinter
+print_breakpoint	ruby-debug/xml_printer.rb	/^    def print_breakpoint(n, breakpoint)$/;"	f	class:Debugger.XmlPrinter
+print_breakpoint_added	ruby-debug/xml_printer.rb	/^    def print_breakpoint_added(b)$/;"	f	class:Debugger.XmlPrinter
+print_breakpoint_deleted	ruby-debug/xml_printer.rb	/^    def print_breakpoint_deleted(b)$/;"	f	class:Debugger.XmlPrinter
+print_breakpoints	ruby-debug/xml_printer.rb	/^    def print_breakpoints(breakpoints)$/;"	f	class:Debugger.XmlPrinter
+print_catchpoint	ruby-debug/xml_printer.rb	/^    def print_catchpoint(exception)$/;"	f	class:Debugger.XmlPrinter
+print_context	ruby-debug/xml_printer.rb	/^    def print_context(context)$/;"	f	class:Debugger.XmlPrinter
+print_contexts	ruby-debug/xml_printer.rb	/^    def print_contexts(contexts)$/;"	f	class:Debugger.XmlPrinter
+print_current_frame	ruby-debug/xml_printer.rb	/^    def print_current_frame(context, frame_pos)$/;"	f	class:Debugger.XmlPrinter
+print_debug	ruby-debug/xml_printer.rb	/^    def print_debug(*args)$/;"	f	class:Debugger.XmlPrinter
+print_element	ruby-debug/xml_printer.rb	/^    def print_element(name)$/;"	f	class:Debugger.XmlPrinter
+print_error	ruby-debug/xml_printer.rb	/^    def print_error(*args)$/;"	f	class:Debugger.XmlPrinter
+print_eval	ruby-debug/xml_printer.rb	/^    def print_eval(exp, value)$/;"	f	class:Debugger.XmlPrinter
+print_exception	ruby-debug/xml_printer.rb	/^    def print_exception(exception, binding)$/;"	f	class:Debugger.XmlPrinter
+print_expression	ruby-debug/xml_printer.rb	/^    def print_expression(exp, value, idx)$/;"	f	class:Debugger.XmlPrinter
+print_expressions	ruby-debug/xml_printer.rb	/^    def print_expressions(exps)$/;"	f	class:Debugger.XmlPrinter
+print_frame	ruby-debug/xml_printer.rb	/^    def print_frame(context, idx, cur_idx)$/;"	f	class:Debugger.XmlPrinter
+print_frames	ruby-debug/xml_printer.rb	/^    def print_frames(context, cur_idx)$/;"	f	class:Debugger.XmlPrinter
+print_hash	ruby-debug/xml_printer.rb	/^    def print_hash(hash)$/;"	f	class:Debugger.XmlPrinter
+print_inspect	ruby-debug/xml_printer.rb	/^    def print_inspect(eval_result)$/;"	f	class:Debugger.XmlPrinter
+print_list	ruby-debug/xml_printer.rb	/^    def print_list(b, e, file, line)$/;"	f	class:Debugger.XmlPrinter
+print_load_result	ruby-debug/xml_printer.rb	/^    def print_load_result(file, exception=nil)$/;"	f	class:Debugger.XmlPrinter
+print_methods	ruby-debug/xml_printer.rb	/^    def print_methods(methods)$/;"	f	class:Debugger.XmlPrinter
+print_msg	ruby-debug/xml_printer.rb	/^    def print_msg(*args)$/;"	f	class:Debugger.XmlPrinter
+print_pp	ruby-debug/xml_printer.rb	/^    def print_pp(exp, value)$/;"	f	class:Debugger.XmlPrinter
+print_trace	ruby-debug/xml_printer.rb	/^    def print_trace(context, file, line)$/;"	f	class:Debugger.XmlPrinter
+print_variable	ruby-debug/xml_printer.rb	/^    def print_variable(name, value, kind)$/;"	f	class:Debugger.XmlPrinter
+print_variables	ruby-debug/xml_printer.rb	/^    def print_variables(vars, kind)$/;"	f	class:Debugger.XmlPrinter
+proceed	ruby-debug/processor.rb	/^    def proceed$/;"	f	class:Debugger.ControlState
+proceed	ruby-debug/processor.rb	/^    def proceed$/;"	f	class:Debugger.State
+proceed?	ruby-debug/processor.rb	/^    def proceed?$/;"	f	class:Debugger.State
+process_commands	ruby-debug/processor.rb	/^    def process_commands$/;"	f	class:Debugger.ControlCommandProcessor
+process_context_commands	ruby-debug/processor.rb	/^    def process_context_commands(input)$/;"	f	class:Debugger.ControlCommandProcessor
+processor	ruby-debug.rb	/^    def processor$/;"	f	class:Debugger.Context
+protect	ruby-debug/event_processor.rb	/^     def self.protect(mname)$/;"	F	class:Debugger.EventHandler
+read_command	ruby-debug/interface.rb	/^    def read_command$/;"	f	class:Debugger.RemoteInterface
+reference_result	ruby-debug/commands/inspect.rb	/^    def self.reference_result(result)$/;"	F	class:Debugger.InspectCommand
+regexp	ruby-debug/commands/breakpoints.rb	/^    def regexp$/;"	f	class:BreakpointsCommand
+regexp	ruby-debug/commands/breakpoints.rb	/^    def regexp$/;"	f	class:Debugger.AddBreakpoint
+regexp	ruby-debug/commands/breakpoints.rb	/^    def regexp$/;"	f	class:DeleteBreakpointCommand
+regexp	ruby-debug/commands/catchpoint.rb	/^    def regexp$/;"	f	class:Debugger.CatchCommand
+regexp	ruby-debug/commands/control.rb	/^    def regexp$/;"	f	class:Debugger.QuitCommand
+regexp	ruby-debug/commands/control.rb	/^    def regexp$/;"	f	class:InterruptCommand
+regexp	ruby-debug/commands/control.rb	/^    def regexp$/;"	f	class:RestartCommand
+regexp	ruby-debug/commands/control.rb	/^    def regexp$/;"	f	class:StartCommand
+regexp	ruby-debug/commands/eval.rb	/^    def regexp$/;"	f	class:Debugger.EvalCommand
+regexp	ruby-debug/commands/eval.rb	/^    def regexp$/;"	f	class:PPCommand
+regexp	ruby-debug/commands/frame.rb	/^    def regexp$/;"	f	class:Debugger.WhereCommand
+regexp	ruby-debug/commands/frame.rb	/^    def regexp$/;"	f	class:DownCommand
+regexp	ruby-debug/commands/frame.rb	/^    def regexp$/;"	f	class:FrameCommand
+regexp	ruby-debug/commands/frame.rb	/^    def regexp$/;"	f	class:UpCommand
+regexp	ruby-debug/commands/inspect.rb	/^    def regexp$/;"	f	class:Debugger.InspectCommand
+regexp	ruby-debug/commands/load.rb	/^    def regexp$/;"	f	class:Debugger.LoadCommand
+regexp	ruby-debug/commands/stepping.rb	/^    def regexp$/;"	f	class:ContinueCommand
+regexp	ruby-debug/commands/stepping.rb	/^    def regexp$/;"	f	class:Debugger.NextCommand
+regexp	ruby-debug/commands/stepping.rb	/^    def regexp$/;"	f	class:FinishCommand
+regexp	ruby-debug/commands/stepping.rb	/^    def regexp$/;"	f	class:StepCommand
+regexp	ruby-debug/commands/threads.rb	/^    def regexp$/;"	f	class:Debugger.ThreadListCommand
+regexp	ruby-debug/commands/threads.rb	/^    def regexp$/;"	f	class:ThreadCurrentCommand
+regexp	ruby-debug/commands/threads.rb	/^    def regexp$/;"	f	class:ThreadResumeCommand
+regexp	ruby-debug/commands/threads.rb	/^    def regexp$/;"	f	class:ThreadStopCommand
+regexp	ruby-debug/commands/threads.rb	/^    def regexp$/;"	f	class:ThreadSwitchCommand
+regexp	ruby-debug/commands/variables.rb	/^    def regexp$/;"	f	class:Debugger.VarConstantCommand
+regexp	ruby-debug/commands/variables.rb	/^    def regexp$/;"	f	class:VarGlobalCommand
+regexp	ruby-debug/commands/variables.rb	/^    def regexp$/;"	f	class:VarInstanceCommand
+regexp	ruby-debug/commands/variables.rb	/^    def regexp$/;"	f	class:VarLocalCommand
+run_prog_script	ruby-debug.rb	/^    def run_prog_script$/;"	f	class:Debugger
+show_onoff	ruby-debug/helper.rb	/^    def show_onoff(bool)$/;"	f	class:Debugger.ColumnizeFunctions.ParseFunctions
+splitter	ruby-debug/processor.rb	/^    def splitter$/;"	f	class:Debugger.ControlCommandProcessor
+start_control	ruby-debug.rb	/^    def start_control(host, port)$/;"	f	class:Debugger
+timeout	ruby-debug/command.rb	/^    def timeout(sec)$/;"	f	class:Debugger

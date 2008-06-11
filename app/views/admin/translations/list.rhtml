@@ -1,0 +1,79 @@
+<script type="text/javascript" src="/javascripts/yui-dragdrop.js"/>
+<script type="text/javascript">
+      dojo.require("dojo.widget.Tooltip");
+</script>
+<h1><%= t("madb_listing_translations")%></h1>
+<%= help_info("madb_help_info_translations_list_intro")%>
+
+<h2><%= t('madb_translation_existing_translations')%></h2>
+<div id="translations_list">
+  <%= render_component :controller => 'admin/translations', :action => 'translations_list', :params => params %>
+</div>
+<br />
+
+
+<h2><%= t('madb_translation_missing_translations')%></h2>
+
+<table>
+  <thead>
+    <tr><td><%=t('madb_translation_t_id')%></td></tr>
+  </thead>
+  <tbody>
+<% @inexisting_translations.each do |translation| %>
+<tr id="unknown_translation_row_<%=translation.t_id%>"><td><%= link_to  translation.t_id, :action => "new", :id => translation.t_id%></td>
+    <% if @translator.deletor? %>
+    <td><%= link_to_remote t('madb_delete'), { :url => {:action => 'destroy', :t_id => translation.t_id}, :complete => "row = $('unknown_translation_row_#{translation.t_id}');Element.hide(row);", :confirm => "Are you sure?"}  %></td>
+    <%end%>
+    <td><%= link_to_remote t('madb_translation_check_usage_in_source_code'), { :url => {:action => 'check_usage_in_source_code', :id => translation.t_id}, :complete => "container = document.getElementById('usage_status_#{translation.t_id}'); if(request.responseText!='') { container.innerHTML='<img src=\"/images/icon/big/use.png\"/>'; new YAHOO.widget.Tooltip('usage_status_#{translation.t_id}_popup', {context:container, showDelay:100, autodismissdelay: 600000, text: request.responseText}); } else { container.innerHTML='<img src=\"/images/icon/big/delete.png\"/>';} " } %> <span id="usage_status_<%=translation.t_id%>" class="icon"><img src="/images/hlp16_1.gif"/></span></td>
+
+    <td><a onclick="dojo_submit('<%=translation.t_id%>');return false;">by dojo</a>
+
+</tr>
+
+  <%end%>
+</tbody>
+</table>
+
+    <script type="text/javascript">
+    function dojo_submit(t_id)
+    {
+      dojo.io.bind({
+        url: '<%= url_for({:action => 'check_usage_in_source_code'})%>/'+t_id,
+        load: function(t,txt,e) {
+        container = document.getElementById('usage_status_'+t_id); 
+        //tooltip = dojo.byId('tooltip_usage_status_'+t_id); 
+        if(txt!='') 
+        { 
+        container.innerHTML='<img src="/images/icon/big/use.png"/>'; 
+        //tooltip.innerHTML = txt;
+        //new YAHOO.widget.Tooltip('usage_status_'+t_id+'_popup', {context:container, showDelay:100, autodismissdelay: 600000, text: txt});
+        myPanel = new YAHOO.widget.Panel("win"+t_id, {
+          width:"80%", 
+          fixedcenter: true, 
+          y: "3el",
+          constraintoviewport: true, 
+          //underlay:"shadow", 
+          modal: true,
+          close:true, 
+          visible:false, 
+          draggable:true} );
+        myPanel.setHeader(t_id);
+        myPanel.setBody(txt);
+        myPanel.render(document.body);
+        myPanel.show();
+        //t = dojo.widget.createWidget("Tooltip", { caption:  txt , width:'80%', connectId: 'usage_status_'+t_id });
+        //document.body.appendChild(t.domNode);
+        }
+        else 
+        { 
+        container.innerHTML='<img src=\"/images/icon/big/delete.png\"/>';
+        } 
+
+
+        },
+        method: 'post'
+        })
+    }
+    </script>
+
+<a href="" onclick="id=prompt('<%= t("madb_enter_id_of_the_translation") %>');url='<%= url_for :action=> "new"%>/'+id;location.href=url+'/';return false;"><%=t("madb_new_translation")%></a>

@@ -1,0 +1,117 @@
+<div class="tool_in_page">
+
+<!--
+<% if params["embedded"] %>
+<%= form_remote_tag :update => params["update"] , :url => { :controller => "entities", :action => "apply_link_to_new"}, :evalScripts => true,
+:complete => "
+		if (request.getResponseHeader('Content-Type').match('text/plain')!=null)
+		{
+		request.responseText.split(' ').each( function(value,index) {
+			Element.removeClassName( value,'valid_form_value');
+			Element.removeClassName( value,'unchecked_form_value');
+			Element.addClassName( value,'invalid_form_value');
+					});
+			return;
+		}
+    /*new Effect.Fade('#{params["embedded"]}');*/
+  Element.hide('#{params["embedded"]}');
+		Fat.fade_element('tr_#{params["update"]}_'+request.getResponseHeader('MYOWNDB_highlight')) ;
+
+	"  %>
+
+
+<% else %>
+  <form action="/entities/apply_link_to_new" method="post">
+<% end %>
+-->
+
+<form id="link_to_new_form" method="post" onsubmit="Effect.Appear('xhr_message',{duration:0.5,queue:'end'});dojo.io.bind({
+      url:'/entities/apply_link_to_new',
+      headers: {'X-Requested-With': 'XMLHttpRequest'},
+      encoding:'utf-8',
+      load: function(t, txt, e) {
+
+// needed due to problem with IframeIO: http://trac.dojotoolkit.org/ticket/674
+if (txt!=null)
+  data=txt
+else
+{
+  data = dojo.io.iframeContentWindow(dojo.io.IframeTransport.iframe).document.body.innerHTML;
+  if (data.match(/<pre>(.*)<\/pre>/i)) {
+      // Internet Explorer [Jon Aquino 2006-05-06]
+      data = RegExp.$1;
+  }
+}
+if (data.match(/(.{8}_([\w\s]+_[\w\s]*)\[\d\](_\w+)*(######)?)+/))
+{
+    var invalid_fields = YAHOO.util.Dom.getElementsByClassName('invalid_form_value', 'input','<%=params["embedded"]%>');
+    try {
+    YAHOO.util.Dom.batch(invalid_fields, function (e) {Element.removeClassName( e,'invalid_form_value');Element.addClassName( e,'unchecked_form_value'); });
+    }
+    catch(e)
+    {
+    }
+  ids = data.split('######');
+  for(var i=0;i<ids.length; i++)
+  {
+      value = ids[i];
+      YAHOO.util.Dom.removeClass( value,'valid_form_value');
+      YAHOO.util.Dom.removeClass( value,'unchecked_form_value');
+      YAHOO.util.Dom.addClass( value,'invalid_form_value');
+
+  }
+}
+else if (data.match(/__ERROR__.*/))
+{
+  message = data.replace('__ERROR__','');
+  alert(message);
+}
+else
+{
+  d = document.getElementById('<%=params["update"]%>');
+  d.innerHTML=data;
+  Element.hide('<%=params["embedded"]%>');
+  highlighted_row = YAHOO.util.Dom.getElementsByClassName('highlight', 'tr', d);
+  dojo.lfx.html.highlight(highlighted_row, [255, 255, 51], 500).play(1500);
+  var invalid_fields = YAHOO.util.Dom.getElementsByClassName('invalid_form_value', 'input','<%=params["embedded"]%>');
+  YAHOO.util.Dom.batch(invalid_fields, function (e) {YAHOO.util.Dom.removeClass( e,'invalid_form_value');YAHOO.util.Dom.addClass( e,'unchecked_form_value'); });
+}
+Effect.Fade('xhr_message',{duration:0.5,queue:'end'});
+                },
+      error: function(t, e) {
+                  alert('Error!... ' + e.message);
+                },
+      formNode:this,
+      method:'post'
+  })
+
+return false;
+
+  " method="POST" <%= %{enctype="multipart/form-data"} if @entity.has_file_attachment_detail? %>>
+
+
+<input type="hidden" name="instance_id" value="-1">
+<% if params["parent_id"] %>
+	<input type="hidden" name="parent_id" value="<%=params["parent_id"]%>">
+<% elsif params["child_id"] %>
+	<input type="hidden" name="child_id" value="<%=params["child_id"]%>">
+<% end %>
+<% if params["embedded"] %>
+  <input type="hidden" name="embedded" value="<%=params["embedded"]%>">
+  <input type="hidden" name="update" value="<%=params["update"]%>">
+<% end %>
+<input type="hidden" name="relation_id" value="<%=params["relation_id"]%>">
+<input type="hidden" name="entity" value="<%=@entity.id %>">
+
+<%= render :partial => "entity_form", :object => @instance %>
+
+<%=submit_tag t("madb_submit") %>
+<% if params["embedded"] %>
+  <%= link_to_function t("madb_cancel"), "Element.hide('#{params["embedded"]}');"%>
+<% end %>
+</form>
+</div>
+
+
+
+

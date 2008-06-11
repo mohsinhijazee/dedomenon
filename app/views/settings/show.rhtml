@@ -1,0 +1,17 @@
+<h1><%=t("madb_settings")%></h1>
+<%= help_info("madb_help_info_settings_show_intro")%>
+<h2><%=t("madb_display_contextual_help")%></h2>
+
+<% form_tag({:action => "apply"}) do -%>
+
+<%= t("madb_display_info_help") %>: <select name="setting[display_help]">
+    <%= options_for_select(@display_help_options, @preferences.display_help? ? "true" : "false")%>
+  </select><br>
+  <%= submit_tag "madb_submit"%>
+
+<% end -%>
+
+<%= render_component :controller => "authentication", :action => "change_password" %>
+<br/>
+
+

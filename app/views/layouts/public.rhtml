@@ -1,0 +1,52 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <title><%= t("madb_madb")%>::<%= @title%></title>
+<% if (RAILS_ENV=="test" and request.env["HTTP_USER_AGENT"].nil?) or request.env["HTTP_USER_AGENT"].include?("MSIE")%>
+<%= stylesheet_link_tag 'ie' %>
+<% else %>
+<%= stylesheet_link_tag 'mozilla' %>
+<% end%>
+
+<%= stylesheet_link_tag 'yui-container' %>
+<%= javascript_include_tag "yui-yahoo" %>
+<%= javascript_include_tag "yui-event" %>
+<%= javascript_include_tag "yui-dom" %>
+<%= javascript_include_tag "yui-container" %>
+<%= javascript_include_tag :defaults %>
+
+<%= javascript_include_tag "fat" %>
+<%= javascript_include_tag "scriptaculous" %>
+<%= javascript_include_tag "madb" %>
+<%= javascript_include_tag "gau" %>
+
+<script type="text/javascript">
+var djConfig = { baseScriptUri:'/javascripts/dojo/' };
+</script>
+<script type="text/javascript" src="/javascripts/dojo/dojo.js"/>
+<script type="text/javascript">
+  dojo.require("dojo.io.*");
+  //dojo.require("dojo.io.IframeIO");
+</script>
+<script type="text/javascript" src="/javascripts/dojo/src/io/IframeIO.js"/> 
+
+</head>
+<body>
+
+<div id="container">
+<div id="xhr_message"></div>
+
+<!-- <div id="header"><h1><span>MyOwnDB</span></h1></div> -->
+<div id="content_public">
+<%= @content_for_layout %>
+</div>
+<div id="footer"></div>
+</div>
+<%if flash["error"]%>
+	<script type="text/javascript">
+	alert("<%=flash["error"]%>");
+	</script>
+<% end %>
+</body>
+</html>
+

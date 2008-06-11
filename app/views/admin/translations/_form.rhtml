@@ -1,0 +1,25 @@
+<% lang = @language||@translation.lang %>
+<!--[form:translation]-->
+<h2><%= t(lang) %></h2>
+<% if flash["error"] %>
+  <span class="error"> <%= flash['error'] %></span>
+  <span id="error_span"></span>
+<% end %>
+<%= hidden_field 'translation', 'id'  %></p>
+<%= hidden_field 'translation', 'id_filter'  %></p>
+<%= hidden_field 'translation', 'lang', :value => lang  %></p>
+<%= hidden_field 'translation', 'scope', :value => params["scope"] || @translation.scope || "system"  %></p>
+<%= hidden_field 'translation', 't_id', :value => params["id"] || @translation.t_id  %></p>
+
+
+
+<span><a onclick="toggle_translation_area_size('<%=lang%>');"><%=t("madb_resize")%></a></span><br>
+<%= text_area 'translation', 'value', { :rows => 1, :id => lang}  %></p>
+<br>
+<%= submit_tag t("madb_submit") %>
+  <%= submit_tag t("madb_submit_all"), :onclick => " for (i=0; i<document.forms.length; i++) { document.forms[i].onsubmit(); }; location.href = '#{url_for :action => "list"}';" %>
+<!--[eoform:translation]-->
+
+<script type="text/javascript">
+ new Effect.Fade('notice_<%=lang%>');
+</script>

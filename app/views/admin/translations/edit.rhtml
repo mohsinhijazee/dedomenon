@@ -1,0 +1,33 @@
+
+
+
+<h1><%=t("madb_editing_translations")%></h1>
+
+<p>
+<h2><%= t("madb_notes") %></h2>
+<%= @hint.notes if @hint%>
+<br />
+<h2><%= t("madb_urls_where_translation_appears") %></h2>
+<ul>
+<% @hint.urls.each do |url| %>
+<li><a class="link" target="blank" href="<%= url%>"><%= url%></a></li>
+<%end if @hint%>
+</ul>
+</p>
+
+
+<%= submit_tag t("madb_submit_all"), :onclick => " for (i=0; i<document.forms.length; i++) { document.forms[i].onsubmit(); }; location.href = '#{session["return-to"]}';" %>
+<h1><%= params["id"] %> (<%= params["scope"] %>)</h1>
+<% @languages.each do |lang| %>
+  <% @translation = @translations.reject{ |t| t.lang != lang.lang }[0] %>
+  <% @language = lang.lang %>
+  <% form_remote_tag :update => "notice_#{@language}" , :url => {:action => 'update', :id => @translation}, :type => :synchronous, :complete => "new Insertion.Before('after_notice',request.responseText) ; Element.show('notice_#{@language}');new Effect.Fade('notice_#{@language}');" do -%>
+<span id="notice_<%=@language%>"><p remark="do not remove" id="after_notice" ></p></span>
+ <div id="translation_<%= params["id"]%><%= @language%>">
+  </div>
+    <%= render :partial => "form" %>
+  <% end -%>
+<% end %>
+
+<%= link_to t("madb_show"), :action => 'show', :id => @translation %> |
+<%= link_to t("madb_back"), :action => 'list' %>
