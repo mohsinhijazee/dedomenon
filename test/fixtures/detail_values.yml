@@ -1189,3 +1189,16 @@ book_website_value_201_2:
   value: "http://www.mit.edu/pressman"
   type: "WebUrlDetailValue"
 #END
+# Single instance containing a FileAttachment 
+name_books_value:
+  detail_id: "74"
+  instance_id: "202"
+  id: "1214"
+  value: "Mohsin Hijazee"
+  type: "SimpleDetailValue"
+picture_books_value:
+  detail_id: "82"
+  instance_id: "202"
+  id: "1215"
+  value: " --- \n :uploaded: true\n :filename: logo-Ubuntu.png\n :valueid: 1215\n :filetype: \"image/png\r\"\n"
+  type: "FileAttachment"

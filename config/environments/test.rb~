@@ -40,7 +40,6 @@ class MadbSettings
   def self.list_length
     10
   end
-  # For the test version, we will store the files here.
   def self.s3_local_dir
     "#{RAILS_ROOT}/test/fixtures/files"
   end

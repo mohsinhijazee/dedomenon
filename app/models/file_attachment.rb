@@ -20,12 +20,12 @@
 # *Description*
 # Handles a FileAttachment type in Dedomenon.
 # 
-
+require 'actionpack'
 class FileAttachment < DetailValue
   
   #PENDING: Think about it
   @@base_dir = MadbSettings.s3_local_dir
-  @@base_dir = "#{RAILS_ROOT}/tmp/data/"
+  #@@base_dir = "#{RAILS_ROOT}/tmp/data/"
   #@@bucket_name = MadbSettings.s3_bucket_name 
   belongs_to :instance
   belongs_to :detail
@@ -69,7 +69,7 @@ class FileAttachment < DetailValue
   def value=(v)
     @attachment = v
     #v.size
-    h = { :filename => File.basename(v.original_filename), :filetype => v.content_type, :uploaded => false}
+    h = { :filename => File.basename(@attachment.original_filename), :filetype => @attachment.content_type, :uploaded => false}
     write_attribute(:value, h)
     puts "File size: #{v.size}"
     puts self.value.to_json
@@ -96,6 +96,8 @@ class FileAttachment < DetailValue
      end
      o = value
      o[:uploaded] = true
+     # Save the value id also
+     o[:valueid] = id
      write_attribute(:value, o)
      puts "File saved at: #{local_instance_path}#{self.id.to_s}"
   end
@@ -103,9 +105,34 @@ class FileAttachment < DetailValue
   def destroy_file
     puts "In FileAttachment.destroy() "
     begin
-      File.delete(local_instance_path+"/"+self.id.to_s)
+      File.delete("#{local_instance_path}/#{self.id.to_s}")
     rescue Exception => e
       puts e.message
+    end
+  end
+  
+  # This method is overridden from the DetailValueModule
+  def self.format_detail(options = {})
+    return "" if options[:value].nil?
+    options[:format] = :html if options[:format].nil?
+    
+    begin
+      file_properties = YAML.load options[:value]
+    rescue TypeError, ArgumentError
+      file_properties = options
+    end
+    
+    case options[:format]
+      when :html
+        debugger
+     	  controller = options[:controller] 
+     	  url = controller.url_for :controller => 'file_attachments', 
+     	        :action => 'download', :id => file_properties[:valueid]
+     	  return %Q{<a href="#{url}">#{html_escape(file_properties[:filename])}</a>}
+     	when :first_column
+     	  return file_properties[:filename]
+     	when :csv
+     	  return file_properties[:filename]
     end
   end
   

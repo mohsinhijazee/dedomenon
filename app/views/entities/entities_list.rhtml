@@ -71,7 +71,9 @@ Then only the records which have Mohsin as Name would be displayed.
     <% @ordered_fields.each  do |column| %>
     <% next if @not_in_list_view.include? column or column == "id" %>
     <% first_column||={ 'entity' => t(@entity.name, :scope => "account" ) ,'title'=> t(column, :scope => "account") , 'value'=> o[column] }%>
-    <% detail_class = class_from_name(@details[column].data_type.class_name)%>
+    <% detail_class = class_from_name(@details[column].data_type.class_name)
+    debugger
+    %>
     <td class="data_cell"><%=detail_class.format_detail :value => o[column], :controller => self %></td>
     <% end %>
     <td class="action_cell">

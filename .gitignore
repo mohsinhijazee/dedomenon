@@ -7,3 +7,5 @@ tmp/**/*
 .DS_Store
 doc/api
 doc/app
+#ignore all the files fixtures because during testing, new files might be created
+test/fixtures/files/**/*

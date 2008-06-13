@@ -34,6 +34,18 @@ class FileAttachmentsController < ApplicationController
   #   At last, the user is redirected to the download URL.
   def download
     detail_value_id = params["id"]
+    attachment = FileAttachment.find params["id"]
+    file_path = attachment.local_instance_path + "/#{attachment.id.to_s}"
+    file_props = attachment.value
+    
+    send_file file_path, :filename => file_props[:filename], 
+    							 :type => file_props[:filetype]
+
+  end
+  
+  # This function will not be in the opensource bracnh
+  def download_s3
+    detail_value_id = params["id"]
     attachment = S3Attachment.find params["id"]
     instance = attachment.instance
     entity = instance.entity
