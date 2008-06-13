@@ -124,7 +124,6 @@ class FileAttachment < DetailValue
     
     case options[:format]
       when :html
-        debugger
      	  controller = options[:controller] 
      	  url = controller.url_for :controller => 'file_attachments', 
      	        :action => 'download', :id => file_properties[:valueid]
