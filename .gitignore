@@ -9,3 +9,10 @@ doc/api
 doc/app
 #ignore all the files fixtures because during testing, new files might be created
 test/fixtures/files/**/*
+#ignore the Netbeans IDE data
+nbproject
+nbproject/*
+#ignore the Eclipse IDE data
+.loadpath
+.project
+
