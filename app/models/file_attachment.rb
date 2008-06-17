@@ -19,10 +19,16 @@
 
 # *Description*
 # Handles a FileAttachment type in Dedomenon.
-# 
+#
+# *Notes*
+# The value attribte method is overrrden.
+# The after_save method save_file saves the file.
+
+
 require 'actionpack'
 class FileAttachment < DetailValue
   
+ 
   #PENDING: Think about it
   @@base_dir = MadbSettings.s3_local_dir
   #@@base_dir = "#{RAILS_ROOT}/tmp/data/"
@@ -66,10 +72,35 @@ class FileAttachment < DetailValue
   end
 
   
+  # This actually accepts a temporary rails file object, extracts its attributes
+  # And serilizes them in YAML form for later use.
+  # However note that because the save_file modfies some of the attributes, it
+  # calls update_attribute method which in turn calls save and which invokes
+  # this value method again, and then save_file gets called again. Therefore,
+  # if the file object is being assigned, the attributes are noted in a hash
+  # but if its a string, its parsed as yaml, and saved as hash.
   def value=(v)
-    @attachment = v
-    #v.size
-    h = { :filename => File.basename(@attachment.original_filename), :filetype => @attachment.content_type, :uploaded => false}
+    
+    
+    h = nil
+    # If its the file assignment
+    if v.respond_to?:original_filename
+      @attachment = v
+      h = { :filename => File.basename(@attachment.original_filename), 
+          :filetype => @attachment.content_type, 
+          :uploaded => false
+          }
+    # Otherwise, its invoked may be from the callbakcs due to a call to
+    # update_attribute
+    # FIXME: Not a good idea to do this! complicated to understand
+    else
+      begin
+        h = YAML.load v
+    rescue TypeError, ArgumentError
+        h = v
+      end
+    end
+        
     write_attribute(:value, h)
     puts "File size: #{v.size}"
     puts self.value.to_json
@@ -84,6 +115,10 @@ class FileAttachment < DetailValue
   end
   
   def save_file
+    # if the uploaded and valueid flags are set, no need to overwrite
+    # to prevent the recursive calls.
+    return if value[:uploaded] and value[:valueid]
+    
     #puts "In FileAttachment.save() "
     @attachment.rewind
     
@@ -94,11 +129,16 @@ class FileAttachment < DetailValue
      File.open("#{local_instance_path}/#{self.id.to_s}", "wb") do |f| 
        f.write(@attachment.read) 
      end
+     
+    
      o = value
      o[:uploaded] = true
      # Save the value id also
      o[:valueid] = id
      write_attribute(:value, o)
+     
+     update_attribute(:value, o.to_yaml)
+     
      puts "File saved at: #{local_instance_path}#{self.id.to_s}"
   end
   
@@ -124,6 +164,7 @@ class FileAttachment < DetailValue
     
     case options[:format]
       when :html
+        
      	  controller = options[:controller] 
      	  url = controller.url_for :controller => 'file_attachments', 
      	        :action => 'download', :id => file_properties[:valueid]

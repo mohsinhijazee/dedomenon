@@ -68,7 +68,13 @@ class Entity < ActiveRecord::Base
 
   # returns true if this entity has at least one detail of type file attachment
   def has_file_attachment_detail?
-    details.collect{|d| d.data_type.name}.uniq.include?("madb_s3_attachment")
+    detail_types = details.collect{|d| d.data_type.name}.uniq
+    if detail_types.include?('madb_s3_attachment') or detail_types.include?('madb_file_attachment')
+      return true
+    else
+      return false
+    end
+    
   end
   
   #alias to_json old_to_json

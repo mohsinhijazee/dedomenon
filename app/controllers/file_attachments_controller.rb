@@ -32,14 +32,19 @@ class FileAttachmentsController < ApplicationController
   #   Transfer record is added into the transers table
   #   for accountability. 
   #   At last, the user is redirected to the download URL.
+  #FIXME: Make the error reporting more elegant.
   def download
     detail_value_id = params["id"]
     attachment = FileAttachment.find params["id"]
     file_path = attachment.local_instance_path + "/#{attachment.id.to_s}"
     file_props = attachment.value
     
-    send_file file_path, :filename => file_props[:filename], 
+    begin
+      send_file file_path, :filename => file_props[:filename], 
     							 :type => file_props[:filetype]
+    rescue Exception => e
+      render :text => e.message, :status => 500
+    end
 
   end
   
