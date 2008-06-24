@@ -142,7 +142,7 @@ class FileAttachment < DetailValue
      puts "File saved at: #{local_instance_path}#{self.id.to_s}"
   end
   
-  def destroy_file
+  def remove_file
     puts "In FileAttachment.destroy() "
     begin
       File.delete("#{local_instance_path}/#{self.id.to_s}")
