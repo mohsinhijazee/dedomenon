@@ -24,6 +24,9 @@
 #  load_translations
 #  copy_config_file
 #  setup
+# FUTURE: Task should be able to obtain the passwords of the users and then
+#         generated the config/database.yml file automatically and after it,
+#         it should automatically run migrations.
 user_info_header = %Q~
 -------------------------------------------------------------
 |                       Step 1                              |
@@ -88,7 +91,7 @@ loading_translations = %Q~
 namespace :dedomenon do
   #FIXME: Should properly report what its doing
   desc 'Creates users for dedomenon in postgres'
-  task :create_users => :environment do 
+  task :create_users do 
     puts user_info_header
     [
       # First is the user name, rest are the options
@@ -96,11 +99,10 @@ namespace :dedomenon do
       ['myowndbtester', '--superuser']
     ].each do |db_user| 
       options = "#{db_user.join(' ')}"
-      
+      puts "Creating user '#{db_user[0]}'..."
       command = "sudo -u postgres createuser #{options} -P 1>/dev/null"
       system command
-      puts "Creating user '#{db_user[0]}'..."
-      #puts command
+      puts "User '#{db_user[0]}' created..."
     end
   end
   
@@ -119,6 +121,7 @@ namespace :dedomenon do
       options = " #{database[0]} -O #{database[1]}"
       command = "sudo -u postgres createdb #{options} -E UNICODE 1>/dev/null"
       system command
+      puts "Database '#{database[0]}' created with owner '#{database[1]}'"
       #puts command
     end
   end
@@ -135,6 +138,7 @@ namespace :dedomenon do
       sql_script = "#{RAILS_ROOT}/db/create_crosstab.sql"
       command = "sudo -u postgres psql -d #{database} < #{sql_script} 1>/dev/null"
       system command
+      puts "cross_tab functions created for database '#{database}'"
       #puts command
     end
   end
@@ -146,6 +150,7 @@ namespace :dedomenon do
     puts "Loading UI translations to myowndb_ui_translations database..."
     command = "sudo -u postgres psql -d myowndb_ui_translations < #{sql_script} 1>/dev/null"
     system command
+    puts "Translations database loaded"
     #puts command
   end
   
@@ -154,6 +159,7 @@ namespace :dedomenon do
     puts "Copying config/database.yml.example to config/database.yml..."
     cp "#{RAILS_ROOT}/config/database.yml.example", 
        "#{RAILS_ROOT}/config/database.yml"
+    puts "config/database.yml.example copied to config/database.yml"
   end
   
   desc 'Setups dedomenon for you including users, databases.'
