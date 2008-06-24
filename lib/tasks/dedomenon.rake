@@ -130,8 +130,8 @@ namespace :dedomenon do
   task :create_crosstab => :create_databases do
     puts crosstab_info_header
     [
-      'madb',
-      'madb-test',
+      'myowndb_dev',
+      'myowndb_test',
       'myowndb_prod',
     ].each do |database|
       puts "Creating cross_tab fucntions for database '#{database}'..."
@@ -167,6 +167,30 @@ namespace :dedomenon do
   task :setup => [:create_crosstab,:load_translations, :copy_config_file] do
     puts " * Now you can edit config/database.yml and mention passwords for respective users"
     puts " * After mentioning the passwords, you should run migrations."
+  end
+  
+  desc 'Drops all the postgres databases and postgres users'
+  task :purge do
+    # Drop the databases
+    ['myowndb_dev',
+      'myowndb_test',
+      'myowndb_prod',
+      'myowndb_ui_translations'
+    ].each do |database|
+      puts "Dropping database '#{database}'..."
+      system %Q~ sudo -u postgres psql -c "DROP DATABASE #{database};" 1>/dev/null~
+      puts "Database '#{database}' dropped..."
+    end
+    
+    # Drop the users
+    [
+      'myowndbtester',
+      'myowndb'
+    ].each do |user|
+      puts "Dropping user '#{user}'..."
+      system %Q~ sudo -u postgres psql -c "DROP ROLE #{user};" 1>/dev/null~
+      puts "User '#{user}' dropped..."
+    end
   end
   
 end
