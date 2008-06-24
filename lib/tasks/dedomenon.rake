@@ -148,7 +148,7 @@ namespace :dedomenon do
     puts loading_translations
     sql_script = "#{RAILS_ROOT}/db/myowndb_ui_translations_dump.sql"
     puts "Loading UI translations to myowndb_ui_translations database..."
-    command = "sudo -u postgres psql -d myowndb_ui_translations < #{sql_script} 1>/dev/null"
+    command = "psql -d myowndb_ui_translations -U myowndb < #{sql_script} 1>/dev/null"
     system command
     puts "Translations database loaded"
     #puts command
