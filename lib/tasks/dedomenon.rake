@@ -42,7 +42,7 @@ user_info_header = %Q~
 |   * 'myowndbtester' is a super user for test database     |
 |                                                           |
 | You'll be asked for the passwords of these users.         |
-| Remeber them for later references                         |
+| Remember them for later references                         |
 |                                                           |
 -------------------------------------------------------------
 ~
@@ -75,7 +75,7 @@ crosstab_info_header = %Q~
 |               Crosstab Function Creation                  |
 -------------------------------------------------------------
 |                                                           |
-|  This step will create crosstab functiosn in databases.   |
+|  This step will create crosstab functions in databases.   |
 |                                                           |
 ------------------------------------------------------------|
 ~
