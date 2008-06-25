@@ -28,7 +28,12 @@
 #         generated the config/database.yml file automatically and after it,
 #         it should automatically run migrations.
 
+require 'rubygems'
 require 'yaml'
+# for not showing the passwords entered by users
+require 'termios'
+include Termios
+
 
 user_info_header = %Q~
 -------------------------------------------------------------
@@ -222,7 +227,21 @@ namespace :dedomenon do
       puts "User '#{user}' dropped..."
     end
   end
-  
+  # Disables echo of stdin, and returns the original settings
+  def disable_echo
+    old_settings = getattr($stdin)
+    new_settings  = old_settings.dup
+    new_settings.c_lflag &= ~ECHO
+    setattr($stdin, TCSANOW, new_settings)
+    return old_settings 
+  end
+
+  # Restores echo settings with the original settings returned by disable_echo
+  def restore_echo(settings)
+    setattr($stdin, TCSANOW, settings)
+  end
+
+  # 
   # Gets a password and returns it.
 def get_password(prompt)
   first = ''
@@ -230,11 +249,13 @@ def get_password(prompt)
   #$stdout.flush
   #$stdin.flush
   while first != second do
-    
+    s=disable_echo 
     print "#{prompt}: "
     first = $stdin.gets.chomp
-    print "Enter it again: "
+    print "\nEnter it again: "
     second = $stdin.gets.chomp
+    restore_echo(s)
+
     
     $stderr.puts 'Passwords do not match!' if first != second
   end
