@@ -112,7 +112,7 @@ namespace :dedomenon do
       # Create the user and then alter the password
       system command
       alter_role_query = "ALTER ROLE #{db_user[0]} WITH ENCRYPTED PASSWORD '#{user_passwords[db_user[0]]}'"
-      %Q~ sudo -u postgres psql -c "#{alter_role_query};" 1>/dev/null~
+      system %Q[ sudo -u postgres psql -c "#{alter_role_query};" 1>/dev/null]
       puts "User '#{db_user[0]}' created..."
     end
   end
