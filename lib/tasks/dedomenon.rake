@@ -250,17 +250,14 @@ namespace :dedomenon do
 def get_password(prompt)
   first = ''
   second = nil
-  #$stdout.flush
-  #$stdin.flush
   while first != second do
-    s=disable_echo 
+    s = disable_echo 
     print "#{prompt}: "
     first = $stdin.gets.chomp
     print "\nEnter it again: "
     second = $stdin.gets.chomp
     restore_echo(s)
 
-    
     $stderr.puts 'Passwords do not match!' if first != second
   end
   
