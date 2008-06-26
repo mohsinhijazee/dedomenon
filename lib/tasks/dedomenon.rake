@@ -230,7 +230,7 @@ namespace :dedomenon do
     puts ""
     puts " * Demo account is available for you:"
     puts "    * #{login_info[0]} is admin user"
-    puts "    * Password for the user is '#{login_info[1]}'"
+    puts "    * Password is the one you entered"
     
   end
   
@@ -324,22 +324,21 @@ def create_account_and_users
   # First user is super user with id 777 , the ohter is ordinary with 999.
     
   first_name = get_input("Please enter your first name")
-  last_name = get_input("Please enter your first name")
-  admin_login = get_confirmed_input('Please enter your email address (john@gmail.com for example)')
-  password = get_confirmed_input("Please enter password for you", true)
+  last_name = get_input("Please enter your last name")
+  admin_login = get_input('Please enter your email address (john@gmail.com for example)')
+  password = get_confirmed_input("Please enter password for your account", true)
   account_name = "#{first_name} #{last_name} Account"
   
   # Create a demo account so that user can log in after installation
   # This can be removed later on by the user.
   # ID of this account is intentionally to be 111
   Account.create(
-    :id                                           =>  111,
     :account_type_id                              => 1,
     :name                                         => account_name,
-    :street                                       => 'House No. 4145, Steet 878',
-    :zip_code                                     => '51000',
-    :city                                         => 'Islamabad',
-    :country                                      => 'Pakistan',
+    :street                                       => 'TCP/IP highway',
+    :zip_code                                     => '80',
+    :city                                         => 'HTTP',
+    :country                                      => 'Internet',
     :status                                       => 'active',
     :end_date                                     => nil,
     :vat_number                                   => 'N/A'
@@ -374,7 +373,6 @@ def create_account_and_users
   
   return [admin_login, password]
     
-  #ActiveRecord::Base.connection.execute("UPDATE users SET id=777 WHERE login='#{admin_login}';")
     
   
     
