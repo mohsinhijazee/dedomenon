@@ -64,6 +64,7 @@ enable_rest = true
 #  
 #  
 #
+map.connect '/app/entities/check_detail_value_validity', :controller => 'entities', :action => "check_detail_value_validity"
   if enable_rest == true then
     
     map.resources :data_types, :singular => 'data_type', :controller => 'rest/data_types'

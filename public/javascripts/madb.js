@@ -11,7 +11,7 @@ DetailWatcher.prototype = {
 
 	},
 	check_validity: function(evt){
-		var check_url = '/entities/check_detail_value_validity';
+		var check_url = '/app/entities/check_detail_value_validity';
 		var params = 'detail_id='+this.detail_id+'&detail_value='+this.value_field.value;
 
 		var check_validity_request = new Ajax.Request( 
