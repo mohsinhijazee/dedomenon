@@ -132,6 +132,10 @@ namespace :dedomenon do
       options = " #{database[0]} -O #{database[1]}"
       command = "sudo -u postgres createdb #{options} -E UNICODE 1>/dev/null"
       system command
+      # Now alter the ownership of the public schema otherwise
+      # Loading of the translations dump will give a single error.
+      alter_schema_public = "ALTER SCHEMA public OWNER TO #{database[1]};"
+      system %Q{sudo -u postgres psql #{database[0]} -c "#{alter_schema_public}" 1>/dev/null}
       puts "Database '#{database[0]}' created with owner '#{database[1]}'"
       #puts command
     end
