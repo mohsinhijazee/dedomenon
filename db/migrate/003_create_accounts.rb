@@ -43,26 +43,6 @@ class CreateAccounts < ActiveRecord::Migration
     t.column :vat_number,           :text
 #    t.column :attachment_count,     :integer, :default => 0
     end
-    
-    # Create a demo account so that user can log in after installation
-    # This can be removed later on by the user.
-    # ID of this account is intentionally to be 111
-    Account.create(
-      :id                                           =>  111,
-      :account_type_id                              => 1,
-      :name                                         => 'Dedomenon Demo Account',
-      :street                                       => 'House No. 4145, Steet 878',
-      :zip_code                                     => '51000',
-      :city                                         => 'Islamabad',
-      :country                                      => 'Pakistan',
-      :status                                       => 'active',
-      :end_date                                     => nil,
-      :vat_number                                   => 'N/A'
-      
-    )
-    
-    # Change its id
-    ActiveRecord::Base.connection.execute("UPDATE accounts SET id=111 WHERE id=1;")
   end
 
   def self.down

@@ -47,7 +47,7 @@ user_info_header = %Q~
 |   * 'myowndbtester' is a super user for test database     |
 |                                                           |
 | You'll be asked for the passwords of these users.         |
-| Remember them for later references                         |
+| Remember them for later references                        |
 |                                                           |
 -------------------------------------------------------------
 ~
@@ -68,10 +68,6 @@ database_info_header = %Q~
 |   * 'myowndb_ui_translations' holds UI translations with  |
 |     owner 'myowndb'                                       |
 |                                                           |
-| You'll be asked for the passwords of these users. Write   |
-| them  down as you  will have  to   mention  them  under   |
-| config/database.yml for each user mentioned.              |
-|                                                           |
 -------------------------------------------------------------
 ~
 crosstab_info_header = %Q~
@@ -88,10 +84,36 @@ crosstab_info_header = %Q~
 loading_translations = %Q~
 -------------------------------------------------------------
 |                        Step 4                             |
-|               Loading database translations               |
+|               Loading Database Translations               |
 -------------------------------------------------------------
 |                                                           |
 |  This step will load UI translations to database          |
+|  This will ask you for the password of                    |
+|  PostgreSQL user 'myowndb'                                |
+|                                                           |
+------------------------------------------------------------|
+~
+
+migrations_header = %Q~
+-------------------------------------------------------------
+|                        Step 5                             |
+|                   Running Migrations                      |
+-------------------------------------------------------------
+|                                                           |
+|  This step will build schema of your production database  |
+|                                                           |
+------------------------------------------------------------|
+~
+
+demo_account_header = %Q~
+-------------------------------------------------------------
+|                        Step 6                             |
+|                  Create Demo Account                      |
+-------------------------------------------------------------
+|                                                           |
+|  This step will create demo account for you so that you   |
+|  can use the application. You'll be asked for your name,  |
+|  login and password to create a user for you.             |
 |                                                           |
 ------------------------------------------------------------|
 ~
@@ -113,7 +135,7 @@ namespace :dedomenon do
       options = "#{db_user.join(' ')}"
       puts "Creating user '#{db_user[0]}'..."
       command = "sudo -u postgres createuser #{options} 1>/dev/null"
-      user_passwords[db_user[0]] = get_password("Enter password for postgres user '#{db_user[0]}'")
+      user_passwords[db_user[0]] = get_confirmed_input("Enter password for postgres user '#{db_user[0]}'", true)
       # Create the user and then alter the password
       system command
       alter_role_query = "ALTER ROLE #{db_user[0]} WITH ENCRYPTED PASSWORD '#{user_passwords[db_user[0]]}'"
@@ -188,23 +210,27 @@ namespace :dedomenon do
   end
   
   desc 'Runs migrations on production database'
-  task :run_migrations do
+  task :run_migrations => :generate_config_file do
+    puts migrations_header
     RAILS_ENV = ENV['RAILS_ENV'] = 'production'
     Rake::Task['db:migrate'].invoke
   end
   
   desc 'Setups dedomenon for you including users, databases.'
-  task :setup => [:create_crosstab,       :load_translations, 
-                  :generate_config_file,  :run_migrations] do
+  task :setup => [:create_crosstab, :load_translations, :run_migrations] do
+    puts demo_account_header              
+    RAILS_ENV = ENV['RAILS_ENV'] = 'production'
+    login_info = create_account_and_users
+                  
     puts "* Now you can run applciation by ruby script/server -e production"
     puts "* If you want to use application in test and development modes," 
     puts "  You will have to run migratiosn yourself by:"
     puts "   * RAILS_ENV=development rake db:migrate"      
     puts "   * RAILS_ENV=test rake db:migrate"      
+    puts ""
     puts " * Demo account is available for you:"
-    puts "    * admin@mydedomenon.com is admin user"
-    puts "    * user@mydedomenon.com is normal user"
-    puts "    * Password for both users is 'dedomenon'"
+    puts "    * #{login_info[0]} is admin user"
+    puts "    * Password for the user is '#{login_info[1]}'"
     
   end
   
@@ -246,22 +272,29 @@ namespace :dedomenon do
   end
 
   # 
-  # Gets a password and returns it.
-def get_password(prompt)
+  # Gets input from user twice to make sure its correct.
+  # First argument is prompt to display and second is whether
+  # echo should be displayed or not.
+def get_confirmed_input(prompt, no_echo = false)
   first = ''
   second = nil
   while first != second do
-    s = disable_echo 
+    s = disable_echo if no_echo
     print "#{prompt}: "
     first = $stdin.gets.chomp
     print "\nEnter it again: "
     second = $stdin.gets.chomp
-    restore_echo(s)
+    restore_echo(s) if no_echo
 
-    $stderr.puts 'Passwords do not match!' if first != second
+    $stderr.puts 'Items do not match!' if first != second
   end
   
   return first
+end
+
+def get_input(prompt)
+  $stdout.print "#{prompt}: "
+  return $stdin.gets.chomp
 end
 
 # This function plugins the passwords of each user in appropiate section
@@ -282,6 +315,69 @@ def plug_passwords(yml_file, passwords)
     end
   end
   return yml
+end
+
+
+# Creates a demo account and users
+def create_account_and_users
+  # Create two users for the demo account so that user can log in.
+  # First user is super user with id 777 , the ohter is ordinary with 999.
+    
+  first_name = get_input("Please enter your first name")
+  last_name = get_input("Please enter your first name")
+  admin_login = get_confirmed_input('Please enter your email address (john@gmail.com for example)')
+  password = get_confirmed_input("Please enter password for you", true)
+  account_name = "#{first_name} #{last_name} Account"
+  
+  # Create a demo account so that user can log in after installation
+  # This can be removed later on by the user.
+  # ID of this account is intentionally to be 111
+  Account.create(
+    :id                                           =>  111,
+    :account_type_id                              => 1,
+    :name                                         => account_name,
+    :street                                       => 'House No. 4145, Steet 878',
+    :zip_code                                     => '51000',
+    :city                                         => 'Islamabad',
+    :country                                      => 'Pakistan',
+    :status                                       => 'active',
+    :end_date                                     => nil,
+    :vat_number                                   => 'N/A'
+      
+  )
+  
+  puts " "
+  puts "* Account created titiled '#{account_name}'..."
+  # Change its id
+  #account_name = ActiveRecord::Base.connection.quote_string(account_name)
+  #ActiveRecord::Base.connection.execute("UPDATE accounts SET id=111 WHERE name='#{account_name}';")
+   
+  user = User.new(
+    :id                                             =>  777,
+    :account_id                                     => 1,
+    :user_type_id                                   => 1,
+    :login                                          => admin_login,
+    :password                                       => password,
+    :email                                          => admin_login,
+    :firstname                                      => first_name,
+    :lastname                                       => last_name,
+    :verified                                       => 1
+  )
+    
+  user.login_confirmation = user.login
+  user.password_confirmation = user.password
+  user.save!
+    
+  puts "* User created with login '#{admin_login}'..." 
+  puts " "
+  puts " "
+  
+  return [admin_login, password]
+    
+  #ActiveRecord::Base.connection.execute("UPDATE users SET id=777 WHERE login='#{admin_login}';")
+    
+  
+    
 end
 
   

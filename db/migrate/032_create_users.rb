@@ -35,47 +35,6 @@ class CreateUsers < ActiveRecord::Migration
       t.column :logged_in_at, :datetime
     end
     
-    # Create two users for the demo account so that user can log in.
-    # First user is super user with id 777 , the ohter is ordinary with 999.
-    password = 'dedomenon'
-    admin_login = 'admin@mydedomenon.com'
-    normal_login = 'user@mydedomenon.com'
-    user = User.new(
-      :id                                             =>  777,
-      :account_id                                     => 111,
-      :user_type_id                                   => 1,
-      :login                                          => admin_login,
-      :password                                       => password,
-      :email                                          => admin_login,
-      :firstname                                      => 'Dedomenon',
-      :lastname                                       => 'Administrator',
-      :verified                                       => 1
-    )
-    
-    user.login_confirmation = user.login
-    user.password_confirmation = user.password
-    user.save!
-    
-    # Create the ordinary user
-    user = User.new(
-      :id                                             => 999,
-      :account_id                                     => 111,
-      :user_type_id                                   => 2,
-      :login                                          => normal_login,
-      :password                                       => password,
-      :email                                          => normal_login,
-      :firstname                                      => 'Dedomenon',
-      :lastname                                       => 'User',
-      :verified                                       => 1
-    )
-    
-    user.login_confirmation = user.login
-    user.password_confirmation = user.password
-    user.save!
-    
-    ActiveRecord::Base.connection.execute("UPDATE users SET id=777 WHERE login='#{admin_login}';")
-    ActiveRecord::Base.connection.execute("UPDATE users SET id=999 WHERE login='#{normal_login}';")
-    
   end
 
   def self.down
