@@ -21,6 +21,7 @@
  <% has_list_detail = true if detail.displayed_in_list_view!='f' %>
  <li id="item_<%= detail.detail_id%>">
   <% for column in Detail.content_columns %>
+    <% next if column.name == 'lock_version' and column.sql_type == 'integer' %>
   <span class="detail_name"><%=h(t(detail.send(column.name).to_s, { :scope => "account"})) %> </span>
   <div class="">
     <%= link_to t('madb_show_detail_spec'), { :controller => "/admin/details", :action => 'show', :id => detail.detail_id},{ :title => t('madb_show_detail_spec_link_title')} %>

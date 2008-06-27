@@ -234,6 +234,26 @@ namespace :dedomenon do
     
   end
   
+  #FIXME: Thik about this task. It has following problems:
+  # * You have to run dedomenon:setup before this 
+  # * If we make dedomenon:setup as its dependency, then running it alone
+  #   will only succeed if the dedomenon:setup is not run yet. We let it go
+  #   for now and will improve other tasks to check their actions before
+  #   they do anything.
+  #   Raph: Let me know your ideas on this. (Mohsin)
+  #
+  desc 'Setups the development environemnt for you.'
+  task :setup_development do
+    RAILS_ENV = ENV['RAILS_ENV'] = 'development'
+    Rake::Task['db:migrate'].invoke
+    
+    login_info = create_account_and_users
+    
+    puts " * Test account is available for you:"
+    puts "    * #{login_info[0]} is admin user"
+    puts "    * Password is the one you entered"
+  end
+  
   desc 'Drops all the postgres databases and postgres users'
   task :purge do
     # Drop the databases
