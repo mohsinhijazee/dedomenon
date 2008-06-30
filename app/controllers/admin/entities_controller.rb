@@ -845,6 +845,7 @@ class Admin::EntitiesController < ApplicationController
       entity_detail.detail = detail
       entity_detail.entity = entity
       entity_detail.detail_status = status
+      entity_detail.maximum_number_of_values = 1 if !params['maximum_number_of_values']
       entity_detail.save
 
   #    entity.save

@@ -24,7 +24,7 @@ class CreateEntities2details < ActiveRecord::Migration
     t.column :detail_id,                :integer, :references => :details, :deferrable => true
     t.column :status_id,                :integer, :references => :detail_status, :deferrable => true
     t.column :displayed_in_list_view,   :boolean, :default => true
-    t.column :maximum_number_of_values, :integer
+    t.column :maximum_number_of_values, :integer, :default => 1, :null => false
     t.column :display_order,            :integer, :default => 100
   end
 

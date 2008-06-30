@@ -216,8 +216,11 @@ class EntitiesController < ApplicationController
       @instance = Instance.find params["highlight"]
       #highlight_count = CrosstabObject.connection.execute("select count(*) from #{crosstab_query} #{crosstab_filter} #{separator} id<#{CrosstabObject.connection.quote_string(params["highlight"].to_s)}")[0][0]
       #ERROR uploading empty file due to params["highlight"]
-      highlight_value = CrosstabObject.connection.execute("select #{order} from #{crosstab_query} #{crosstab_filter} #{separator} id=#{CrosstabObject.connection.quote_string(params["highlight"].to_s)}")[0][0]
-      highlight_count = CrosstabObject.connection.execute("select count(*) from #{crosstab_query} #{crosstab_filter} #{separator} #{order}<'#{CrosstabObject.connection.quote_string(highlight_value.to_s)}'")[0][0]
+      value_query = "select #{order} from #{crosstab_query} #{crosstab_filter} #{separator} id=#{CrosstabObject.connection.quote_string(params["highlight"].to_s)}"
+      highlight_value = CrosstabObject.connection.execute(value_query)[0][0]
+      count_query = "select count(*) from #{crosstab_query} #{crosstab_filter} #{separator} #{order}<'#{CrosstabObject.connection.quote_string(highlight_value.to_s)}'"
+      highlight_count = CrosstabObject.connection.execute(count_query)[0][0]
+      
       page_number = (highlight_count.to_i/list_length)+1
     else
       page_number = params[@list_id+"_page"]
@@ -502,25 +505,25 @@ class EntitiesController < ApplicationController
     
     begin
       Entity.transaction do
-      entity = Entity.find params["entity"]
+        entity = Entity.find params["entity"]
       puts "params[:entity] = #{params[:entity]}"
       # Negative IDs are used for creating the instances
       if id>0
-	@instance = Instance.find(id)
+        @instance = Instance.find(id)
       else
         puts "New instance would be created."
-	@instance = Instance.new
-	@instance.entity=entity
-	@instance.save
+        @instance = Instance.new
+        @instance.entity=entity
+        @instance.save
        end
 	
         # We pick all the details of the entity
         #FIXME: This code uses EntityDetail class
         @instance.entity.entity_details.each  do |entity_detail|
+          
           detail = entity_detail.detail
           params[detail.name].each do |i,value|
             puts "|i, value|#{i}, #{value}"
-            
             # if the value id is not provided, that means
             # the underlying DetailValue does not exists and we need to create
             # it.
@@ -609,7 +612,6 @@ class EntitiesController < ApplicationController
   #   Applys the editing changes.
   #   internally calss the EntitiesController#save_entity
   def apply_edit
-    
     entity_saved=false
     # Try to save the entity
     begin
