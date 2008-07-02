@@ -50,7 +50,7 @@ class DateDetailValue < ActiveRecord::Base
     detail = Detail.find(rec['detail_id'])
     limit = Entities2Detail.find(:first, :conditions => ["detail_id=? AND entity_id=?", detail.id, entity.id])
     
-    limit = limit['maximum_number_of_values'] ?  limit['maximum_number_of_values'] : 0
+    limit = limit['maximum_number_of_values'] ?  limit['maximum_number_of_values'] : 1
     
     count = DateDetailValue.count(:conditions => ["instance_id=? AND detail_id=?", rec['instance_id'], detail.id])
     
