@@ -191,18 +191,8 @@ class ActionMailer::Base
 end
 
 class MadbSettings
-  #per environment: self.list_length
-  #def self.list_length
-  #  5
-  #end
   def self.european_countries
     ["Austria", "Belgium", "Cyprus", "Czech Republic", "Denmark", "England", "Espana", "Estonia", "Finland", "France", "Germany", "Greece", "Hungary", "Ireland", "Italy", "Latvia", "Lithuania", "Luxembourg", "Malta", "Poland", "Portugal", "Slovakia", "Slovenia", "Spain", "Sweden", "Netherlands", "United Kingdom"]
-  end
-  def self.paypal_cert
-    File::read(RAILS_ROOT+"/config/environments/"+RAILS_ENV+"_business_cert.pem")
-  end
-  def self.paypal_key
-    File::read(RAILS_ROOT+"/config/environments/"+RAILS_ENV+"_business_key.pem")
   end
 end
 

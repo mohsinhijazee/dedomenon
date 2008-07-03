@@ -45,9 +45,7 @@ class MadbSettings
   def self.s3_bucket_name
     "madb_devel"
   end
-  def self.paypal_cert_id
-    PAYPAL_CERTIFICATE_ID #defined in config/environment.private.rb
-  end
+
 end
 
 class TranslationsConfig
