@@ -45,12 +45,4 @@ class SettingsController < ApplicationController
     redirect_to :action => "show"
   end
 
-  def confirm_vat
-    session["user"].account.vat_number = params["vat_number"]
-    session["user"].account.save
-    redirect_to :controller => "payments", :action => "upgrade"
-  end
-
-  def vat_form
-  end
 end

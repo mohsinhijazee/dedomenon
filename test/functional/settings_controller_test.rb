@@ -69,46 +69,4 @@ class SettingsControllerTest < Test::Unit::TestCase
     assert User.find(@user_id_without_help).preference.display_help?
   end
 
-
-#Note: Because payments, invoicse controllers are pulled out, it does not make 
-#sense for the open source release.
-#  def test_upgrade_visibility
-#    #admin user
-#    user = User.find_by_id(@admin_user_id)
-#    get :show, {}, { 'user' => user}
-#    assert_response :success
-#    assert_tag :tag => "div", :attributes => { :id => "subscription_upgrade"} 
-#    #show vat form
-#    assert_tag :tag => "input", :attributes => { :name => "vat_number"} 
-#
-#    user.account.country = "Azerbaidjan"
-#    user.account.save
-#    get :show, {}, { 'user' => user}
-#    assert_response :success
-#    assert_tag :tag => "div", :attributes => { :id => "subscription_upgrade"} 
-#    #don't show vat form
-#    assert_no_tag :tag => "input", :attributes => { :name => "vat_number"} 
-#
-#    #normal user
-#    user = User.find_by_id(@normal_user_id)
-#    get :show, {}, { 'user' => user}
-#    assert_response :success
-#    assert_no_tag :tag => "div", :attributes => { :id => "subscription_upgrade"} 
-#    
-#    user.account.country = "Azerbaidjan"
-#    user.account.save
-#    get :show, {}, { 'user' => user}
-#    assert_response :success
-#    assert_no_tag :tag => "div", :attributes => { :id => "subscription_upgrade"} 
-#  end
-
-  def test_confirm_vat
-    post :confirm_vat, {:vat_number => "newvat"}, { 'user' => User.find_by_id(@admin_user_id)}
-    assert_response :redirect
-    assert_redirected_to :controller => "payments", :action => "upgrade"
-
-    post :confirm_vat, {:vat_number => "newvat"}, { 'user' => User.find_by_id(@normal_user_id)}
-    assert_response :redirect
-    assert_redirected_to :controller => "authentication", :action => "login"
-  end
 end
