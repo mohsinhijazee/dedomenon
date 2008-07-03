@@ -15,4 +15,6 @@ nbproject/*
 #ignore the Eclipse IDE data
 .loadpath
 .project
+#Ignore any back file created by text editors etc.
+*~
 
