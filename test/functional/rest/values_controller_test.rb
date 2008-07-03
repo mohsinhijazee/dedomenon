@@ -855,7 +855,7 @@ class ValuesControllerTest < Test::Unit::TestCase
     # value = {:value => 'mohsin'}
     # Providing the lock_version by hand. Not a good approach for tests
     # but because we created this value in tests, its no harm
-    value = {:value => ['newPic', 'asdf', 'dedomenon'], :lock_version => 0}
+    value = {:value => ['newPic', 'asdf', 'dedomenon'], :lock_version => 1}
     #################### NOW DO A PUT ####################
     pre_count = DetailValue.count
     put :update, 
