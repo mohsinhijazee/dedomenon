@@ -108,7 +108,7 @@ class Rest::LinksController < ApplicationController
   end
   
   def update
-    render :json => report_errors(nil, 'METHOD NOT ALLOWED')[0], :status => 400
+    render :json => report_errors(nil,  "Action '#{params[:action]}' not allowed on links")[0], :status => 400
   end
   
   def destroy
