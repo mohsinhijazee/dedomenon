@@ -6,6 +6,7 @@
   <thead>
   <tr>
 <% for column in Database.content_columns %>
+  <% next if column.name == 'lock_version' and column.sql_type == 'integer' %>
     <th><%= column.human_name %></th>
 <% end %>
   <th/>
@@ -19,6 +20,7 @@
 <tbody>
   <tr>
   <% for column in Database.content_columns %>
+    <% next if column.name == 'lock_version' and column.sql_type == 'integer' %>
     <td><%=h database.send(column.name) %></td>
   <% end %>
     <td><%= link_to t('madb_entities'), { :controller => "entities", :action => 'index', :db => database} %></td>

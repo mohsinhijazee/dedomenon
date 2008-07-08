@@ -3,6 +3,7 @@
 <table>
   <tr>
 <% for column in Databases.content_columns %>
+  <% next if column.name == 'lock_version' and column.sql_type == 'integer' %>
     <th><%= column.human_name %></th>
 <% end %>
   </tr>
@@ -10,6 +11,7 @@
 <% for databases in @databases %>
   <tr>
   <% for column in Databases.content_columns %>
+    <% next if column.name == 'lock_version' and column.sql_type == 'integer' %>
     <td><%=h databases.send(column.name) %></td>
   <% end %>
     <td><%= link_to t("madb_show"), :action => 'show', :id => databases %></td>
