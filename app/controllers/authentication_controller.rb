@@ -38,6 +38,7 @@ class AuthenticationController < ApplicationController
   layout  :determine_layout
 
   before_filter :login_required, :only => [:change_password]
+  filter_parameter_logging :password
 
   def determine_layout
     if params["action"]=="account_type_explanations"
