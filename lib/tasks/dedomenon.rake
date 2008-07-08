@@ -364,7 +364,7 @@ end
 def create_account_and_users
   # Create two users for the demo account so that user can log in.
   # First user is super user with id 777 , the ohter is ordinary with 999.
-    
+
   first_name = get_input("Please enter your first name")
   last_name = get_input("Please enter your last name")
   admin_login = get_input('Please enter your email address (john@gmail.com for example)')

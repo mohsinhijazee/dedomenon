@@ -160,7 +160,7 @@ class User < ActiveRecord::Base
       if value.length<6
         record.errors.add attr, 'madb_login_too_short'
       end
-      if !value.match(/^[_\w-]+(\.[_\w-]+)*@[\w-]+(\.\w+)*(\.[a-z]{2,3})$/)
+      if !value.match(/^[_\w-]+(\.[_\w-]+)*@[\w-]+(\.\w+)*(\.[a-z]{2,4})$/)
         record.errors.add attr, 'madb_login_not_a_valid_email'
       end
       #if User.count(["login = ?", value])>0 is DEPRECATED
