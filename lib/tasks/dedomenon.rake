@@ -295,15 +295,37 @@ namespace :dedomenon do
   # Gets input from user twice to make sure its correct.
   # First argument is prompt to display and second is whether
   # echo should be displayed or not.
-def get_confirmed_input(prompt, no_echo = false)
+def get_confirmed_input(prompt, no_echo = false, min_len = 1, max_len = 0)
   first = ''
   second = nil
+  
+  # Until the two match
   while first != second do
+    # isable echo if provided
     s = disable_echo if no_echo
+    # Get for the first time
     print "#{prompt}: "
     first = $stdin.gets.chomp
+    
+    # reject if shorter
+    if first.length < min_len
+      puts "\nInput length must be at least #{min_len} characters"
+      restore_echo(s) if no_echo
+      next
+    end
+    
+    # reject if longer
+    if max_len > 0 and first.length > max_len
+      puts "\nInput length should be less then #{max_len} characters"
+      restore_echo(s) if no_echo
+      next
+    end
+    
+    # Get for the second time
     print "\nEnter it again: "
     second = $stdin.gets.chomp
+    
+    # Restore the echo if provided
     restore_echo(s) if no_echo
 
     $stderr.puts 'Items do not match!' if first != second
@@ -346,7 +368,7 @@ def create_account_and_users
   first_name = get_input("Please enter your first name")
   last_name = get_input("Please enter your last name")
   admin_login = get_input('Please enter your email address (john@gmail.com for example)')
-  password = get_confirmed_input("Please enter password for your account", true)
+  password = get_confirmed_input("Please enter password for your account", true, 5, 40)
   account_name = "#{first_name} #{last_name} Account"
   
   # Create a demo account so that user can log in after installation
