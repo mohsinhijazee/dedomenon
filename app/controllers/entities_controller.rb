@@ -542,8 +542,13 @@ class EntitiesController < ApplicationController
               # * Connect to the instance
               detail_value_class = class_from_name(detail.data_type.class_name)
               detail_value = detail_value_class.new
-              detail_value.detail = detail # Detail.find_all("name='#{detail.name}'")[0]
-              detail_value.instance = @instance
+              
+              # This generates error! AssociationTypeMismatch by detail=
+              #detail_value.detail = detail # Detail.find_all("name='#{detail.name}'")[0]
+              
+              # Therefore, this is the hack around!
+              detail_value.detail_id = detail['id']
+              detail_value.instance_id = @instance['id']
               # Otherwise, if the id is present, we need to updat that!
             else
               
