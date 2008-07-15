@@ -121,9 +121,6 @@ demo_account_header = %Q~
 user_passwords = {}
 
 namespace :dedomenon do
-# for not showing the passwords entered by users
-require 'termios'
-include Termios
 
   #FIXME: Should properly report what its doing
   desc 'Creates users for dedomenon in postgres'
@@ -298,6 +295,11 @@ include Termios
   # First argument is prompt to display and second is whether
   # echo should be displayed or not.
 def get_confirmed_input(prompt, no_echo = false, min_len = 1, max_len = 0)
+  
+  # for not showing the passwords entered by users
+  require 'termios'
+  include Termios
+
   first = ''
   second = nil
   
