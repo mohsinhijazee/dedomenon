@@ -30,9 +30,7 @@
 
 require 'rubygems'
 require 'yaml'
-# for not showing the passwords entered by users
-require 'termios'
-include Termios
+
 
 
 user_info_header = %Q~
@@ -123,6 +121,10 @@ demo_account_header = %Q~
 user_passwords = {}
 
 namespace :dedomenon do
+# for not showing the passwords entered by users
+require 'termios'
+include Termios
+
   #FIXME: Should properly report what its doing
   desc 'Creates users for dedomenon in postgres'
   task :create_users do 
