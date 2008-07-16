@@ -396,18 +396,14 @@ class Admin::EntitiesController < ApplicationController
   # 
   #
   def list
-    #@entities = Entity.find(:all, :conditions => ["database_id =?",params[:db] || params[:database_id] ||] , :order => "id")
- 
-    if params[:database_id] || params[:database]
-      @entities = Database.find(params[:database_id] || params[:database]).entities.find(:all, :offset => params['start-index'], :limit => params['max-results'])
+    
+    params[:database_id] = params[:database_id] || params[:database] || params[:db]
+    if params[:database_id]
+      @entities = Entity.find(:all, :conditions => ["database_id =?",params[:database_id]] , :offset => params['start-index'], :limit => params['max-results'], :order => "id")
     else
       @entities = Entity.find(:all, :offset => params['start-index'], :limit => params['max-results'])
     end
-#    if @db_id > 0
-#      @entities = Entity.find(:all, :conditions => ["database_id = ?", @db_id], :order => :id)
-#    else
-#      @entities = Entity.find(:all, :order => :id)
-#    end
+    
   end
 
   # *Description*
