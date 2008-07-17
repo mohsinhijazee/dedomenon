@@ -35,30 +35,41 @@ class FileAttachmentsController < ApplicationController
   #FIXME: Make the error reporting more elegant.
   def download
     detail_value_id = params["id"]
-    attachment = FileAttachment.find params["id"]
+    attachment = DetailValue.find params[:id]
+    #attachment = FileAttachment.find params["id"]
+    
+    if !['FileAttachment', 'S3Attachment'].include? attachment.type
+      render :text => "DetailValue #{params['id']} not found", :status => 404 and return
+    end
+    
     file_path = attachment.local_instance_path + "/#{attachment.id.to_s}"
     file_props = attachment.value
     
-    begin
-      send_file file_path, :filename => file_props[:filename], 
-    							 :type => file_props[:filetype]
-    rescue Exception => e
-      render :text => e.message, :status => 500
+    if attachment.type == 'FileAttachment'
+      begin
+        send_file file_path, :filename => file_props[:filename], 
+						 :type => file_props[:filetype]
+      rescue Exception => e
+        render :text => e.message, :status => 500
+      end
+      
+    elsif attachment.type == 'S3Attachment'
+      redirect_to :url => attachment.download_url
     end
 
   end
   
-  # This function will not be in the opensource bracnh
-  def download_s3
-    detail_value_id = params["id"]
-    attachment = S3Attachment.find params["id"]
-    instance = attachment.instance
-    entity = instance.entity
-    account = session["user"].account
-    user = session["user"]
-    file_size = attachment.size
-    d = Transfer.new( :detail_value_id => attachment.id , :instance => instance, :entity => entity, :account => account, :user => user, :size => file_size, :file => attachment.value[:filename], :direction => 'to_client' )
-    d.save
-    redirect_to :url => S3Attachment.find(params["id"]).download_url
-  end
+#  # This function will not be in the opensource bracnh
+#  def download_s3
+#    detail_value_id = params["id"]
+#    attachment = S3Attachment.find params["id"]
+#    instance = attachment.instance
+#    entity = instance.entity
+#    account = session["user"].account
+#    user = session["user"]
+#    file_size = attachment.size
+#    #d = Transfer.new( :detail_value_id => attachment.id , :instance => instance, :entity => entity, :account => account, :user => user, :size => file_size, :file => attachment.value[:filename], :direction => 'to_client' )
+#    #d.save
+#    redirect_to :url => S3Attachment.find(params["id"]).download_url
+#  end
 end
