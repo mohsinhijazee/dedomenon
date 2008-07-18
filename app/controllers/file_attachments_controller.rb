@@ -38,14 +38,15 @@ class FileAttachmentsController < ApplicationController
     attachment = DetailValue.find params[:id]
     #attachment = FileAttachment.find params["id"]
     
-    if !['FileAttachment', 'S3Attachment'].include? attachment.type
+    
+    if !['FileAttachment', 'S3Attachment'].include? attachment.type.to_s
       render :text => "DetailValue #{params['id']} not found", :status => 404 and return
     end
     
     file_path = attachment.local_instance_path + "/#{attachment.id.to_s}"
     file_props = attachment.value
     
-    if attachment.type == 'FileAttachment'
+    if attachment.type.to_s == 'FileAttachment'
       begin
         send_file file_path, :filename => file_props[:filename], 
 						 :type => file_props[:filetype]
@@ -53,8 +54,8 @@ class FileAttachmentsController < ApplicationController
         render :text => e.message, :status => 500
       end
       
-    elsif attachment.type == 'S3Attachment'
-      redirect_to :url => attachment.download_url
+    elsif attachment.type.to_s == 'S3Attachment'
+      redirect_to attachment.download_url
     end
 
   end
