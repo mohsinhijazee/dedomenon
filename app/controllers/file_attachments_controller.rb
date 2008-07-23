@@ -38,7 +38,6 @@ class FileAttachmentsController < ApplicationController
     attachment = DetailValue.find params[:id]
     #attachment = FileAttachment.find params["id"]
     
-    
     if !['FileAttachment', 'S3Attachment'].include? attachment.type.to_s
       render :text => "DetailValue #{params['id']} not found", :status => 404 and return
     end

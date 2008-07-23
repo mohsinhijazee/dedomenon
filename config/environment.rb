@@ -44,13 +44,13 @@ Rails::Initializer.run do |config|
   # :all can be used as a placeholder for all plugins not explicitly named
   # config.plugins = [ :exception_notification, :ssl_requirement, :all ]
 
-  config.load_paths += [ "#{RAILS_ROOT}/vendor/gems/ruby-debug-0.10.0/cli/"]
-  config.load_paths += [ "#{RAILS_ROOT}/vendor/gems/ruby-debug-0.10.0/bin/"]
+  #config.load_paths += [ "#{RAILS_ROOT}/vendor/gems/ruby-debug-0.10.0/cli/"]
+  #config.load_paths += [ "#{RAILS_ROOT}/vendor/gems/ruby-debug-0.10.0/bin/"]
   # Add additional load paths for your own custom dirs
   # config.load_paths += %W( #{RAILS_ROOT}/extras )
-  config.load_paths += Dir["#{RAILS_ROOT}/vendor/gems/**"].map do |dir| 
-    File.directory?(lib = "#{dir}/lib") ? lib : dir
-  end
+  #config.load_paths += Dir["#{RAILS_ROOT}/vendor/gems/**"].map do |dir| 
+#    File.directory?(lib = "#{dir}/lib") ? lib : dir
+#  end
   # Force all environments to use the same logger level
   # (by default production uses :info, the others :debug)
   # config.log_level = :debug
