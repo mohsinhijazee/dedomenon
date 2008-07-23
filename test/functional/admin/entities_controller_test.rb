@@ -62,7 +62,7 @@ class Admin::EntitiesControllerTest < Test::Unit::TestCase
     assert_response :success
     assert_template  'list'
     # we have 11 entities (NOW ITS 18)
-    assert_equal 20, assigns["entities"].length
+    assert_equal 13, assigns["entities"].length
     # test first 2 entities
     # These were the following two when their were 11 records,
     # They are now something else.
@@ -70,9 +70,9 @@ class Admin::EntitiesControllerTest < Test::Unit::TestCase
     #assert_equal "contacts", assigns["entities"][1].name
     #assert_equal "convention_partenaire", assigns["entities"][0].name
     #assert_equal "Books", assigns["entities"][0].name
-    assert_equal "Persons", assigns["entities"][0].name
+    assert_equal "societe", assigns["entities"][0].name
     #assert_equal "convention_partenaire", assigns["entities"][1].name
-    assert_equal "Books", assigns["entities"][1].name
+    assert_equal "contacts", assigns["entities"][1].name
     
     #show, edit, destroy lonks for the first entity
     assert_tag :tag=> "a", :attributes => { :href=> Regexp.new("/admin/entities/show/11") }
