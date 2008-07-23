@@ -61,8 +61,8 @@ class TranslationsConfig
 end
 
 
-require 'paypal'
-Paypal::Notification.ipn_url = "https://www.sandbox.paypal.com/cgi-bin/webscr"
+#require 'paypal'
+#Paypal::Notification.ipn_url = "https://www.sandbox.paypal.com/cgi-bin/webscr"
 
 require 'ruby-debug'
 Debugger.start_

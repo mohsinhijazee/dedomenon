@@ -164,7 +164,6 @@ CREATE TABLE account_type_values (
 --
 
 CREATE SEQUENCE account_type_values_id_seq
-    START WITH 2
     INCREMENT BY 1
     NO MAXVALUE
     NO MINVALUE
@@ -220,14 +219,14 @@ ALTER SEQUENCE account_types_id_seq OWNED BY account_types.id;
 
 CREATE TABLE accounts (
     id integer NOT NULL,
+    account_type_id integer,
     name text NOT NULL,
     street text,
     zip_code text,
     city text,
     country text,
-    account_type_id integer,
     status text DEFAULT 'inactive'::text,
-    end_date date,
+    end_date date DEFAULT now(),
     subscription_id text,
     subscription_gateway text,
     vat_number text,
@@ -270,7 +269,6 @@ CREATE TABLE data_types (
 --
 
 CREATE SEQUENCE data_types_id_seq
-    START WITH 1
     INCREMENT BY 1
     NO MAXVALUE
     NO MINVALUE
@@ -332,7 +330,6 @@ CREATE TABLE date_detail_values (
 --
 
 CREATE SEQUENCE date_detail_values_id_seq
-    START WITH 1
     INCREMENT BY 1
     NO MAXVALUE
     NO MINVALUE
@@ -392,7 +389,6 @@ CREATE TABLE detail_status (
 --
 
 CREATE SEQUENCE detail_status_id_seq
-    START WITH 3
     INCREMENT BY 1
     NO MAXVALUE
     NO MINVALUE
@@ -487,7 +483,6 @@ CREATE TABLE details (
 --
 
 CREATE SEQUENCE details_id_seq
-    START WITH 101
     INCREMENT BY 1
     NO MAXVALUE
     NO MINVALUE
@@ -572,7 +567,7 @@ ALTER SEQUENCE entities_id_seq OWNED BY entities.id;
 CREATE TABLE instances (
     id integer NOT NULL,
     entity_id integer,
-    created_at timestamp without time zone,
+    created_at timestamp with time zone,
     lock_version integer DEFAULT 0
 );
 
@@ -627,13 +622,24 @@ ALTER SEQUENCE integer_detail_values_id_seq OWNED BY integer_detail_values.id;
 
 
 --
+-- Name: invoice_numbers; Type: SEQUENCE; Schema: public; Owner: -
+--
+
+CREATE SEQUENCE invoice_numbers
+    INCREMENT BY 1
+    NO MAXVALUE
+    NO MINVALUE
+    CACHE 1;
+
+
+--
 -- Name: invoices; Type: TABLE; Schema: public; Owner: -; Tablespace: 
 --
 
 CREATE TABLE invoices (
     id integer NOT NULL,
-    invoice_number integer,
-    invoice_date timestamp without time zone,
+    invoice_number integer DEFAULT nextval('invoice_numbers'::regclass),
+    invoice_date timestamp without time zone DEFAULT now(),
     account_id integer,
     gross_amount double precision,
     amount double precision,
@@ -651,7 +657,6 @@ CREATE TABLE invoices (
 --
 
 CREATE SEQUENCE invoices_id_seq
-    START WITH 1
     INCREMENT BY 1
     NO MAXVALUE
     NO MINVALUE
@@ -682,7 +687,6 @@ CREATE TABLE links (
 --
 
 CREATE SEQUENCE links_id_seq
-    START WITH 54
     INCREMENT BY 1
     NO MAXVALUE
     NO MINVALUE
@@ -694,6 +698,39 @@ CREATE SEQUENCE links_id_seq
 --
 
 ALTER SEQUENCE links_id_seq OWNED BY links.id;
+
+
+--
+-- Name: paypal_communications; Type: TABLE; Schema: public; Owner: -; Tablespace: 
+--
+
+CREATE TABLE paypal_communications (
+    id integer NOT NULL,
+    t timestamp without time zone DEFAULT now(),
+    account_id integer,
+    txn_type text,
+    communication_type text,
+    direction text,
+    content text
+);
+
+
+--
+-- Name: paypal_communications_id_seq; Type: SEQUENCE; Schema: public; Owner: -
+--
+
+CREATE SEQUENCE paypal_communications_id_seq
+    INCREMENT BY 1
+    NO MAXVALUE
+    NO MINVALUE
+    CACHE 1;
+
+
+--
+-- Name: paypal_communications_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
+--
+
+ALTER SEQUENCE paypal_communications_id_seq OWNED BY paypal_communications.id;
 
 
 --
@@ -712,7 +749,6 @@ CREATE TABLE preferences (
 --
 
 CREATE SEQUENCE preferences_id_seq
-    START WITH 1
     INCREMENT BY 1
     NO MAXVALUE
     NO MINVALUE
@@ -741,7 +777,6 @@ CREATE TABLE relation_side_types (
 --
 
 CREATE SEQUENCE relation_side_types_id_seq
-    START WITH 1
     INCREMENT BY 1
     NO MAXVALUE
     NO MINVALUE
@@ -821,7 +856,6 @@ CREATE TABLE transfers (
 --
 
 CREATE SEQUENCE transfers_id_seq
-    START WITH 1
     INCREMENT BY 1
     NO MAXVALUE
     NO MINVALUE
@@ -850,7 +884,6 @@ CREATE TABLE user_types (
 --
 
 CREATE SEQUENCE user_types_id_seq
-    START WITH 1
     INCREMENT BY 1
     NO MAXVALUE
     NO MINVALUE
@@ -873,18 +906,16 @@ CREATE TABLE users (
     account_id integer NOT NULL,
     user_type_id integer DEFAULT 2,
     "login" character varying(80),
-    "password" character varying(255),
+    "password" character varying,
     email character varying(40),
     firstname character varying(80),
     lastname character varying(80),
-    uuid character varying(32),
-    salt character varying(32),
+    uuid character(32),
+    salt character(32),
     verified integer DEFAULT 0,
     created_at timestamp without time zone,
     updated_at timestamp without time zone,
-    logged_in_at timestamp without time zone,
-    auth_key character varying(255),
-    auth_key_id character varying(255)
+    logged_in_at timestamp without time zone
 );
 
 
@@ -1023,6 +1054,13 @@ ALTER TABLE invoices ALTER COLUMN id SET DEFAULT nextval('invoices_id_seq'::regc
 --
 
 ALTER TABLE links ALTER COLUMN id SET DEFAULT nextval('links_id_seq'::regclass);
+
+
+--
+-- Name: id; Type: DEFAULT; Schema: public; Owner: -
+--
+
+ALTER TABLE paypal_communications ALTER COLUMN id SET DEFAULT nextval('paypal_communications_id_seq'::regclass);
 
 
 --
@@ -1204,6 +1242,14 @@ ALTER TABLE ONLY links
 
 
 --
+-- Name: paypal_communications_pkey; Type: CONSTRAINT; Schema: public; Owner: -; Tablespace: 
+--
+
+ALTER TABLE ONLY paypal_communications
+    ADD CONSTRAINT paypal_communications_pkey PRIMARY KEY (id);
+
+
+--
 -- Name: preferences_pkey; Type: CONSTRAINT; Schema: public; Owner: -; Tablespace: 
 --
 
@@ -1233,6 +1279,14 @@ ALTER TABLE ONLY relations
 
 ALTER TABLE ONLY transfers
     ADD CONSTRAINT transfers_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: u_parent_child_relation; Type: CONSTRAINT; Schema: public; Owner: -; Tablespace: 
+--
+
+ALTER TABLE ONLY links
+    ADD CONSTRAINT u_parent_child_relation UNIQUE (parent_id, child_id, relation_id);
 
 
 --
@@ -1266,10 +1320,17 @@ CREATE INDEX entities2details__entity_id ON entities2details USING btree (entity
 
 
 --
--- Name: fki_detail_value_propositions_detail_id_fkey; Type: INDEX; Schema: public; Owner: -; Tablespace: 
+-- Name: i_date_detail_value__detail_id; Type: INDEX; Schema: public; Owner: -; Tablespace: 
 --
 
-CREATE INDEX fki_detail_value_propositions_detail_id_fkey ON detail_value_propositions USING btree (detail_id);
+CREATE INDEX i_date_detail_value__detail_id ON date_detail_values USING btree (detail_id);
+
+
+--
+-- Name: i_date_detail_value__instance_id; Type: INDEX; Schema: public; Owner: -; Tablespace: 
+--
+
+CREATE INDEX i_date_detail_value__instance_id ON date_detail_values USING btree (instance_id);
 
 
 --
@@ -1350,13 +1411,6 @@ CREATE INDEX i_relations__parent_id ON relations USING btree (parent_id);
 
 
 --
--- Name: u_parent_child_relation; Type: INDEX; Schema: public; Owner: -; Tablespace: 
---
-
-CREATE UNIQUE INDEX u_parent_child_relation ON links USING btree (parent_id, child_id, relation_id);
-
-
---
 -- Name: account_type_values_account_type_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: -
 --
 
@@ -1425,7 +1479,7 @@ ALTER TABLE ONLY ddl_detail_values
 --
 
 ALTER TABLE ONLY detail_value_propositions
-    ADD CONSTRAINT detail_value_propositions_detail_id_fkey FOREIGN KEY (detail_id) REFERENCES details(id) ON DELETE CASCADE;
+    ADD CONSTRAINT detail_value_propositions_detail_id_fkey FOREIGN KEY (detail_id) REFERENCES details(id) ON UPDATE SET DEFAULT ON DELETE CASCADE;
 
 
 --
@@ -1501,6 +1555,238 @@ ALTER TABLE ONLY entities
 
 
 --
+-- Name: fk_accounts_account_type_id; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY accounts
+    ADD CONSTRAINT fk_accounts_account_type_id FOREIGN KEY (account_type_id) REFERENCES account_types(id) ON DELETE SET NULL;
+
+
+--
+-- Name: fk_databases_account_id; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY databases
+    ADD CONSTRAINT fk_databases_account_id FOREIGN KEY (account_id) REFERENCES accounts(id) ON DELETE CASCADE;
+
+
+--
+-- Name: fk_date_detail_values__instance_id; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY date_detail_values
+    ADD CONSTRAINT fk_date_detail_values__instance_id FOREIGN KEY (instance_id) REFERENCES instances(id) ON DELETE CASCADE;
+
+
+--
+-- Name: fk_ddl_detail_values__instance_id; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY ddl_detail_values
+    ADD CONSTRAINT fk_ddl_detail_values__instance_id FOREIGN KEY (instance_id) REFERENCES instances(id) ON DELETE CASCADE;
+
+
+--
+-- Name: fk_ddl_detail_values__proposition_id; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY ddl_detail_values
+    ADD CONSTRAINT fk_ddl_detail_values__proposition_id FOREIGN KEY (detail_value_proposition_id) REFERENCES detail_value_propositions(id) ON DELETE CASCADE;
+
+
+--
+-- Name: fk_detail_values__detail_id; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY detail_values
+    ADD CONSTRAINT fk_detail_values__detail_id FOREIGN KEY (detail_id) REFERENCES details(id) ON DELETE CASCADE;
+
+
+--
+-- Name: fk_detail_values__instance_id; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY detail_values
+    ADD CONSTRAINT fk_detail_values__instance_id FOREIGN KEY (instance_id) REFERENCES instances(id) ON DELETE CASCADE;
+
+
+--
+-- Name: fk_details_data_type_id; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY details
+    ADD CONSTRAINT fk_details_data_type_id FOREIGN KEY (data_type_id) REFERENCES data_types(id) ON DELETE CASCADE;
+
+
+--
+-- Name: fk_details_database_id; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY details
+    ADD CONSTRAINT fk_details_database_id FOREIGN KEY (database_id) REFERENCES databases(id) ON DELETE CASCADE;
+
+
+--
+-- Name: fk_details_status_id; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY details
+    ADD CONSTRAINT fk_details_status_id FOREIGN KEY (status_id) REFERENCES detail_status(id) ON DELETE CASCADE;
+
+
+--
+-- Name: fk_entities2details_detail_id; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY entities2details
+    ADD CONSTRAINT fk_entities2details_detail_id FOREIGN KEY (detail_id) REFERENCES details(id) ON DELETE CASCADE;
+
+
+--
+-- Name: fk_entities2details_entity_id; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY entities2details
+    ADD CONSTRAINT fk_entities2details_entity_id FOREIGN KEY (entity_id) REFERENCES entities(id) ON DELETE CASCADE;
+
+
+--
+-- Name: fk_entities_database_id; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY entities
+    ADD CONSTRAINT fk_entities_database_id FOREIGN KEY (database_id) REFERENCES databases(id) ON DELETE CASCADE;
+
+
+--
+-- Name: fk_entity_type; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY instances
+    ADD CONSTRAINT fk_entity_type FOREIGN KEY (entity_id) REFERENCES entities(id) ON DELETE CASCADE;
+
+
+--
+-- Name: fk_from_id; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY links
+    ADD CONSTRAINT fk_from_id FOREIGN KEY (parent_id) REFERENCES instances(id) ON DELETE CASCADE;
+
+
+--
+-- Name: fk_from_id; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY relations
+    ADD CONSTRAINT fk_from_id FOREIGN KEY (parent_id) REFERENCES entities(id) ON DELETE CASCADE;
+
+
+--
+-- Name: fk_integer_detail_values__instance_id; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY integer_detail_values
+    ADD CONSTRAINT fk_integer_detail_values__instance_id FOREIGN KEY (instance_id) REFERENCES instances(id) ON DELETE CASCADE;
+
+
+--
+-- Name: fk_invoices_account_id; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY invoices
+    ADD CONSTRAINT fk_invoices_account_id FOREIGN KEY (account_id) REFERENCES accounts(id) ON DELETE SET NULL;
+
+
+--
+-- Name: fk_relation_id; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY links
+    ADD CONSTRAINT fk_relation_id FOREIGN KEY (relation_id) REFERENCES relations(id) ON DELETE CASCADE;
+
+
+--
+-- Name: fk_relations__child_side_type_id; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY relations
+    ADD CONSTRAINT fk_relations__child_side_type_id FOREIGN KEY (child_side_type_id) REFERENCES relation_side_types(id) ON DELETE CASCADE;
+
+
+--
+-- Name: fk_relations__parent_side_type_id; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY relations
+    ADD CONSTRAINT fk_relations__parent_side_type_id FOREIGN KEY (parent_side_type_id) REFERENCES relation_side_types(id) ON DELETE CASCADE;
+
+
+--
+-- Name: fk_to_id; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY links
+    ADD CONSTRAINT fk_to_id FOREIGN KEY (child_id) REFERENCES instances(id) ON DELETE CASCADE;
+
+
+--
+-- Name: fk_to_id; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY relations
+    ADD CONSTRAINT fk_to_id FOREIGN KEY (child_id) REFERENCES entities(id) ON DELETE CASCADE;
+
+
+--
+-- Name: fk_transfers_account_id; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY transfers
+    ADD CONSTRAINT fk_transfers_account_id FOREIGN KEY (account_id) REFERENCES accounts(id) ON DELETE CASCADE;
+
+
+--
+-- Name: fk_transfers_detail_value_id; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY transfers
+    ADD CONSTRAINT fk_transfers_detail_value_id FOREIGN KEY (detail_value_id) REFERENCES detail_values(id) ON DELETE SET NULL;
+
+
+--
+-- Name: fk_transfers_instance_id; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY transfers
+    ADD CONSTRAINT fk_transfers_instance_id FOREIGN KEY (instance_id) REFERENCES instances(id) ON DELETE SET NULL;
+
+
+--
+-- Name: fk_transfers_user_id; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY transfers
+    ADD CONSTRAINT fk_transfers_user_id FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE;
+
+
+--
+-- Name: fk_users_account_id; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY users
+    ADD CONSTRAINT fk_users_account_id FOREIGN KEY (account_id) REFERENCES accounts(id) ON DELETE CASCADE;
+
+
+--
+-- Name: fk_users_user_type_id; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY users
+    ADD CONSTRAINT fk_users_user_type_id FOREIGN KEY (user_type_id) REFERENCES user_types(id) ON DELETE CASCADE;
+
+
+--
 -- Name: instances_entity_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: -
 --
 
@@ -1522,14 +1808,6 @@ ALTER TABLE ONLY integer_detail_values
 
 ALTER TABLE ONLY integer_detail_values
     ADD CONSTRAINT integer_detail_values_instance_id_fkey FOREIGN KEY (instance_id) REFERENCES instances(id) ON UPDATE SET DEFAULT ON DELETE CASCADE;
-
-
---
--- Name: invoices_account_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: -
---
-
-ALTER TABLE ONLY invoices
-    ADD CONSTRAINT invoices_account_id_fkey FOREIGN KEY (account_id) REFERENCES accounts(id) ON UPDATE SET DEFAULT ON DELETE CASCADE;
 
 
 --
@@ -1597,46 +1875,6 @@ ALTER TABLE ONLY relations
 
 
 --
--- Name: transfers_account_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: -
---
-
-ALTER TABLE ONLY transfers
-    ADD CONSTRAINT transfers_account_id_fkey FOREIGN KEY (account_id) REFERENCES accounts(id) ON UPDATE SET DEFAULT ON DELETE CASCADE;
-
-
---
--- Name: transfers_detail_value_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: -
---
-
-ALTER TABLE ONLY transfers
-    ADD CONSTRAINT transfers_detail_value_id_fkey FOREIGN KEY (detail_value_id) REFERENCES detail_values(id) ON UPDATE SET DEFAULT ON DELETE SET DEFAULT;
-
-
---
--- Name: transfers_entity_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: -
---
-
-ALTER TABLE ONLY transfers
-    ADD CONSTRAINT transfers_entity_id_fkey FOREIGN KEY (entity_id) REFERENCES entities(id) ON UPDATE SET DEFAULT ON DELETE SET DEFAULT;
-
-
---
--- Name: transfers_instance_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: -
---
-
-ALTER TABLE ONLY transfers
-    ADD CONSTRAINT transfers_instance_id_fkey FOREIGN KEY (instance_id) REFERENCES instances(id) ON UPDATE SET DEFAULT ON DELETE SET DEFAULT;
-
-
---
--- Name: transfers_user_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: -
---
-
-ALTER TABLE ONLY transfers
-    ADD CONSTRAINT transfers_user_id_fkey FOREIGN KEY (user_id) REFERENCES users(id) ON UPDATE SET DEFAULT ON DELETE SET DEFAULT;
-
-
---
 -- Name: users_account_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: -
 --
 
@@ -1656,4 +1894,4 @@ ALTER TABLE ONLY users
 -- PostgreSQL database dump complete
 --
 
-INSERT INTO schema_info (version) VALUES (36)
+INSERT INTO schema_info (version) VALUES (35)
