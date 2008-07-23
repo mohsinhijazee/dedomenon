@@ -57,9 +57,9 @@ class TranslationsConfig
     end
 end
 
-  #FIXME: PayPal stuff is yet disabled
-require 'paypal'
-Paypal::Notification.ipn_url = "https://www.paypal.com/cgi-bin/webscr"
+#FIXME: PayPal stuff is yet disabled
+#require 'paypal'
+#Paypal::Notification.ipn_url = "https://www.paypal.com/cgi-bin/webscr"
 #Paypal::Notification.paypal_cert = File::read("#{RAILS_ROOT}/config/environments/production_paypal_cert.pem")
 
 #require 'payment_data'

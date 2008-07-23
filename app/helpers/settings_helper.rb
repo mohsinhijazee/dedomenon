@@ -18,5 +18,5 @@
 ################################################################################
 
 module SettingsHelper
-  include Paypal::Helpers
+  #include Paypal::Helpers
 end
