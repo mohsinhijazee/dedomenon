@@ -46,7 +46,7 @@ end
     prefered_langs.sort!{|a,b| b[:weight].to_f<=>a[:weight].to_f}
     #languages = Language.find(:all).collect{|l| l.lang }
     debugger
-    languages = Globalite.ui_locales
+    languages = Globalite.languages
     
     prefered_lang = nil
     prefered_langs.each do |l|
