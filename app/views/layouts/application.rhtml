@@ -49,7 +49,8 @@ function set_lang(ddl)
   <% end %>
 <% end %> <!-- end respond_to? :allows_transfer? -->
 <div id="topbar">
-  <% languages = Language.find(:all,:conditions => "active='t'",:order => "lang").collect{|l| [ t(l.lang), l.lang]}%>
+  <% #languages = Language.find(:all,:conditions => "active='t'",:order => "lang").collect{|l| [ t(l.lang), l.lang]}%>
+  <% languages = Globalite.languages %>
   <% languages.push([ t("madb_translation_ids"), "t_id"]) if ENV['RAILS_ENV']=="translate" %>
   <select name="lang" onchange="set_lang(this);"><%= options_for_select( languages, cookies[TranslationsConfig.cookie_name.to_s])%> </select>
 

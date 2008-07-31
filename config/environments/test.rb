@@ -49,14 +49,7 @@ class MadbSettings
   end
   
 end
-class TranslationsConfig
 
-    def self.create_inexisting_translations
-      #if set to true, create entries for inexisting translations, and updates hints with urls on where the term was used.
-      #should be set to false in production environments
-      true
-    end
-end
 
 #require 'paypal'
 #Paypal::Notification.ipn_url = "https://www.sandbox.paypal.com/cgi-bin/webscr"
