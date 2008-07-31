@@ -55,7 +55,7 @@ database_info_header = %Q~
 |                       Step 2                              |
 |               Dedomenon Databases Creation                |
 -------------------------------------------------------------
-| This step will create four databases:                     |
+| This step will create three databases:                    |
 |                                                           |
 |   * 'myowndb_dev' is development database with owner      |
 |     'myowndb'                                             |
@@ -63,8 +63,6 @@ database_info_header = %Q~
 |     'myowndbtester'                                       |
 |   * 'myowndb_prod'is production databae with owner        |
 |     'myowndb'                                             |
-|   * 'myowndb_ui_translations' holds UI translations with  |
-|     owner 'myowndb'                                       |
 |                                                           |
 -------------------------------------------------------------
 ~
@@ -79,22 +77,22 @@ crosstab_info_header = %Q~
 ------------------------------------------------------------|
 ~
 
-loading_translations = %Q~
--------------------------------------------------------------
-|                        Step 4                             |
-|               Loading Database Translations               |
--------------------------------------------------------------
-|                                                           |
-|  This step will load UI translations to database          |
-|  This will ask you for the password of                    |
-|  PostgreSQL user 'myowndb'                                |
-|                                                           |
-------------------------------------------------------------|
-~
+#loading_translations = %Q~
+#-------------------------------------------------------------
+#|                        Step 4                             |
+#|               Loading Database Translations               |
+#-------------------------------------------------------------
+#|                                                           |
+#|  This step will load UI translations to database          |
+#|  This will ask you for the password of                    |
+#|  PostgreSQL user 'myowndb'                                |
+#|                                                           |
+#------------------------------------------------------------|
+#~
 
 migrations_header = %Q~
 -------------------------------------------------------------
-|                        Step 5                             |
+|                        Step 4                             |
 |                   Running Migrations                      |
 -------------------------------------------------------------
 |                                                           |
@@ -105,7 +103,7 @@ migrations_header = %Q~
 
 demo_account_header = %Q~
 -------------------------------------------------------------
-|                        Step 6                             |
+|                        Step 5                             |
 |                  Create Demo Account                      |
 -------------------------------------------------------------
 |                                                           |
@@ -151,8 +149,8 @@ namespace :dedomenon do
       # First is the database name, second is the owner of database
       ['myowndb_dev', 'myowndb'],
       ['myowndb_test', 'myowndbtester'],
-      ['myowndb_prod', 'myowndb'],
-      ['myowndb_ui_translations', 'myowndb'],
+      ['myowndb_prod', 'myowndb']
+      #['myowndb_ui_translations', 'myowndb'],
     ].each do |database|
       puts "Creating database '#{database[0]}' for user '#{database[1]}'..."
       options = " #{database[0]} -O #{database[1]}"
@@ -184,17 +182,17 @@ namespace :dedomenon do
     end
   end
   
-  desc 'Loads the translations database for dedomenon UI'
-  task :load_translations => :create_databases do
-    puts loading_translations
-    sql_script = "#{RAILS_ROOT}/db/myowndb_ui_translations_dump.sql"
-    puts "Loading UI translations to myowndb_ui_translations database..."
-    puts "This will ask you for the password of the 'myowndb' user."
-    command = "psql myowndb_ui_translations -h localhost -U myowndb -W < #{sql_script} 1>/dev/null"
-    system command
-    puts "Translations database loaded"
-    #puts command
-  end
+#  desc 'Loads the translations database for dedomenon UI'
+#  task :load_translations => :create_databases do
+#    puts loading_translations
+#    sql_script = "#{RAILS_ROOT}/db/myowndb_ui_translations_dump.sql"
+#    puts "Loading UI translations to myowndb_ui_translations database..."
+#    puts "This will ask you for the password of the 'myowndb' user."
+#    command = "psql myowndb_ui_translations -h localhost -U myowndb -W < #{sql_script} 1>/dev/null"
+#    system command
+#    puts "Translations database loaded"
+#    #puts command
+#  end
   
   desc 'Generates config/database.yml'
   task :generate_config_file  do
@@ -216,7 +214,7 @@ namespace :dedomenon do
   end
   
   desc 'Setups dedomenon for you including users, databases.'
-  task :setup => [:create_crosstab, :load_translations, :run_migrations] do
+  task :setup => [:create_crosstab, :run_migrations] do
     puts demo_account_header              
     RAILS_ENV = ENV['RAILS_ENV'] = 'production'
     login_info = create_account_and_users
@@ -258,8 +256,7 @@ namespace :dedomenon do
     # Drop the databases
     ['myowndb_dev',
       'myowndb_test',
-      'myowndb_prod',
-      'myowndb_ui_translations'
+      'myowndb_prod'
     ].each do |database|
       puts "Dropping database '#{database}'..."
       system %Q~ sudo -u postgres psql -c "DROP DATABASE #{database};" 1>/dev/null~

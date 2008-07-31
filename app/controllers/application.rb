@@ -25,7 +25,8 @@
 class ApplicationController < ActionController::Base
     include LoginSystem
     include Translations
-    
+  
+  before_filter :set_user_lang
   before_filter :list_params
     
     #model :user
@@ -37,6 +38,7 @@ class ApplicationController < ActionController::Base
   # We will make the application to generate this
   # automatically later on.
   @@base_url = 'http://localhost:3000/'
+  
   
   helper_method :t
   after_filter :set_encoding, :except => ["apply_edit", "apply_link_to_new"]
