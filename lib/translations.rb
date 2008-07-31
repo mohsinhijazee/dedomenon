@@ -45,7 +45,6 @@ end
     #reverse sort so the prefered language is the first element of the array
     prefered_langs.sort!{|a,b| b[:weight].to_f<=>a[:weight].to_f}
     #languages = Language.find(:all).collect{|l| l.lang }
-    debugger
     languages = Globalite.languages
     
     prefered_lang = nil
