@@ -8,7 +8,7 @@ module Translations
   # * :scope: The scope from which we start searching the translation
   # * :lang : the language to display is passed as option, else we look for it as usual (cookie, http prefered languages)
     
-    #return s if lang=="t_id" or (RAILS_ENV=="test" and ENV["TRANSLATIONS_ENV"]!="test")
+    return s if options[:lang] == "t_id" or (RAILS_ENV=="test" and ENV["TRANSLATIONS_ENV"]!="test")
     
     if options[:vars]
       s.to_sym.l_with_args options[:vars]
