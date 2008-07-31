@@ -10,11 +10,29 @@ module Translations
     
     return s if options[:lang] == "t_id" or (RAILS_ENV=="test" and ENV["TRANSLATIONS_ENV"]!="test")
     
-    if options[:vars]
-      s.to_sym.l_with_args options[:vars]
-    else
-      s.to_sym.l s.to_s
+    lang = nil
+    
+    # If the new language is being provided in options
+    # As is the case with mailings
+    # Pick current langauge and set new one
+    if options[:lang]
+      lang = Globalite.current_language
+      Globalite.language = options[:lang]
     end
+    
+    token = nil
+    if options[:vars]
+      token = s.to_sym.l_with_args options[:vars]
+    else
+      token = s.to_sym.l s.to_s
+    end
+    
+    # If the lang was provided, set back
+    if options[:lang]
+      Globalite.language = lang
+    end
+    
+    return token
     
   
 	end
