@@ -7,7 +7,7 @@ function change(){
 		if(obj.getAttribute("visu") == "1"){
 			obj.style.display = "none";
 			obj.setAttribute("visu","0");
-			img.src = "/images/expand.gif";
+			img.src = "../images/expand.gif";
 		} else {
 			try
       {
@@ -19,7 +19,7 @@ function change(){
       }
         
 			obj.setAttribute("visu","1");
-			img.src = "/images/collapse.gif";
+			img.src = "../images/collapse.gif";
 		}
 	}
 }
