@@ -42,9 +42,9 @@ class MadbSettings
   def self.list_length
     30
   end
-  # For the development mode, we store the files in the fixtures.
+  # For the development mode, we store the files in the tmp directory.
   def self.s3_local_dir
-    "#{RAILS_ROOT}/test/fixtures/files"
+    "#{RAILS_ROOT}/tmp/files"
   end
   def self.s3_bucket_name
     "madb_devel"
