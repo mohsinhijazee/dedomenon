@@ -40,7 +40,7 @@ class MadbSettings
     30
   end
   def self.s3_local_dir
-    "/data/madb/s3_attachments"
+    "#{RAILS_ROOT}/var/files"
   end
   def self.s3_bucket_name
     "madb_devel"
