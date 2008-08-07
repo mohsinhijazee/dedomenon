@@ -50,7 +50,7 @@ H1 {
     font-style: italic;
     height: 1.5em;
     color : #FFF;
-    background: url(/images/bckg/h1.png);
+    background: url(../images/bckg/h1.png);
     padding: 3px 0 0 20px;
     margin: 5px 0;
 	border: solid 1px #036;
@@ -101,7 +101,7 @@ td, th {
 
 thead th {
 	color: #FFF;
-	background: #9CF url(/images/bckg/thead.png) repeat-x top;
+	background: #9CF url(../images/bckg/thead.png) repeat-x top;
 	padding-top: 7px;
 	font-size: 12px;
 	text-transform: capitalize;
@@ -116,7 +116,7 @@ thead th a {
 	height: 2em;
 	line-height: 2em;
 	background-color: #CCC;
-	background: #E5E5E5 url(/images/bckg/topbar.png) repeat-x top;
+	background: #E5E5E5 url(../images/bckg/topbar.png) repeat-x top;
 	text-align: right;
 	vertical-align: middle;
 	position:fixed;
@@ -135,7 +135,7 @@ thead th a {
 }
 #menu {
 	background-color: #369;
-	background: #69C url(/images/bckg/menu.png) repeat-x top;
+	background: #69C url(../images/bckg/menu.png) repeat-x top;
 	margin: 0 10px 10px;
 	padding: 5px;
 	float: left;
@@ -213,7 +213,7 @@ span.menu_action {
 	border-color: #036;
 }
 .entities_list tr:hover, .related_entities_list tr:hover, .list_table tr:hover {
-	background: #369 url(/images/bckg/td.png) repeat-x top;
+	background: #369 url(../images/bckg/td.png) repeat-x top;
 	color: #FFF;
 }
 .entities_list tr:hover a, .related_entities_list tr:hover a, .list_table tr:hover a  {
@@ -292,7 +292,7 @@ span.menu_action {
 }
 div.help {
   /*coupd de bol, j'aime bien cette couleur! */
-  background: #9F3 url(/images/bckg/help.png) repeat-x top;
+  background: #9F3 url(../images/bckg/help.png) repeat-x top;
   padding: 7px 5px 5px;
 }
 
