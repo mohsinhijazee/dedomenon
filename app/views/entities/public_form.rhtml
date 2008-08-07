@@ -18,15 +18,6 @@
 <%= javascript_include_tag "scriptaculous" %>
 <%= javascript_include_tag "madb" %>
 <%= javascript_include_tag "gau" %>
-<script type="text/javascript">
-var djConfig = { baseScriptUri:'/javascripts/dojo/' };
-</script>
-<script type="text/javascript" src="/javascripts/dojo/dojo.js"/>
-<script type="text/javascript">
-  dojo.require("dojo.io.*");
-  //dojo.require("dojo.io.IframeIO");
-</script>
-<script type="text/javascript" src="/javascripts/dojo/src/io/IframeIO.js"/>
 <% else %>
 <!-- <H1><%=h( t("madb_create_new",  :vars => { 'entity' => t(@entity.name)}) )%></H1> -->
 <% end %>
