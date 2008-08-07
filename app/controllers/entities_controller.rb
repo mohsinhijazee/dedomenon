@@ -641,7 +641,7 @@ class EntitiesController < ApplicationController
 			#if request.xhr?
       # Otherwise if not saved, we simply list the fields that are 
       # invalid.
-      headers['Content-Type']='text/plain; charset=UTF-8'
+      headers['Content-Type']='text/html; charset=UTF-8'
       render :text => @invalid_list.join('######')
       return
 
@@ -783,7 +783,13 @@ class EntitiesController < ApplicationController
 
   def link_to_new
   	init_add_form
-    @relation = Relation.find params['relation_id']
+	if params["parent_id"] 
+		linked_id = "parent_"+params["parent_id"]
+	elsif params["child_id"] 
+		linked_id = "child_"+params["child_id"]
+	end
+    	@relation = Relation.find params['relation_id']
+	@form_id = @relation.id.to_s+"_"+@entity.id.to_s+"_"+linked_id
   end
 
   def apply_link_to_new

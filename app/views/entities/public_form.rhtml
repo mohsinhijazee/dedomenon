@@ -1,9 +1,18 @@
 <% if params['embedded']=='t' %>
-<%= stylesheet_link_tag 'yui-container' %>
-<%= javascript_include_tag "yui-yahoo" %>
-<%= javascript_include_tag "yui-event" %>
-<%= javascript_include_tag "yui-dom" %>
-<%= javascript_include_tag "yui-container" %>
+<%=# stylesheet_link_tag 'yui-container' 
+%>
+<%=# javascript_include_tag "yui-yahoo" 
+%>
+<%=# javascript_include_tag "yui-event" 
+%>
+<%=# javascript_include_tag "yui-dom" 
+%>
+<%=# javascript_include_tag "yui-container" 
+%>
+<!-- css --> 
+<link rel="stylesheet" type="text/css" href="http://yui.yahooapis.com/2.5.2/build/container/assets/skins/sam/container.css">
+<!-- js -->
+<script type="text/javascript" src="http://yui.yahooapis.com/combo?2.5.2/build/yahoo-dom-event/yahoo-dom-event.js&2.5.2/build/animation/animation-min.js&2.5.2/build/connection/connection-min.js&2.5.2/build/container/container-min.js&2.5.2/build/selector/selector-beta-min.js&2.5.2/build/element/element-beta-min.js"></script>
 <%= javascript_include_tag :defaults  %>
 <%= javascript_include_tag "fat" %>
 <%= javascript_include_tag "scriptaculous" %>
@@ -22,154 +31,8 @@ var djConfig = { baseScriptUri:'/javascripts/dojo/' };
 <!-- <H1><%=h( t("madb_create_new",  :vars => { 'entity' => t(@entity.name)}) )%></H1> -->
 <% end %>
 
-<script type="text/javascript">
-function dojoformfunction(f)
-{
-  Effect.Appear('xhr_message',{duration:0.5,queue:'end'});
-  dojo.io.bind({
-      url:"/app/entities/apply_edit",
-      headers: {'X-Requested-With': 'XMLHttpRequest'},
-      encoding:'utf-8',
-      load: function(t, txt, e) {
-
-// needed due to problem with IframeIO: http://trac.dojotoolkit.org/ticket/674
-if (txt!=null)
-  data=txt
-else
-{
-  data = dojo.io.iframeContentWindow(dojo.io.IframeTransport.iframe).document.body.innerHTML;
-  if (data.match(/<pre>(.*)<\/pre>/i)) {
-      // Internet Explorer [Jon Aquino 2006-05-06]
-      data = RegExp.$1;
-  }
-}
-if (data.match(/(.{8}_([\w\s]+_[\w\s]*)\[\d\](_\w+)*(######)?)+/))
-{
-    var invalid_fields = YAHOO.util.Dom.getElementsByClassName('invalid_form_value', 'input',f);
-    try {
-    YAHOO.util.Dom.batch(invalid_fields, function (e) {Element.removeClassName( e,'invalid_form_value');Element.addClassName( e,'unchecked_form_value'); });
-    }
-    catch(e)
-    {
-    }
-  ids = data.split('######');
-  <%# comment needed for test code
-  %>
-  for(var i=0;i</*>*/ids.length; i++)
-  {
-      value = ids[i];
-			//Element.removeClassName( value,'valid_form_value');
-			//Element.removeClassName( value,'unchecked_form_value');
-			//Element.addClassName( value,'invalid_form_value');
-
-			YAHOO.util.Dom.removeClass( value,'valid_form_value');
-			YAHOO.util.Dom.removeClass( value,'unchecked_form_value');
-			YAHOO.util.Dom.addClass( value,'invalid_form_value');
-  }
-}
-else if (data.match(/__ERROR__.*/))
-{
-  message = data.replace('__ERROR__','');
-  alert(message);
-}
-else
-{
-  Effect.Fade('xhr_message',{duration:0.5,queue:'end'});
-                },
-      error: function(t, e) {
-                  alert("Error!... " + e.message);
-                },
-      formNode:f,
-      method:"post"
-  })
-
-return false;
-}
-</script>
-
   <div id="addition_form_div">
-    <!--
-		<%= form_remote_tag  :url => { :controller => "entities", :action => "apply_edit", :id => params["id"] }, :complete => "
-		if (request.getResponseHeader('Content-Type').match('text/plain')!=null)
-		{
-		request.responseText.split(' ').each( function(value,index) {
-			Element.removeClassName( value,'valid_form_value');
-			Element.removeClassName( value,'unchecked_form_value');
-			Element.addClassName( value,'invalid_form_value');
-					});
-			return;
-		}
-    else if (request.responseText.length>0)
-    {
-      Element.hide('addition_form_div');
-      Element.show('insertion_successful');
-    }
-    else
-    {
-      alert('insertion_impossible');
-    }
-		 " %>
-     -->
-   <form id="addition_form" method="post" onsubmit="f=this;dojo.io.bind({ url:'/app/entities/apply_edit',
-      headers: {'X-Requested-With': 'XMLHttpRequest'},
-      encoding:'utf-8',
-      load: function(t, txt, e) {
-
-// needed due to problem with IframeIO: http://trac.dojotoolkit.org/ticket/674
-if (txt!=null)
-  data=txt
-else
-{
-  data = dojo.io.iframeContentWindow(dojo.io.IframeTransport.iframe).document.body.innerHTML;
-  if (data.match(/<pre>(.*)<\/pre>/i)) {
-      // Internet Explorer [Jon Aquino 2006-05-06]
-      data = RegExp.$1;
-  }
-}
-if (data.match(/(.{8}_([\w\s]+_[\w\s]*)\[\d\](_\w+)*(######)?)+/))
-{
-    var invalid_fields = YAHOO.util.Dom.getElementsByClassName('invalid_form_value', 'input',f);
-    try {
-    YAHOO.util.Dom.batch(invalid_fields, function (e) {YAHOO.util.Dom.removeClass( e,'invalid_form_value');YAHOO.util.Dom.addClass( e,'unchecked_form_value'); });
-    }
-    catch(e)
-    {
-    }
-  ids = data.split('######');
-  <%# comment needed for test code
-  %>
-  for(var i=0;i</*>*/ids.length; i++)
-  {
-      value = ids[i];
-			//Element.removeClassName( value,'valid_form_value');
-			//Element.removeClassName( value,'unchecked_form_value');
-			//Element.addClassName( value,'invalid_form_value');
-
-			YAHOO.util.Dom.removeClass( value,'valid_form_value');
-			YAHOO.util.Dom.removeClass( value,'unchecked_form_value');
-			YAHOO.util.Dom.addClass( value,'invalid_form_value');
-  }
-}
-else if (data.match(/__ERROR__.*/))
-{
-  message = data.replace('__ERROR__','');
-  alert(message);
-}
-else
-{
-      Element.hide('addition_form_div');
-      Element.show('insertion_successful');
-}},
-      error: function(t, e) {
-                  alert('Error!... ' + e.message);
-                },
-      formNode:f,
-      method:'post' })
-
-return false;
-
-
-   " <%= %{enctype="multipart/form-data"} if @entity.has_file_attachment_detail? %>>
+   <form id="entity_form" method="post" action="<%= url_for :action=> "apply_edit" %>" <%= %{enctype="multipart/form-data"} if @entity.has_file_attachment_detail? %>>
     <input type="hidden" name="instance_id" value="-1">
     <input type="hidden" name="entity" value="<%=@entity.id%>">
     <%= render :partial => "entity_form", :collection => @instance %>
@@ -181,3 +44,15 @@ return false;
   <div style="display:none;" id="insertion_successful">
     <%= t("madb_insertion_was_successful") %>
   </div>
+
+
+<script type="text/javascript">
+    
+  var success_action = function(data){
+      Element.hide('addition_form_div');
+      Element.show('insertion_successful');
+  }
+  <%= render :partial => "upload_form_function", :entity => @entity %>
+  new EntityFormSubmitter('entity_form', success_action);
+
+</script>
