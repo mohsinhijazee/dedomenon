@@ -27,7 +27,7 @@
 
 
 require File.join(File.dirname(__FILE__), 'boot')
-
+require File.join(File.dirname(__FILE__), '../vendor/plugins/engines/boot')
 
 Rails::Initializer.run do |config|
     # Settings in config/environments/* take precedence over those specified here.
