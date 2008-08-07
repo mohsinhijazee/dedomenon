@@ -9,6 +9,7 @@ module Translations
   # * :lang : the language to display is passed as option, else we look for it as usual (cookie, http prefered languages)
     
     return s if options[:lang] == "t_id" or (RAILS_ENV=="test" and ENV["TRANSLATIONS_ENV"]!="test")
+    return '' if s.nil?
     
     lang = nil
     
