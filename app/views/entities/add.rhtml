@@ -3,38 +3,12 @@
 
 <h1><%= @title %> </h1>
   <div id="addition_form_div">
-  <!--
-  <% if @entity.has_file_attachment_detail? %>
-    <form action="/entities/apply_edit" method="post" enctype="multipart/form-data">
-  <% else %>
-    <%= form_remote_tag(:multipart => true ,:url => { :controller => "entities", :action => "apply_edit" }, :complete => "
-		if (request.getResponseHeader('Content-Type').match('text/plain')!=null) 
-		{ 
-		request.responseText.split(' ').each( function(value,index) {
-			Element.removeClassName( value,'valid_form_value');
-			Element.removeClassName( value,'unchecked_form_value');
-			Element.addClassName( value,'invalid_form_value');
-					});
-			return; 
-		}
-		new Form.reset_madb_form (document.forms[0]);
-    new Form.focusFirstElement($('addition_form_div'));
-		$('#{@entity.name}_list_div').innerHTML=request.responseText;
-    Fat.fade_element('tr_#{@entity.name}_list_'+request.getResponseHeader('MYOWNDB_highlight')) ; 
-   id = 'tr_#{@entity.name}_list_'+request.getResponseHeader('MYOWNDB_highlight'); 
-   setTimeout('reset_style(\\''+id+'\\')',3000);
-   ")%>
-	 <% end %>
 
-   -->
+<form id="entity_form" method="post" action="<%= url_for :action => 'apply_edit'%>" <%= %{enctype="multipart/form-data"} if @entity.has_file_attachment_detail? %>>
 
-   <form id="addition_form" method="post" onsubmit="return dojoformfunction(this);" <%= %{enctype="multipart/form-data"} if @entity.has_file_attachment_detail? %>>
-
-		<%#FIXME: we should redirect to the view of the just added instance
-		%>
-	
 <input type="hidden" name="instance_id" value="-1">
 <input type="hidden" name="entity" value="<%=@entity.id%>">
+
 
 <%= render :partial => "entity_form", :object => @instance %>
 
@@ -42,79 +16,25 @@
 </form>
 
 <script type="text/javascript">
-function dojoformfunction(f)
+// success_action is called by default when the form has been submitted successfully
+// the parameter data is the responseText received from the server
+var success_action = function(data) 
 {
-  Effect.Appear('xhr_message',{duration:0.5,queue:'end'});
-  dojo.io.bind({
-      url:"/app/entities/apply_edit",
-      headers: {'X-Requested-With': 'XMLHttpRequest'}, 
-      encoding:'utf-8',
-      load: function(t, txt, e) {
-
-// needed due to problem with IframeIO: http://trac.dojotoolkit.org/ticket/674
-if (txt!=null)
-  data=txt
-else
-{
-  data = dojo.io.iframeContentWindow(dojo.io.IframeTransport.iframe).document.body.innerHTML;
-  if (data.match(/<pre>(.*)<\/pre>/i)) {
-      // Internet Explorer [Jon Aquino 2006-05-06]
-      data = RegExp.$1;
-  }
-}
-if (data.match(/(.{8}_([\w\s]+_[\w\s]*)\[\d\](_\w+)*(######)?)+/))
-{
-    var invalid_fields = YAHOO.util.Dom.getElementsByClassName('invalid_form_value', 'input',f); 
-    try {
-    YAHOO.util.Dom.batch(invalid_fields, function (e) {Element.removeClassName( e,'invalid_form_value');Element.addClassName( e,'unchecked_form_value'); });
-    }
-    catch(e)
-    {
-    }
-  ids = data.split('######');
-  <%# comment needed for test code
-  %>
-  for(var i=0;i</*>*/ids.length; i++)
-  {
-      value = ids[i];
-			Element.removeClassName( value,'valid_form_value');
-			Element.removeClassName( value,'unchecked_form_value');
-			Element.addClassName( value,'invalid_form_value');
-
-			YAHOO.util.Dom.removeClass( value,'valid_form_value');
-			YAHOO.util.Dom.removeClass( value,'unchecked_form_value');
-			YAHOO.util.Dom.addClass( value,'invalid_form_value');
-  }
-}
-else if (data.match(/__ERROR__.*/))
-{
-  message = data.replace('__ERROR__','');
-  alert(message);
-}
-else
-{
-		list_div = $('<%=@entity.name%>_list_div');
-    list_div.innerHTML=data;
-    highlighted_row = YAHOO.util.Dom.getElementsByClassName("highlight", "tr", list_div);
-    dojo.lfx.html.highlight(highlighted_row, [255, 255, 51], 500).play(1500);
-    f.reset();
-    var invalid_fields = YAHOO.util.Dom.getElementsByClassName('invalid_form_value', 'input',f); 
-    YAHOO.util.Dom.batch(invalid_fields, function (e) {YAHOO.util.Dom.removeClass( e,'invalid_form_value');YAHOO.util.Dom.addClass( e,'unchecked_form_value'); });
-}
-Effect.Fade('xhr_message',{duration:0.5,queue:'end'});
-                },
-      error: function(t, e) {
-                  alert("Error!... " + e.message);
-                },
-      formNode:f,
-      method:"post"
-  })
-
-return false;
+            list_div = $('<%=@entity.name%>_list_div');
+	    list_div.innerHTML=data;
+	    highlighted_row = YAHOO.util.Dom.getElementsByClassName("highlight", "tr", list_div);
+	    anim = new YAHOO.util.ColorAnim(highlighted_row, {  backgroundColor: { from: '#FFFF33', to: '#fff' } } );
+	    anim.duration=5;
+	    anim.animate();
+	    var invalid_fields = YAHOO.util.Dom.getElementsByClassName('invalid_form_value', 'input','entity_form'); 
+	    YAHOO.util.Dom.batch(invalid_fields, function (e) {YAHOO.util.Dom.removeClass( e,'invalid_form_value');YAHOO.util.Dom.addClass( e,'unchecked_form_value'); });
+	    YAHOO.util.Selector.query('#'+this.form+'  input:not([type=hidden])')[0].focus()
 }
 
-new Form.focusFirstElement($('addition_form_div'));
+<%= render :partial => "upload_form_function", :entity => @entity %>
+new EntityFormSubmitter('entity_form', success_action);
 </script>
+
 </div>
 <div id="<%="#{@entity.name}_list_div"%>">
 </div>
