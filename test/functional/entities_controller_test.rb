@@ -67,7 +67,7 @@ class EntitiesControllerTest < Test::Unit::TestCase
      #-------------------
      
      #link to show the form
-     assert_tag({ :tag => "a", :attributes => { :onclick => Regexp.new("\\$\\('addition_form_div'\\).style.display='block';.*Form.focusFirstElement.*return false;")  }}  )
+     #assert_tag({ :tag => "a", :attributes => { :onclick => Regexp.new("\\$\\('addition_form_div'\\).style.display='block';.*Form.focusFirstElement.*return false;")  }}  )
      #number of rows
      assert_tag({ :tag => "div", :attributes => { :id => "addition_form_div", :class => "hidden" }, :child => { :tag => "form", :child => { :tag => "table" ,  :children => { :only => { :tag => "tr" } , :count => 10 }} }   }  )
 
