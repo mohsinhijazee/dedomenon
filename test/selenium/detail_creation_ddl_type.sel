@@ -38,8 +38,8 @@
 |assertTitle|exact:madb_madb::||
 |clickAndWait|//a[contains(@href, '/app/admin/details/show/101')]||
 |assertTitle|exact:madb_madb::||
-|assertElementPresent|//select[@id="detail_propositions"]/option[@value="1003"]||
-|assertElementPresent|//select[@id="detail_propositions"]/option[@value="1004"]||
+|assertElementPresent|//select[@id="detail_propositions"]/option[@value="1008"]||
+|assertElementPresent|//select[@id="detail_propositions"]/option[@value="1009"]||
 |assertSelected|//select[@id="details[data_type_id]"]|madb_choose_in_list|
 |clickAndWait|link=madb_logout||
 |assertTitle|exact:madb_madb::||
