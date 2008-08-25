@@ -21,7 +21,7 @@
 |assertTextPresent|societe||
 |assertTextPresent|contacts||
 |assertTextPresent|coaching||
-|clickAndWait|//tr[9]/td[2]/a||
+|clickAndWait|//tr[11]/td[2]/a||
 |assertTitle|exact:madb_madb::madb_list||
 |assertTable|entities_list_societe.1.0|valtech|
 |assertTable|entities_list_societe.2.0|raphinou|
@@ -29,7 +29,7 @@
 |assertTable|entities_list_societe.4.0|Axios|
 |assertTable|entities_list_societe.5.0|SABAM|
 |assertTable|entities_list_societe.6.0|Banque Degroof|
-|assertTable|entities_list_societe.7.0|Commission  européenne|
+|assertTable|entities_list_societe.7.0|Commission européenne|
 |assertTable|entities_list_societe.8.0|Easynet Belgium|
 |assertTable|entities_list_societe.9.0|Experteam|
 |assertTable|entities_list_societe.10.0|Mind|
@@ -44,7 +44,7 @@
 |pause|1000||
 |assertTextPresent|O'Reilly & Associates||
 |type|value_filter|e|
-|click|//div[3]/div[3]/div/form/input[3]||
+|click|//div[@id='societe_list_table_div']/form/input[3]||
 |pause|1000||
 |assertTextPresent|valtech||
 |assertTextPresent|Euroclear||
@@ -70,14 +70,14 @@
 |pause|1000||
 |assertTable|entities_list_societe.1.0|Axios|
 |assertTable|entities_list_societe.2.0|Banque Degroof|
-|assertTable|entities_list_societe.3.0|Commission  européenne|
+|assertTable|entities_list_societe.3.0|Commission européenne|
 |assertTable|entities_list_societe.4.0|Easynet Belgium|
 |assertTable|entities_list_societe.5.0|Euroclear|
 |assertTable|entities_list_societe.6.0|Experteam|
 |assertTable|entities_list_societe.7.0|Mind|
 |assertTable|entities_list_societe.8.0|O'Reilly & Associates|
-|assertTable|entities_list_societe.9.0|SABAM|
-|assertTable|entities_list_societe.10.0|raphinou|
+|assertTable|entities_list_societe.9.0|raphinou|
+|assertTable|entities_list_societe.10.0|SABAM|
 |click|link=2||
 |pause|1000||
 |assertTextPresent|valtech||
@@ -94,7 +94,7 @@
 |assertTable|entities_list_societe.6.0|Banque Degroof|
 |assertTable|entities_list_societe.7.0|SABAM|
 |assertTable|entities_list_societe.8.0|Euroclear|
-|assertTable|entities_list_societe.9.0|Commission  européenne|
+|assertTable|entities_list_societe.9.0|Commission européenne|
 |assertTable|entities_list_societe.10.0|Mind|
 |clickAndWait|link=madb_logout||
 |assertTitle|exact:madb_madb::||
