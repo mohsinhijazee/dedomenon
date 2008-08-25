@@ -8,7 +8,6 @@
 <thead>
 <tr><td rowspan="1" colspan="3">authentication_login_inexisting_user</td></tr>
 </thead><tbody>
-|open|/selenium/setup?fixtures=account_types,accounts,user_types,users||
 |open|/app/authentication/login||
 |assertTitle|exact:madb_madb::||
 |type|user_login|hjk|
