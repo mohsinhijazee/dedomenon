@@ -49,6 +49,5 @@
 |assertTextPresent|test du nom||
 |assertTextPresent|test du prénom||
 |assertElementPresent|//a[@href="mailto:hjkhkj@redfds.com"]||
-|assertElementPresent|//tr[@id="tr_contact_de_la_societe_child_div_104" and @class="highlight"]||
 |clickAndWait|link=madb_logout||
 |assertTitle|exact:madb_madb::||
