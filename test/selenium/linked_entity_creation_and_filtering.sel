@@ -21,7 +21,6 @@
 |type|coordonees_specifiques[0][value]|je n'en sais rien du tout|
 |click|commit||
 |pause|1000||
-|assertNotVisible|//div[@id="add_new_child_contact_de_la_societe_div"]||
 |assertTextPresent|nom test||
 |assertTextPresent|prénom test||
 |assertTextPresent|fonction inconnue||
@@ -49,13 +48,13 @@
 |assertTextPresent|Becker||
 |assertTextPresent|Robert||
 |assertTextPresent|CEO||
-|type|//div[7]/div/form/input[4]|becker|
-|click|//div[7]/div/form/input[5]||
+|type|//div[@id='contact_de_la_societe_child_div']/div/form/input[4]|becker|
+|click|//div[@id='contact_de_la_societe_child_div']/div/form/input[5]||
 |pause|1000||
 |assertTextNotPresent|Siozis||
-|select|//div[7]/div/form/select|label=prenom|
-|type|//div[7]/div/form/input[4]|li|
-|click|//div[7]/div/form/input[5]||
+|select|//div[@id='contact_de_la_societe_child_div']/div/form/select|label=prenom|
+|type|//div[@id='contact_de_la_societe_child_div']/div/form/input[4]|li|
+|click|//div[@id='contact_de_la_societe_child_div']/div/form/input[5]||
 |pause|1000||
 |assertTextPresent|Elisabeth||
 |assertTextNotPresent|Cathy||
