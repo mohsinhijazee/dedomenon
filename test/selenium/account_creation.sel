@@ -10,6 +10,7 @@
 |assertText|//div[@id='account_type_explanations']/table/tbody/tr[6]/td[2]/strong|0.0EUR (madb_excluding_vat )|
 |select|account_type_id|label=madb_account_type_basic|
 |click|//option[@value='2']||
+|pause|500||
 |assertText|//div[@id='account_type_explanations']/table/tbody/tr[1]/td[2]/strong|3|
 |assertText|//div[@id='account_type_explanations']/table/tbody/tr[2]/td[2]/strong|madb_unlimited_number_of_users|
 |assertText|//div[@id='account_type_explanations']/table/tbody/tr[3]/td[2]/strong|64.0Kb|
@@ -18,6 +19,7 @@
 |assertText|//div[@id='account_type_explanations']/table/tbody/tr[6]/td[2]/strong|9.99EUR (madb_excluding_vat )|
 |select|account_type_id|label=madb_account_type_bronze|
 |click|//option[@value='3']||
+|pause|500||
 |assertText|//div[@id='account_type_explanations']/table/tbody/tr[1]/td[2]/strong|6|
 |assertText|//div[@id='account_type_explanations']/table/tbody/tr[2]/td[2]/strong|madb_unlimited_number_of_users|
 |assertText|//div[@id='account_type_explanations']/table/tbody/tr[3]/td[2]/strong|128.0Kb|
@@ -26,6 +28,7 @@
 |assertText|//div[@id='account_type_explanations']/table/tbody/tr[6]/td[2]/strong|24.99EUR (madb_excluding_vat )|
 |select|account_type_id|label=madb_account_type_gold|
 |click|//option[@value='5']||
+|pause|500||
 |assertText|//div[@id='account_type_explanations']/table/tbody/tr[1]/td[2]/strong|50|
 |assertText|//div[@id='account_type_explanations']/table/tbody/tr[2]/td[2]/strong|madb_unlimited_number_of_users|
 |assertText|//div[@id='account_type_explanations']/table/tbody/tr[3]/td[2]/strong|512.0Kb|
@@ -34,6 +37,7 @@
 |assertText|//div[@id='account_type_explanations']/table/tbody/tr[6]/td[2]/strong|120.0EUR (madb_excluding_vat )|
 |select|account_type_id|label=madb_account_type_free|
 |click|//option[@value='1']||
+|pause|500||
 |clickAndWait|commit||
 |assertText|//div[@id='errorExplanation']/ul/li|tos_acceptance_needed|
 |click|tos_accepted||
