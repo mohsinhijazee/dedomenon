@@ -235,4 +235,5 @@ map.connect '/app/entities/check_detail_value_validity', :controller => 'entitie
   map.connect ':controller/:action/:id'
   # following is added to support the formats of response.
   map.connect ':controller/:action/:id.:format'
+  map.connect '/app/:controller/:action/:id.:format'
 end
