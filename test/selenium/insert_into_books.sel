@@ -46,7 +46,7 @@
 |clickAndWait|link=madb_edit||
 |type|Description[0][value]|This book does nothing so do not read and nothing to be edited|
 |clickAndWait|commit||
-|assertTable|//div[@id='content']/div[2]/table.1.1|This book does nothing so do not read and nothing to be edited|
+|assertTable|//div[@id='content']/div/table.1.1|This book does nothing so do not read and nothing to be edited|
 |clickAndWait|link=Books||
 |click|//tr[@id='tr_Books_list_204']/td[11]/a/img||
 |assertConfirmation|madb_really_delete_entity_question||
