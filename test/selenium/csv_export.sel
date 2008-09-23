@@ -1,0 +1,13 @@
+|open|/app||
+|assertTitle|exact:madb_madb::||
+|type|user_login|mohsinhijazee@zeropoint.it|
+|type|user_password|mohsinali.|
+|clickAndWait|commit||
+|clickAndWait|link=demo_forem||
+|clickAndWait|link=Books||
+|assertElementPresent|//img[@alt='madb_export']||
+|click|//img[@alt='madb_export']||
+|pause|5000||
+|assertTitle|exact:madb_madb::madb_list||
+|clickAndWait|link=madb_logout||
+|assertTitle|exact:madb_madb::||
