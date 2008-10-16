@@ -20,8 +20,8 @@
 ActionController::Routing::Routes.draw do |map|
 
 
-# route for detail_value validity checking. It should not be routed to the REST controllers
-map.connect '/app/entities/check_detail_value_validity', :controller => 'entities', :action => "check_detail_value_validity"
+  # Route for detail_value validity checking. It should not be routed to the REST controllers
+  map.connect '/app/entities/check_detail_value_validity', :controller => 'entities', :action => "check_detail_value_validity"
 
 
   
@@ -47,4 +47,8 @@ map.connect '/app/entities/check_detail_value_validity', :controller => 'entitie
   # following is added to support the formats of response.
   map.connect ':controller/:action/:id.:format'
   map.connect '/app/:controller/:action/:id.:format'
+  
+  # This loads the routes from the rest-plugin. This line is needed if you've 
+  # installed the REST API plugiln. This feature is provided by the engines plugin
+  map.from_plugin 'rest-plugin' if File.exists? "#{RAILS_ROOT}/vendor/plugins/rest-plugin"
 end
