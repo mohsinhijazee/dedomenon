@@ -43,14 +43,4 @@ class AccountType < ActiveRecord::Base
   
   attr_readonly :id
   
-  def to_json(options={})
-    
-    json = JSON.parse(super(options))
-  
-    replace_with_url(json, 'id', :AccountType, options)
-    
-    return json.to_json
-    
-  end
-  
 end
