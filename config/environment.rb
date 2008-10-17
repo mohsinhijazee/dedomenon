@@ -223,6 +223,13 @@ module ActionController
   end
 end
 
+# Add the MadbClassFromName to Action View
+module ActionView
+  class Base
+    include MadbClassFromName
+  end
+end
+
 # Add the MadbClassFromName to the Testing framework
 module Test
   module Unit
