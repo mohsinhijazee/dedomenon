@@ -137,52 +137,7 @@ class MadbException < Exception
    end
  end
 
-# Unfortunately, this is to be added to the Array class because the to_json
-# method does not take the hash as parameter and we need hash so that we can 
-# mention the type of urls.
-class Array
-  def to_json(options ={})
-    json = ''
-    self.each do |item|
-      begin
-        json += item.to_json(options) + ','
-        # If the version with arguments give error, try other!
-      rescue TypeError => e
-        json += item.to_json() + ','
-      end
-    end
-    json.chop!
-    return '[' + json + ']'
-  end
-end
 
-class Hash
-  def to_json(options={})
-    json = '{'
-    self.each do |key, value|
-      #puts "Key: #{key.class.name} AND Value: #{value.class.name}"
-      
-      key_json = value_json = nil
-      
-      begin
-        key_json = key.to_json(options)
-      rescue TypeError
-        key_json = key.to_json()
-      end
-      
-      begin
-        value_json = value.to_json(options)
-      rescue TypeError
-        value_json = value.to_json()
-      end
-      
-      json += "#{key_json}:#{value_json},"
-    end
-    
-    json.chomp!(',')
-    json += '}'
-  end
-end
 
 require 'translations'
 class ActionMailer::Base
