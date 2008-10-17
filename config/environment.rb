@@ -108,36 +108,6 @@ class String
   end
 end
 
-# This class is MadbException class that reports the status code
-#also
-class MadbException < Exception
-   attr :code
-   
-   def initialize(code)
-     @code = code
-   end
- end
- 
- class ResourceNotFound < MadbException
-   def initialize
-     super(404)
-   end
- end
- 
- class BadResource < MadbException
-   def initialize
-     super(400)
-   end
- end
- 
- # This exception if the REST call contains conflicting parameters
- class ConflictingCall < MadbException
-   def initialize
-     super(409)
-   end
- end
-
-
 
 require 'translations'
 class ActionMailer::Base
