@@ -50,5 +50,5 @@ ActionController::Routing::Routes.draw do |map|
   
   # This loads the routes from the rest-plugin. This line is needed if you've 
   # installed the REST API plugiln. This feature is provided by the engines plugin
-  map.from_plugin 'rest-plugin' if File.exists? "#{RAILS_ROOT}/vendor/plugins/rest-plugin"
+  map.from_plugin 'rest_plugin' if File.exists? "#{RAILS_ROOT}/vendor/plugins/rest_plugin"
 end
