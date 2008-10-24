@@ -28,6 +28,10 @@ ActionController::Routing::Routes.draw do |map|
   # Add your own custom routes here.
   # The priority is based upon order of creation: first created -> highest priority.
   
+  # This loads the routes from the rest-plugin. This line is needed if you've 
+  # installed the REST API plugiln. This feature is provided by the engines plugin
+  map.from_plugin 'rest_plugin' if File.exists? "#{RAILS_ROOT}/vendor/plugins/rest_plugin"
+  
   # Here's a sample route:
   # map.connect 'products/:id', :controller => 'catalog', :action => 'view'
   # Keep in mind you can assign values other than :controller and :action
@@ -48,7 +52,5 @@ ActionController::Routing::Routes.draw do |map|
   map.connect ':controller/:action/:id.:format'
   map.connect '/app/:controller/:action/:id.:format'
   
-  # This loads the routes from the rest-plugin. This line is needed if you've 
-  # installed the REST API plugiln. This feature is provided by the engines plugin
-  map.from_plugin 'rest_plugin' if File.exists? "#{RAILS_ROOT}/vendor/plugins/rest_plugin"
+  
 end
