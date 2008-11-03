@@ -49,7 +49,7 @@ include ERB::Util
 #
 class DetailValue <  ActiveRecord::Base
   include DetailValueModule
-  include Rest::UrlGenerator
+  
   belongs_to :instance
   belongs_to :detail
  
@@ -77,21 +77,21 @@ class DetailValue <  ActiveRecord::Base
   end
 
   
-  #FIXME: How to determine the value of detail_value?
-  def to_json(options = {})
-    json = JSON.parse(super(options))
-    
-    #json['value'] = ''
-    #puts 'VALUE NIL' if !self.value
-    #puts 'HEREHEREHHER: ' + json['value']
-    #puts json.to_json.gsub('\\', '')
-    
-    replace_with_url(json, 'id', :DetailValue, options)
-    replace_with_url(json, 'detail_id', :Detail, options)
-    replace_with_url(json, 'instance_id', :Instance, options)
-    
-    
-    return json.to_json
-
-  end
+#  #FIXME: How to determine the value of detail_value?
+#  def to_json(options = {})
+#    json = JSON.parse(super(options))
+#    
+#    #json['value'] = ''
+#    #puts 'VALUE NIL' if !self.value
+#    #puts 'HEREHEREHHER: ' + json['value']
+#    #puts json.to_json.gsub('\\', '')
+#    
+#    replace_with_url(json, 'id', :DetailValue, options)
+#    replace_with_url(json, 'detail_id', :Detail, options)
+#    replace_with_url(json, 'instance_id', :Instance, options)
+#    
+#    
+#    return json.to_json
+#
+#  end
 end

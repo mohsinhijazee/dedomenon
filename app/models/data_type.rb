@@ -46,17 +46,17 @@
 # *Relations*
 #   has_many :details
 class DataType < ActiveRecord::Base
-  include Rest::UrlGenerator
+  
   has_many :details
   
   attr_readonly :id
   
-  def to_json(options = {})
-    
-    json = JSON.parse(super(options))
-    
-    replace_with_url(json, 'id', :DataType, options)
-    
-    return json.to_json
-  end
+#  def to_json(options = {})
+#    
+#    json = JSON.parse(super(options))
+#    
+#    replace_with_url(json, 'id', :DataType, options)
+#    
+#    return json.to_json
+#  end
 end

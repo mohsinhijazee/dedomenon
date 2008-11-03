@@ -31,7 +31,7 @@
 #
 #require 'json'
 class Link < ActiveRecord::Base
-  include Rest::UrlGenerator
+  
   belongs_to :relation
   belongs_to :parent,:foreign_key => "parent_id",  :class_name => "Instance"
   belongs_to :child, :foreign_key => "child_id",:class_name => "Instance"
@@ -40,15 +40,15 @@ class Link < ActiveRecord::Base
                 :parent_id,
                 :child_id
   
-  def to_json(options = {})
-    json = JSON.parse(super(options))
-    
-    replace_with_url(json, 'id', :Link, options)
-    replace_with_url(json, 'parent_id', :Instance, options)
-    replace_with_url(json, 'child_id', :Instance, options)
-    replace_with_url(json, 'relation_id', :Relation, options)
-    
-    return json.to_json
-  end
+#  def to_json(options = {})
+#    json = JSON.parse(super(options))
+#    
+#    replace_with_url(json, 'id', :Link, options)
+#    replace_with_url(json, 'parent_id', :Instance, options)
+#    replace_with_url(json, 'child_id', :Instance, options)
+#    replace_with_url(json, 'relation_id', :Relation, options)
+#    
+#    return json.to_json
+#  end
   
 end

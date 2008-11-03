@@ -36,7 +36,7 @@
 #   has_many :accounts
 #
 class AccountType < ActiveRecord::Base
-  include Rest::UrlGenerator
+  
   
   has_many :account_type_values
   has_many :accounts

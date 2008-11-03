@@ -35,7 +35,7 @@ include ERB::Util
 #
 
 class DateDetailValue < ActiveRecord::Base
-  include Rest::UrlGenerator
+  
   belongs_to :instance
   belongs_to :detail
   
@@ -108,30 +108,30 @@ end
     end
   end
   
-  def to_json(options = {})
-    
-    json = JSON.parse(super(options))
-    
-    replace_with_url(json, 'id', :DateDetailValue, options)
-    replace_with_url(json, 'detail_id', :Detail, options)
-    replace_with_url(json, 'instance_id', :Instance, options)
-    
-    
-    return json.to_json
-    
-#    json = super.to_json(options)
-#    base_url = 'http://localhost:3000/'
-#    #FIXME: Yet the URL is to be decided i.e. the REST position
-#    self_url = '"' + base_url + "instances/#{instance_id}/details/#{detail_id}/date_detail_values/#{id}" + '"'
+#  def to_json(options = {})
 #    
-#    json.gsub!(/("id":\s+\d+)/, '"url": ' + self_url)
+#    json = JSON.parse(super(options))
 #    
-#    detail_url = '"' + base_url + "details/#{detail_id}" + '"'
-#    instance_url = '"' + base_url + "instances/#{instance_id}"
-#          
-#    json.gsub!(/("detail_id":\s+\d+)/, detail_url)
-#    json.gsub!(/("instance_id":\s+\d+)/, instance_url)
+#    replace_with_url(json, 'id', :DateDetailValue, options)
+#    replace_with_url(json, 'detail_id', :Detail, options)
+#    replace_with_url(json, 'instance_id', :Instance, options)
 #    
-#    return json
-  end
+#    
+#    return json.to_json
+#    
+##    json = super.to_json(options)
+##    base_url = 'http://localhost:3000/'
+##    #FIXME: Yet the URL is to be decided i.e. the REST position
+##    self_url = '"' + base_url + "instances/#{instance_id}/details/#{detail_id}/date_detail_values/#{id}" + '"'
+##    
+##    json.gsub!(/("id":\s+\d+)/, '"url": ' + self_url)
+##    
+##    detail_url = '"' + base_url + "details/#{detail_id}" + '"'
+##    instance_url = '"' + base_url + "instances/#{instance_id}"
+##          
+##    json.gsub!(/("detail_id":\s+\d+)/, detail_url)
+##    json.gsub!(/("instance_id":\s+\d+)/, instance_url)
+##    
+##    return json
+#  end
 end

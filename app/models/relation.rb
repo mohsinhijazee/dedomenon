@@ -47,7 +47,7 @@
 #	belongs_to :child_side_type , :class_name => "RelationSideType",  :foreign_key => "child_side_type_id" 
 #
 class Relation < ActiveRecord::Base
-  include Rest::UrlGenerator
+  
 	belongs_to :parent , :class_name => "Entity",  :foreign_key => "parent_id" 
 	belongs_to :child , :class_name => "Entity",  :foreign_key => "child_id" 
 	belongs_to :parent_side_type , :class_name => "RelationSideType",  :foreign_key => "parent_side_type_id" 
@@ -63,16 +63,16 @@ class Relation < ActiveRecord::Base
   validates_presence_of :from_parent_to_child_name
   
   #FIXME: This method is not substituting the ids with urls correctly!
-  def to_json(options = {})
-    
-    json = JSON.parse(super(options))
-    
-    replace_with_url(json, 'id', :Relation, options)
-    replace_with_url(json, 'parent_id', :Entity, options)
-    replace_with_url(json, 'child_id', :Entity, options)
-    replace_with_url(json, 'parent_side_type_id', :RelationSideType, options)
-    replace_with_url(json, 'child_side_type_id', :RelationSideType, options)
-    
-    return json.to_json
-  end
+#  def to_json(options = {})
+#    
+#    json = JSON.parse(super(options))
+#    
+#    replace_with_url(json, 'id', :Relation, options)
+#    replace_with_url(json, 'parent_id', :Entity, options)
+#    replace_with_url(json, 'child_id', :Entity, options)
+#    replace_with_url(json, 'parent_side_type_id', :RelationSideType, options)
+#    replace_with_url(json, 'child_side_type_id', :RelationSideType, options)
+#    
+#    return json.to_json
+#  end
 end

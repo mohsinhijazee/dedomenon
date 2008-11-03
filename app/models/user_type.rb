@@ -20,14 +20,14 @@
 class UserType < ActiveRecord::Base
   has_many :users
   
-  include Rest::UrlGenerator
+  
   
   attr_readonly :id
   
-  def to_json(options={})
-    json = JSON.parse(super(options))
-    
-    replace_with_url(json, 'id', :UserType, options)
-    return json.to_json
-  end
+#  def to_json(options={})
+#    json = JSON.parse(super(options))
+#    
+#    replace_with_url(json, 'id', :UserType, options)
+#    return json.to_json
+#  end
 end

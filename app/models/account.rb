@@ -52,7 +52,7 @@
 #    * validates_size_of :country, :minimum => 2, :message => "madb_choose_country"
 class Account < ActiveRecord::Base
   
-  include Rest::UrlGenerator
+  
   
   has_many :databases,  :class_name => "Database"
   has_many :users
@@ -139,89 +139,40 @@ class Account < ActiveRecord::Base
   end
 
       
-  #FIXME: Add the options behaviour as a standard behaviour
-  #FIXME: When the initial string is null, should proceed next.
-  #FIXME: Now this is calling some methods which are basically moved to 
-  #       s3_attachment plugin. Rewrite this!
-  def to_json(options={})
-    
-    json = JSON.parse(super(options))
-    format = ''
-    format = '.' + options[:format] if options[:format]
-    
-    replace_with_url(json, 'id', :Account, options)
-    replace_with_url(json, 'account_type_id', :AccountType, options)
-    
-    json['active']                          = active?
-    #json['allows_download']                 = allows_download?
-    json['allows_login']                    = allows_login?
-    #json['allows_transfer']                 = allows_transfer?
-    #json['allows_upload']                   = allows_upload?
-    json['expired']                         = expired?
-    #json['transfer_percentage_this_month']  = transfer_percentage_this_month
-    #json['transfers_this_month']            = transfers_this_month
-    json['vat']                             = vat
-    
-    
-    json['users_url'] = (@@lookup[:Account] % [@@base_url, self.id])
-    json['users_url'] += (@@lookup[:User] % ['', '']).chop + format
-    
-    json['databases_url'] = (@@lookup[:Account] % [@@base_url, self.id])
-    json['databases_url'] += (@@lookup[:Database] % ['', '']).chop + format
-    
-    return json.to_json
-    
-    
-    
-#    # Get the json from the base
-#    json = super.to_json(opts)
+#  #FIXME: Add the options behaviour as a standard behaviour
+#  #FIXME: When the initial string is null, should proceed next.
+#  #FIXME: Now this is calling some methods which are basically moved to 
+#  #       s3_attachment plugin. Rewrite this!
+#  def to_json(options={})
 #    
-#    # remove any whitespace
-#    json.strip!
+#    json = JSON.parse(super(options))
+#    format = ''
+#    format = '.' + options[:format] if options[:format]
 #    
-#    # Subtitute the escape sequence chracters
-#    json.gsub!(/\\/, '')
+#    replace_with_url(json, 'id', :Account, options)
+#    replace_with_url(json, 'account_type_id', :AccountType, options)
 #    
-#    # Delete the bracket
-#    json.delete!('}')
+#    json['active']                          = active?
+#    #json['allows_download']                 = allows_download?
+#    json['allows_login']                    = allows_login?
+#    #json['allows_transfer']                 = allows_transfer?
+#    #json['allows_upload']                   = allows_upload?
+#    json['expired']                         = expired?
+#    #json['transfer_percentage_this_month']  = transfer_percentage_this_month
+#    #json['transfers_this_month']            = transfers_this_month
+#    json['vat']                             = vat
 #    
-#    # remove the enclosing quote symbols
-#    if json.length > 2
-#      json = json[1, json.length]
-#    end
 #    
-#    json.chop!
+#    json['users_url'] = (@@lookup[:Account] % [@@base_url, self.id])
+#    json['users_url'] += (@@lookup[:User] % ['', '']).chop + format
 #    
-#    base_url = 'http://localhost:3000/'
+#    json['databases_url'] = (@@lookup[:Account] % [@@base_url, self.id])
+#    json['databases_url'] += (@@lookup[:Database] % ['', '']).chop + format
 #    
-#    json.gsub!(/("id":)\s+\d+/, "\"url\": \"#{base_url}accounts/#{id}\"")
-#    json.gsub!(/("account_type_id":\s+\d+)/,
-#      '"' + 'account_type_url' + '": ' + 
-#        '"' + base_url + "account_types/#{account_type_id}" + '"')
-#    
-#    str = '"active": '           +  j(active?)                    + ", " +
-#          '"allows_download": '  +  j(allows_download?)            + ", " +
-#          '"allows_login": '     +  j(allows_login?)               + ", " +
-#          '"allows_transfer": '  +  j(allows_transfer?)            + ", " +
-#          '"allows_upload": '    +  j(allows_upload?)              + ", " +
-#          '"expired": '          +  j(expired?)                   + ", " +
-#          '"transfer_percentage_this_month": '   +  j(transfer_percentage_this_month)    + ", " +
-#          '"transfers_this_month": '        +  j(transfers_this_month)      + ", " +
-#          '"vat":'               +  j(vat) + ', ' + 
-#          # FIXME: Find a better way to do this
-#          '"users": '        '"' +     base_url + "accounts/#{id}/users" + '"'
-#          
+#    return json.to_json
 #    
 #    
 #    
-#    json = json + ', ' + str + '}'
-#    
-#    
-#    
-#    
-#    
-#    return json;
-#    
-#       
-  end
+#
+#  end
 end

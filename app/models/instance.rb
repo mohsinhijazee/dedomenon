@@ -41,7 +41,7 @@
 #
 class Instance < ActiveRecord::Base
   include ApplicationHelper
-  include InstanceProcessor
+  #include InstanceProcessor
 	belongs_to :entity
 	has_many :detail_values
 	has_many :email_detail_values
@@ -112,20 +112,20 @@ end
     end
   end
 
-  def to_json(options = {})
-    options[:instance] = self.id
-    
-    return get_records_for(options).to_json
-#    json = super.to_json(options)
+#  def to_json(options = {})
+#    options[:instance] = self.id
 #    
-#    base_url = 'http://localhost:3000/'
-#    self_url = '"' + base_url + "instances/#{id}" + '"'
-#    entity_url = '"' + base_url + "entities/#{entity_id}" + '"'
-#    
-#    json.gsub!(/("id":)\s+\d+/, '"url": ' + self_url)
-#    json.gsub!(/("entity_id":\s+\d+)/, '"entity_url": ' + entity_url)
-#    
-#    return json;
-#    
-  end
+#    return get_records_for(options).to_json
+##    json = super.to_json(options)
+##    
+##    base_url = 'http://localhost:3000/'
+##    self_url = '"' + base_url + "instances/#{id}" + '"'
+##    entity_url = '"' + base_url + "entities/#{entity_id}" + '"'
+##    
+##    json.gsub!(/("id":)\s+\d+/, '"url": ' + self_url)
+##    json.gsub!(/("entity_id":\s+\d+)/, '"entity_url": ' + entity_url)
+##    
+##    return json;
+##    
+#  end
 end

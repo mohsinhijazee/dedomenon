@@ -38,7 +38,7 @@
 #       * belongs_to :database
 #
 class Entity < ActiveRecord::Base
-  include Rest::UrlGenerator
+  
   has_and_belongs_to_many :details, :join_table => "entities2details"
   #has_and_belongs_to_many :entities, :join_table => "relations", :foreign_key => "parent_id", :association_foreign_key => "child_id"
   has_many :relations_to_children, :class_name => "Relation",  :foreign_key => "parent_id"
@@ -81,72 +81,72 @@ class Entity < ActiveRecord::Base
        
   #FIXME: Add the options behaviour as a standard behaviour
   #FIXME: When the initial string is null, should proceed next.
-  def to_json(options={})
-    
-    json = JSON.parse(super(options))
-    replace_with_url(json, 'id', :Entity, options)
-    replace_with_url(json, 'database_id', :Database, options)
-    
-    format = ''
-    format = '.' + options[:format] if options[:format]
-    
-    json[:details_url] = @@lookup[:Entity] % [@@base_url, self.id]
-    json[:details_url] += (@@lookup[:Detail] % ['', '']).chop + format
-    
-    json[:instances_url] = @@lookup[:Entity] % [@@base_url, self.id]
-    json[:instances_url] += (@@lookup[:Instance] % ['', '']).chop + format
-    
-    json[:relations_url] = @@lookup[:Entity] % [@@base_url, self.id]
-    json[:relations_url] += (@@lookup[:Relation] % ['', '']).chop + format
-    
-  
-    return json.to_json
-    
-#    #json = old_to_json(opts)
+#  def to_json(options={})
 #    
-#    # remove any whitespace
-#    json.strip!
+#    json = JSON.parse(super(options))
+#    replace_with_url(json, 'id', :Entity, options)
+#    replace_with_url(json, 'database_id', :Database, options)
 #    
-#    # Subtitute the escape sequence chracters
-#    json.gsub!(/\\/, '')
+#    format = ''
+#    format = '.' + options[:format] if options[:format]
 #    
-#    # Delete the bracket
-#    json.delete!('}')
+#    json[:details_url] = @@lookup[:Entity] % [@@base_url, self.id]
+#    json[:details_url] += (@@lookup[:Detail] % ['', '']).chop + format
 #    
-#    # remove the enclosing quote symbols
-#    if json.length > 2
-#      json = json[1, json.length]
-#    end
+#    json[:instances_url] = @@lookup[:Entity] % [@@base_url, self.id]
+#    json[:instances_url] += (@@lookup[:Instance] % ['', '']).chop + format
 #    
-#    json.chop!
+#    json[:relations_url] = @@lookup[:Entity] % [@@base_url, self.id]
+#    json[:relations_url] += (@@lookup[:Relation] % ['', '']).chop + format
 #    
-#    base_url = 'http://localhost:3000/'
-#    self_url = '"' + base_url + "entities/#{id}" + '"'
-#    database_url = '"' + base_url + "databases/#{database_id}" + '"'
+#  
+#    return json.to_json
 #    
-#    json.gsub!(/("id":\s+\d+)/, '"url": ' + self_url )
-#    json.gsub!(/("database_id":\s+\d+)/, '"database_url": ' + database_url )
-#    
-#    
-#    
-#    base_url = 'http://localhost:3000/'
-#    str = '"has_file_attachment_detail": '  +  j(has_file_attachment_detail?) + ', ' +
-#      '"details_url":'          + '"' + base_url + "entities/#{id}/details.json"   + '"' + ', ' +
-#      '"instances_url": '       + '"' + base_url + "entities/#{id}/instances.json" + '"' + ', ' +
-#      '"relations_url":'        + '"' + base_url + "entities/#{id}/relations.json" + '"'
-#          
-#          
-#    
-#    
-#    
-#    json = json + ', ' + str + '}'
-#    
-#    
-#    
-#    
-#    
-#    return json;
-#    
-#       
-  end
+##    #json = old_to_json(opts)
+##    
+##    # remove any whitespace
+##    json.strip!
+##    
+##    # Subtitute the escape sequence chracters
+##    json.gsub!(/\\/, '')
+##    
+##    # Delete the bracket
+##    json.delete!('}')
+##    
+##    # remove the enclosing quote symbols
+##    if json.length > 2
+##      json = json[1, json.length]
+##    end
+##    
+##    json.chop!
+##    
+##    base_url = 'http://localhost:3000/'
+##    self_url = '"' + base_url + "entities/#{id}" + '"'
+##    database_url = '"' + base_url + "databases/#{database_id}" + '"'
+##    
+##    json.gsub!(/("id":\s+\d+)/, '"url": ' + self_url )
+##    json.gsub!(/("database_id":\s+\d+)/, '"database_url": ' + database_url )
+##    
+##    
+##    
+##    base_url = 'http://localhost:3000/'
+##    str = '"has_file_attachment_detail": '  +  j(has_file_attachment_detail?) + ', ' +
+##      '"details_url":'          + '"' + base_url + "entities/#{id}/details.json"   + '"' + ', ' +
+##      '"instances_url": '       + '"' + base_url + "entities/#{id}/instances.json" + '"' + ', ' +
+##      '"relations_url":'        + '"' + base_url + "entities/#{id}/relations.json" + '"'
+##          
+##          
+##    
+##    
+##    
+##    json = json + ', ' + str + '}'
+##    
+##    
+##    
+##    
+##    
+##    return json;
+##    
+##       
+#  end
 end

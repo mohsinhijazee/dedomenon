@@ -35,7 +35,7 @@ include ERB::Util
 #   * has_many :ddl_detail_values
 #
 class DetailValueProposition < ActiveRecord::Base
-  include Rest::UrlGenerator
+ 
   belongs_to :detail
   has_many :ddl_detail_values
   

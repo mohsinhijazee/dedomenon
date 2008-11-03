@@ -32,16 +32,16 @@
 #   * has_many :relations
 #
 class RelationSideType < ActiveRecord::Base
-  include Rest::UrlGenerator
+
   has_many :relations
   
   attr_readonly :id
   
-  def to_json(options = {})
-    json = JSON.parse(super(options))
-    
-    replace_with_url(json, 'id', :RelationSideType, options)
-    
-    return json.to_json
-  end
+#  def to_json(options = {})
+#    json = JSON.parse(super(options))
+#    
+#    replace_with_url(json, 'id', :RelationSideType, options)
+#    
+#    return json.to_json
+#  end
 end
