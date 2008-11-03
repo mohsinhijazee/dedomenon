@@ -44,7 +44,7 @@ include ERB::Util
 #   * belongs_to :detail_value_proposition
 
 class DdlDetailValue < DetailValue
-  include Rest::UrlGenerator
+
   belongs_to :instance
   belongs_to :detail
   belongs_to :detail_value_proposition
@@ -119,17 +119,17 @@ class DdlDetailValue < DetailValue
       end
     end
     
-  def to_json(options = {})
-    
-    json = JSON.parse(super(options))
-    
-#    replace_with_url(json, 'id', :DdlDetailValue, options)
-#    replace_with_url(json, 'detail_id', :Detail, options)
-#    replace_with_url(json, 'instance_id', :Instance, options)
-    replace_with_url(json, 'detail_value_proposition_id', :DetailValueProposition, options)
-    
-    
-    return json.to_json
-    
-  end
+#  def to_json(options = {})
+#    
+#    json = JSON.parse(super(options))
+#    
+##    replace_with_url(json, 'id', :DdlDetailValue, options)
+##    replace_with_url(json, 'detail_id', :Detail, options)
+##    replace_with_url(json, 'instance_id', :Instance, options)
+#    replace_with_url(json, 'detail_value_proposition_id', :DetailValueProposition, options)
+#    
+#    
+#    return json.to_json
+#    
+#  end
 end

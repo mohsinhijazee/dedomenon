@@ -29,7 +29,7 @@
 # *Relationships*
 #   * has_many :details
 class DetailStatus < ActiveRecord::Base
-  include Rest::UrlGenerator
+  
   has_many :details
   
   attr_readonly :id
@@ -38,13 +38,13 @@ class DetailStatus < ActiveRecord::Base
     "detail_status"
   end
   
-  def to_json(options={})
-    
-    json = JSON.parse(super(options))
-    
-    replace_with_url(json, 'id', :DetailStatus, options)
-
-    
-    return json.to_json
-  end
+#  def to_json(options={})
+#    
+#    json = JSON.parse(super(options))
+#    
+#    replace_with_url(json, 'id', :DetailStatus, options)
+#
+#    
+#    return json.to_json
+#  end
 end

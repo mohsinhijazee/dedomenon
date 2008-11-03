@@ -41,7 +41,7 @@
 
 require 'json'
 class Detail < ActiveRecord::Base
-  include Rest::UrlGenerator
+  
   has_many :detail_value_propositions
   has_many :entity_details
   has_and_belongs_to_many :entities, :join_table => "entities2details"
@@ -77,28 +77,28 @@ class Detail < ActiveRecord::Base
     class_from_name(data_type.class_name)
   end
   
-  def to_json(options={})
-    
-    json = JSON.parse(super(options))
-    
-    format = ''
-    format = '.' + options[:format] if options[:format]
-    
-    if self.data_type
-      if self.data_type.name == 'madb_choose_in_list'
-        json['propositions_url'] = (@@lookup[:Detail] % [@@base_url, self.id])
-        json['propositions_url'] += (@@lookup[:DetailValueProposition] % ['', '']).chop + format
-      end
-    end
-    
-    replace_with_url(json, 'id', :Detail, options)
-    replace_with_url(json, 'data_type_id', :DataType, options)
-    replace_with_url(json, 'status_id', :DetailStatus, options)
-    replace_with_url(json, 'database_id', :Database, options)
-    
-    #return json.to_json.gsub('\\', '') 
-    return json.to_json
-    
-  end
+#  def to_json(options={})
+#    
+#    json = JSON.parse(super(options))
+#    
+#    format = ''
+#    format = '.' + options[:format] if options[:format]
+#    
+#    if self.data_type
+#      if self.data_type.name == 'madb_choose_in_list'
+#        json['propositions_url'] = (@@lookup[:Detail] % [@@base_url, self.id])
+#        json['propositions_url'] += (@@lookup[:DetailValueProposition] % ['', '']).chop + format
+#      end
+#    end
+#    
+#    replace_with_url(json, 'id', :Detail, options)
+#    replace_with_url(json, 'data_type_id', :DataType, options)
+#    replace_with_url(json, 'status_id', :DetailStatus, options)
+#    replace_with_url(json, 'database_id', :Database, options)
+#    
+#    #return json.to_json.gsub('\\', '') 
+#    return json.to_json
+#    
+#  end
   
 end

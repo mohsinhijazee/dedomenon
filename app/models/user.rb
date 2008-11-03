@@ -55,7 +55,7 @@ require 'digest/sha1'
 #   * validates_confirmation_of
   
 class User < ActiveRecord::Base
-  include Rest::UrlGenerator
+  
   
   belongs_to :account
   belongs_to :user_type
@@ -191,21 +191,21 @@ class User < ActiveRecord::Base
   validates_confirmation_of :password, :message => "madb_password_not_confirmed"
   validates_associated :account, :message => "madb_error_in_account"
   
-  public
-  def to_json(options = {})
-    json = JSON.parse(super(options))
-    
-    # These items should not be returned!
-    json.delete 'password'
-    json.delete 'salt'
-    json.delete 'auth_key'
-    json.delete 'auth_key_id'
-    
-    replace_with_url(json, 'id', :User, options)
-    replace_with_url(json, 'account_id', :Account, options)
-    replace_with_url(json, 'user_type_id', :UserType, options)
-    
-    return json.to_json
-  end
+#  public
+#  def to_json(options = {})
+#    json = JSON.parse(super(options))
+#    
+#    # These items should not be returned!
+#    json.delete 'password'
+#    json.delete 'salt'
+#    json.delete 'auth_key'
+#    json.delete 'auth_key_id'
+#    
+#    replace_with_url(json, 'id', :User, options)
+#    replace_with_url(json, 'account_id', :Account, options)
+#    replace_with_url(json, 'user_type_id', :UserType, options)
+#    
+#    return json.to_json
+#  end
 
 end

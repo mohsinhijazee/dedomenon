@@ -38,7 +38,7 @@ require 'entities2detail.rb'
 class IntegerDetailValue < ActiveRecord::Base
 
 include DetailValueModule
-include Rest::UrlGenerator
+
   belongs_to :instance
   belongs_to :detail
   
@@ -92,15 +92,15 @@ include Rest::UrlGenerator
     return false
   end
   
-  def to_json(options = {})
-    
-    json = JSON.parse(super(options))
-    
-    replace_with_url(json, 'id', :DetailValue, options)
-    replace_with_url(json, 'detail_id', :Detail, options)
-    replace_with_url(json, 'instance_id', :Instance, options)
-    
-    return json.to_json
-  end
+#  def to_json(options = {})
+#    
+#    json = JSON.parse(super(options))
+#    
+#    replace_with_url(json, 'id', :DetailValue, options)
+#    replace_with_url(json, 'detail_id', :Detail, options)
+#    replace_with_url(json, 'instance_id', :Instance, options)
+#    
+#    return json.to_json
+#  end
 
 end

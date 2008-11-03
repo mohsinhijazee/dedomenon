@@ -40,19 +40,19 @@ class AccountTypeValue < ActiveRecord::Base
   
   attr_readonly :id
   
-  def to_json(options = {})
-    return super(options)
-    
-#    json = super.to_json(options)
-#    base_url = 'http://localhost:3000/'
+#  def to_json(options = {})
+#    return super(options)
 #    
-#    json.gsub!(/("id":\s+\d+)/, '"url": ' + 
-#        '"' + base_url + "account_types/#{account_type_id}/account_type_values/#{id}" + '"')
+##    json = super.to_json(options)
+##    base_url = 'http://localhost:3000/'
+##    
+##    json.gsub!(/("id":\s+\d+)/, '"url": ' + 
+##        '"' + base_url + "account_types/#{account_type_id}/account_type_values/#{id}" + '"')
+##    
+##    json.gsub!(/("account_type_id":\s+\d+)/, '"url": ' + 
+##        '"' + base_url + "account_types/#{account_type_id}" + '"')
+##    
+##    return json
 #    
-#    json.gsub!(/("account_type_id":\s+\d+)/, '"url": ' + 
-#        '"' + base_url + "account_types/#{account_type_id}" + '"')
-#    
-#    return json
-    
-  end
+#  end
 end
