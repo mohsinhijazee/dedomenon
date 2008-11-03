@@ -10,4 +10,29 @@ class Test::Unit::TestCase
   self.use_instantiated_fixtures  = false
 
   # Add more helper methods to be used by all tests here...
+  
+  
+  # *Description*
+  # This method takes an active reocrd model, and a hash that represents same
+  # obejcts with its fields. it checks if both are same or not.
+  #
+  def assert_similar(model, hash)
+    hash = JSON.parse(hash) if hash.is_a? String
+    
+    # Remove the root element!
+    if hash.keys.length == 1
+      hash = hash[hash.keys[0]]
+    end
+    assert model, "assert_same: Model is nil!"
+    assert hash,  "assert_same: Hash is nil!"
+    assert model.is_a?(ActiveRecord::Base), "assert_same: Model is not an ActiveReocrd object!"
+    assert hash.is_a?(Hash), "assert_same: Model is not a Hash!"
+    
+    # For each of the attributes:
+    model.attributes.each do |attr, value|
+      assert_equal value, hash[attr], "#{model.class.name}#{attr} differs!"
+    end
+    
+  end
+  
 end
