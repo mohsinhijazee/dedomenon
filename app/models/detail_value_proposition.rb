@@ -52,12 +52,12 @@ class DetailValueProposition < ActiveRecord::Base
     end
   end
   
-  def to_json(options = {})
-    
-    json = JSON.parse(super(options))
-    replace_with_url(json, 'id', :DetailValueProposition, options)
-    replace_with_url(json, 'detail_id', :Detail, options)
-    
-    return json.to_json
-  end
+#  def to_json(options = {})
+#    
+#    json = JSON.parse(super(options))
+#    replace_with_url(json, 'id', :DetailValueProposition, options)
+#    replace_with_url(json, 'detail_id', :Detail, options)
+#    
+#    return json.to_json
+#  end
 end
