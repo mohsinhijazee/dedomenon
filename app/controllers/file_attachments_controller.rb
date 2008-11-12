@@ -34,27 +34,22 @@ class FileAttachmentsController < ApplicationController
   #   At last, the user is redirected to the download URL.
   #FIXME: Make the error reporting more elegant.
   def download
-    detail_value_id = params["id"]
-    attachment = DetailValue.find params[:id]
-    #attachment = FileAttachment.find params["id"]
     
-    if !['FileAttachment', 'S3Attachment'].include? attachment.type.to_s
-      render :text => "DetailValue #{params['id']} not found", :status => 404 and return
-    end
     
-    file_path = attachment.local_instance_path + "/#{attachment.id.to_s}"
-    file_props = attachment.value
+    begin
+      attachment = DetailValue.find params[:id]
+      file_path = attachment.local_instance_path + "/#{attachment.id.to_s}"
+      file_props = attachment.value
     
-    if attachment.type.to_s == 'FileAttachment'
-      begin
-        send_file file_path, :filename => file_props[:filename], 
-						 :type => file_props[:filetype]
-      rescue Exception => e
-        render :text => e.message, :status => 500
+      if attachment.type.to_s == 'FileAttachment'
+          send_file file_path, :filename => file_props[:filename], 
+          		 :type => file_props[:filetype]
+      else
+        redirect_to attachment.download_url
       end
       
-    elsif attachment.type.to_s == 'S3Attachment'
-      redirect_to attachment.download_url
+    rescue Exception => e
+      render :text => e.message, :status => 500
     end
 
   end
