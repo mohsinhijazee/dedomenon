@@ -30,7 +30,11 @@ class Test::Unit::TestCase
     
     # For each of the attributes:
     model.attributes.each do |attr, value|
-      assert_equal value, hash[attr], "#{model.class.name}#{attr} differs!"
+      # skip date and time things for now
+      if hash.has_key? attr
+        hash[attr] = value.class.parse hash[attr] if [Date, DateTime, Time].include? value.class
+        assert_equal value, hash[attr], "#{model.class.name}##{attr} differs!" if hash.has_key?(attr)
+      end
     end
     
   end
