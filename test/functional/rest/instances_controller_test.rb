@@ -106,8 +106,9 @@ self.use_transactional_fixtures = false
     ###################################################################
     get :index, {:format => 'json', #'start-index' => 0, 'max-results' => 1,
       :entity_id => entity}, {'user' => user}
-    assert_response :success
     #assert_equal '', @response.body
+    assert_response :success
+    
     JSON.parse(@response.body)
     
     entity = 979774 #100
@@ -166,7 +167,7 @@ self.use_transactional_fixtures = false
     #assert_equal '', @response.body
     assert_response 200
     result = @response.body
-    result = JSON.parse(result)['resource_parcel']
+    result = JSON.parse(result)
     assert_equal max_results, result['resources'].length
     assert_equal total_records, result['total_resources'].to_i
     
@@ -192,7 +193,7 @@ self.use_transactional_fixtures = false
     #assert_equal '', @response.body
     assert_response 200
     result = @response.body
-    result = JSON.parse(result)['resource_parcel']
+    result = JSON.parse(result)
     assert_equal 2, result['resources'].length
     assert_equal 'desc', result['direction']
     #assert_equal 201, result['resources'][0]['url'].chomp('.json')[/\d+$/].to_i
@@ -214,7 +215,7 @@ self.use_transactional_fixtures = false
     #assert_equal '', @response.body
     assert_response 200
     result = @response.body
-    result = JSON.parse(result)['resource_parcel']
+    result = JSON.parse(result)
     assert_equal 2, result['resources'].length
     assert_equal 'asc', result['direction']
     #assert_equal 200, result['resources'][0]['url'].chomp('.json')[/\d+$/].to_i
@@ -648,7 +649,7 @@ self.use_transactional_fixtures = false
 
     post :create, {:format => 'json', :entity_id => entity, :instance => instances.to_json},
       {'user' => user}
-    response_body = JSON.parse(@response.body)['error']['message']
+    response_body = JSON.parse(@response.body)['message']
     post_count = Instance.count
     assert_equal 0, post_count - pre_count
     assert_equal json, response_body
@@ -805,11 +806,13 @@ self.use_transactional_fixtures = false
                     :format => 'json',
                     :instance => json },
                     {'user' => user}
-                  
-    assert_response 201
+    
     #assert_equal '', @response.body
+    assert_response 201
+    
     
     get :show, {:id => 202, :format => 'json'}, {'user' => user}
+    #assert_equal '', @response.body
     assert_response 200
     json = JSON.parse @response.body
     
@@ -895,7 +898,7 @@ self.use_transactional_fixtures = false
     post_instance = Instance.count
     post_detail_value = DetailValue.count
     
-    response_body = JSON.parse(@response.body)['error']['message']
+    response_body = JSON.parse(@response.body)['message']
     assert_response 400
     assert_equal 0, post_instance - pre_instance
     assert_equal 0, post_detail_value - pre_detail_value
@@ -1052,7 +1055,7 @@ self.use_transactional_fixtures = false
     post_count = DetailValue.count
     json = "Provide lock_version for detail value #{description}"
     assert_response 400
-    response_body = JSON.parse(@response.body)['error']['message']
+    response_body = JSON.parse(@response.body)['message']
     assert_equal json, response_body
     assert_equal 0, post_count - pre_count
     
@@ -1097,7 +1100,7 @@ self.use_transactional_fixtures = false
     put :update, {:format => 'json', :id => instance, :instance => resource.to_json}, {'user' => user}
     post_count = DetailValue.count
     json = "Detail 'Pages' does not have a value with ID 4785"
-    response_body = JSON.parse(@response.body)['error']['message']
+    response_body = JSON.parse(@response.body)['message']
     assert_equal json, response_body
     assert_response 400
     assert_equal 0, post_count - pre_count
@@ -1223,7 +1226,7 @@ self.use_transactional_fixtures = false
     get :show, {:format => 'json', :id => id}, {'user' => user}
     #assert_equal '', @response.body
     
-    resource = JSON.parse(@response.body)['instance']
+    resource = JSON.parse(@response.body)
     
     
     #resource['Name'].push( [{:value => 'TEST NAME 1'}, {:value => 'TEST NAME 2'}])
@@ -1247,7 +1250,7 @@ self.use_transactional_fixtures = false
     res_name = 'instance'
     
     get :show, {:format => 'json', :id => id}, {'user' => user}
-    resource = JSON.parse(@response.body)['instance']
+    resource = JSON.parse(@response.body)
     
     resource['name'] = [{:value => 'VAL1'}, {:value => 'VAL2'}, ]
     resource['url'] = 'http://localhost:300/instances/' + res_id.to_s + '.json'
@@ -1266,26 +1269,26 @@ self.use_transactional_fixtures = false
     res_name = 'instance'
     
     get :show, {:format => 'json', :id => id}, {'user' => user}
-    resource1 = JSON.parse(@response.body)['instance']
+    resource1 = JSON.parse(@response.body)
     
     resource1['Name'][0]['value'] = 'GET AND PUT TEST'
     
     get :show, {:format => 'json', :id => id}, {'user' => user}
-    resource2 = JSON.parse(@response.body)['instance']
+    resource2 = JSON.parse(@response.body)
     
     resource2['Name'][0]['value'] = 'GET AND PUT TEST8'
     
     put :update, {:format => 'json', :id => id, res_name => resource1.to_json}, {'user' => user}
     #assert_equal '', @response.body
     assert_response 200
-    new_val = JSON.parse(@response.body)['instance']
+    new_val = JSON.parse(@response.body)
     #assert_equal new_val, ''
     assert_equal resource1['Name'][0]['value'], new_val['Name'][0]['value']
     
     json = "Attempted to update a stale object"
     put :update, {:format => 'json', :id => id, res_name => resource2.to_json}, {'user' => user}
     assert_response 409
-    response_body = JSON.parse(@response.body)['error']['message']
+    response_body = JSON.parse(@response.body)['message']
     assert_equal json, response_body
     
     
@@ -1300,7 +1303,7 @@ self.use_transactional_fixtures = false
     id = 200
     get :show, {:format => 'json', :id => id}, {'user' => user}
     assert_response :success
-    instance = JSON.parse(@response.body)['instance']
+    instance = JSON.parse(@response.body)
     
     # Get a detail value, modify and save
     value_id = 1200
@@ -1314,7 +1317,7 @@ self.use_transactional_fixtures = false
     json = 'Attempted to update a stale object'
     put :update, {:format => 'json', :id => id, :instance => instance.to_json}, {'user' => user}
     assert_response 409
-    response_body = JSON.parse(@response.body)['error']['message']
+    response_body = JSON.parse(@response.body)['message']
     assert_equal json, response_body
     
     # Check version statys the same for instance
@@ -1470,7 +1473,7 @@ self.use_transactional_fixtures = false
     klass = Instance
     
     get :show, {:format => 'json', :id => id}, {'user' => user}
-    resource = JSON.parse(@response.body)['instance']
+    resource = JSON.parse(@response.body)
     
     lock_version = resource['lock_version']
     
@@ -1482,7 +1485,7 @@ self.use_transactional_fixtures = false
     delete :destroy, {:format => 'json', :id => id, :lock_version => lock_version}, {'user' => user}
     post_count = klass.count
     assert_response 409
-    response_body = JSON.parse(@response.body)['error']['message']
+    response_body = JSON.parse(@response.body)['message']
     assert_equal 0, post_count - pre_count
     assert_equal json, response_body
   end
