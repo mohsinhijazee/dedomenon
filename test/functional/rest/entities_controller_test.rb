@@ -147,7 +147,7 @@ class EntitiesControllerTest < Test::Unit::TestCase
     json = Entity.find(:all, :conditions => ["database_id = ?", db])
     get :index, {:database_id => db, :format => 'json'}, {'user' => user}
     assert_response :success
-    result = JSON.parse(@response.body)['resource_parcel']
+    result = JSON.parse(@response.body)
     assert_equal json.length, result['resources'].length, "JSON not equal!"
     
     
@@ -195,7 +195,7 @@ class EntitiesControllerTest < Test::Unit::TestCase
     #assert_equal '', @response.body
     assert_response 200
     result = @response.body
-    result = JSON.parse(result)['resource_parcel']
+    result = JSON.parse(result)
     assert_equal 10, result['resources'].length
     assert_equal total_records, result['total_resources']
     
@@ -218,7 +218,7 @@ class EntitiesControllerTest < Test::Unit::TestCase
     #assert_equal '', @response.body
     assert_response 200
     result = @response.body
-    result = JSON.parse(result)['resource_parcel']
+    result = JSON.parse(result)
     assert_equal 10, result['resources'].length
     assert_equal 'desc', result['direction']
     
@@ -239,7 +239,7 @@ class EntitiesControllerTest < Test::Unit::TestCase
     #assert_equal '', @response.body
     assert_response 200
     result = @response.body
-    result = JSON.parse(result)['resource_parcel']
+    result = JSON.parse(result)
     assert_equal max_results, result['resources'].length
     assert_equal 'asc', result['direction']
     
@@ -260,7 +260,7 @@ class EntitiesControllerTest < Test::Unit::TestCase
     #assert_equal '', @response.body
     assert_response 200
     result = @response.body
-    result = JSON.parse(result)['resource_parcel']
+    result = JSON.parse(result)
     assert_equal 1, result['resources'].length
     assert_equal 'asc', result['direction']
     
@@ -537,7 +537,7 @@ class EntitiesControllerTest < Test::Unit::TestCase
     res_name = 'entity'
     
     get :show, {:format => 'json', :id => id}, {'user' => user}
-    resource = JSON.parse(@response.body)['entity']
+    resource = JSON.parse(@response.body)
     
     
     resource['name'] = 'GET AND PUT TEST'
@@ -546,7 +546,7 @@ class EntitiesControllerTest < Test::Unit::TestCase
     #assert_equal '', @response.body
     
     assert_response 200
-    new_val = JSON.parse(@response.body)['entity']
+    new_val = JSON.parse(@response.body)
     assert_equal resource['name'], new_val['name']    
     
   end
@@ -559,7 +559,7 @@ class EntitiesControllerTest < Test::Unit::TestCase
     res_name = 'entity'
     
     get :show, {:format => 'json', :id => id}, {'user' => user}
-    resource = JSON.parse(@response.body)['entity']
+    resource = JSON.parse(@response.body)
     
     resource['name'] = 'GET AND PUT TEST'
     resource['url'] = 'http://localhost:300/entities/' + res_id.to_s + '.json'
@@ -577,25 +577,25 @@ class EntitiesControllerTest < Test::Unit::TestCase
     res_name = 'entity'
     
     get :show, {:format => 'json', :id => id}, {'user' => user}
-    resource1 = JSON.parse(@response.body)['entity']
+    resource1 = JSON.parse(@response.body)
     
     resource1['name'] = 'GET AND PUT TEST'
     
     get :show, {:format => 'json', :id => id}, {'user' => user}
-    resource2 = JSON.parse(@response.body)['entity']
+    resource2 = JSON.parse(@response.body)
     
     resource2['name'] = 'GET AND PUT TEST8'
     
     put :update, {:format => 'json', :id => id, res_name => resource1.to_json}, {'user' => user}
     #assert_equal '', @response.body
     assert_response 200
-    new_val = JSON.parse(@response.body)['entity']
+    new_val = JSON.parse(@response.body)
     assert_equal resource1['name'], new_val['name']    
     
     message = "Attempted to update a stale object"
     put :update, {:format => 'json', :id => id, res_name => resource2.to_json}, {'user' => user}
     assert_response 409
-    assert_equal message, JSON.parse(@response.body)['error']['message']
+    assert_equal message, JSON.parse(@response.body)['message']
     
     
     
@@ -829,7 +829,7 @@ class EntitiesControllerTest < Test::Unit::TestCase
     klass = Entity
     
     get :show, {:format => 'json', :id => id}, {'user' => user}
-    resource = JSON.parse(@response.body)['entity']
+    resource = JSON.parse(@response.body)
     
     lock_version = resource['lock_version']
     
@@ -842,7 +842,7 @@ class EntitiesControllerTest < Test::Unit::TestCase
     post_count = klass.count
     assert_response 409
     assert_equal 0, post_count - pre_count
-    assert_equal message, JSON.parse(@response.body)['error']['message']
+    assert_equal message, JSON.parse(@response.body)['message']
   end  
   
   def test_delete_without_version
