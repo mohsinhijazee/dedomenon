@@ -166,7 +166,7 @@ class DetailsControllerTest < Test::Unit::TestCase
     json = Detail.find(:all, :conditions => ["database_id=?", db], :order => "lower(name)")
     #assert_equal '', @response.body
     assert_response :success
-    result = JSON.parse(@response.body)['resource_parcel']
+    result = JSON.parse(@response.body)
     assert_equal json.length, result['resources'].length, 'JSON different'
     
     
@@ -201,7 +201,7 @@ class DetailsControllerTest < Test::Unit::TestCase
     get :index, {:format => 'json', :database_id => db}, {'user' => user}
     json = Detail.find(:all, :conditions => ["database_id=?", db], :order => "lower(name)")
     assert_response :success
-    result = JSON.parse(@response.body)['resource_parcel']
+    result = JSON.parse(@response.body)
     assert_equal json.length, result['resources'].length, 'JSON different'
     
     
@@ -233,7 +233,7 @@ class DetailsControllerTest < Test::Unit::TestCase
       end
     json = details #.to_json(:format => 'json')
     assert_response 200
-    result = JSON.parse(@response.body)['resource_parcel']
+    result = JSON.parse(@response.body)
     assert_equal json.length, result['resources'].length, 'JSON different'
 
     
@@ -263,7 +263,7 @@ class DetailsControllerTest < Test::Unit::TestCase
     details.collect! { |detail| detail if detail.entities.collect{ |entity2detail| entity2detail.entity_id.to_i}.include?(entity.to_i) }
     json = details #.to_json(:format => 'json')
     assert_response 200
-    result = JSON.parse(@response.body)['resource_parcel']
+    result = JSON.parse(@response.body)
     assert_equal json.length, result['resources'].length, 'JSON different'
     
     
@@ -346,7 +346,7 @@ class DetailsControllerTest < Test::Unit::TestCase
     #assert_equal '', @response.body
     assert_response 200
     result = @response.body
-    result = JSON.parse(result)['resource_parcel']
+    result = JSON.parse(result)
     assert_equal max_results, result['resources'].length
     assert_equal total_records, result['total_resources'].to_i
     
@@ -369,7 +369,7 @@ class DetailsControllerTest < Test::Unit::TestCase
     #assert_equal '', @response.body
     assert_response 200
     result = @response.body
-    result = JSON.parse(result)['resource_parcel']
+    result = JSON.parse(result)
     assert_equal 10, result['resources'].length
     assert_equal 'desc', result['direction']
     
@@ -390,7 +390,7 @@ class DetailsControllerTest < Test::Unit::TestCase
     #assert_equal '', @response.body
     assert_response 200
     result = @response.body
-    result = JSON.parse(result)['resource_parcel']
+    result = JSON.parse(result)
     assert_equal max_results, result['resources'].length
     assert_equal 'asc', result['direction']
     
@@ -410,7 +410,7 @@ class DetailsControllerTest < Test::Unit::TestCase
     #assert_equal '', @response.body
     assert_response 200
     result = @response.body
-    result = JSON.parse(result)['resource_parcel']
+    result = JSON.parse(result)
     assert_equal 1, result['resources'].length
     assert_equal 'asc', result['direction']
     
@@ -433,7 +433,7 @@ class DetailsControllerTest < Test::Unit::TestCase
     #assert_equal '', @response.body
     assert_response 200
     result = @response.body
-    result = JSON.parse(result)['resource_parcel']
+    result = JSON.parse(result)
     assert_equal 8, result['resources'].length
     assert_equal nil, result['direction']
     assert_equal nil.to_i, result['order_by'].to_i
@@ -1357,7 +1357,7 @@ class DetailsControllerTest < Test::Unit::TestCase
     res_name = 'detail'
     
     get :show, {:format => 'json', :id => id}, {'user' => user}
-    resource = JSON.parse(@response.body)['detail']
+    resource = JSON.parse(@response.body)
     
     
     resource['name'] = 'GET AND PUT TEST'
@@ -1366,7 +1366,7 @@ class DetailsControllerTest < Test::Unit::TestCase
     #assert_equal '', @response.body
     
     assert_response 200
-    new_val = JSON.parse(@response.body)['detail']
+    new_val = JSON.parse(@response.body)
     assert_equal resource['name'], new_val['name']    
     
   end
@@ -1379,7 +1379,7 @@ class DetailsControllerTest < Test::Unit::TestCase
     res_name = 'detail'
     
     get :show, {:format => 'json', :id => id}, {'user' => user}
-    resource = JSON.parse(@response.body)['detail']
+    resource = JSON.parse(@response.body)
     
     resource['name'] = 'GET AND PUT TEST'
     resource['url'] = 'http://localhost:300/details/' + res_id.to_s + '.json'
@@ -1397,19 +1397,19 @@ class DetailsControllerTest < Test::Unit::TestCase
     res_name = 'detail'
     
     get :show, {:format => 'json', :id => id}, {'user' => user}
-    resource1 = JSON.parse(@response.body)['detail']
+    resource1 = JSON.parse(@response.body)
     
     resource1['name'] = 'GET AND PUT TEST'
     
     get :show, {:format => 'json', :id => id}, {'user' => user}
-    resource2 = JSON.parse(@response.body)['detail']
+    resource2 = JSON.parse(@response.body)
     
     resource2['name'] = 'GET AND PUT TEST8'
     
     put :update, {:format => 'json', :id => id, res_name => resource1.to_json}, {'user' => user}
     #assert_equal '', @response.body
     assert_response 200
-    new_val = JSON.parse(@response.body)['detail']
+    new_val = JSON.parse(@response.body)
     assert_equal resource1['name'], new_val['name']    
     #assert_equal resource1['name'], new_val['lock_version']    
     
@@ -1421,7 +1421,7 @@ class DetailsControllerTest < Test::Unit::TestCase
     message = "Attempted to update a stale object"
     put :update, {:format => 'json', :id => id, res_name => resource2.to_json}, {'user' => user}
     assert_response 409
-    json = JSON.parse(@response.body)['error']['message']
+    json = JSON.parse(@response.body)['message']
     assert_equal message, json
     
     
@@ -1656,7 +1656,7 @@ class DetailsControllerTest < Test::Unit::TestCase
     klass = Detail
     
     get :show, {:format => 'json', :id => id}, {'user' => user}
-    resource = JSON.parse(@response.body)['detail']
+    resource = JSON.parse(@response.body)
     
     lock_version = resource['lock_version']
     
@@ -1668,7 +1668,7 @@ class DetailsControllerTest < Test::Unit::TestCase
     delete :destroy, {:format => 'json', :id => id, :lock_version => lock_version}, {'user' => user}
     post_count = klass.count    
     assert_response 409
-    json = JSON.parse(@response.body)['error']['message']
+    json = JSON.parse(@response.body)['message']
     assert_equal 0, post_count - pre_count
     assert_equal message, json
   end
