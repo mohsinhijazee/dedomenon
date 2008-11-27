@@ -134,7 +134,7 @@ class DatabasesControllerTest < Test::Unit::TestCase
     
     # We suceed?
     assert_response 200
-    result = JSON.parse(@response.body)['resource_parcel']
+    result = JSON.parse(@response.body)
     # The JSONs are same?
     assert_equal json.length, result['resources'].length, "The expected JSON and reutrn JSON not equal"
     
@@ -150,7 +150,7 @@ class DatabasesControllerTest < Test::Unit::TestCase
     json = Database.find(:all, :conditions => ["account_id = ?", user.account_id])
     get :index, {:format => 'json', :account_id => account_id}, {'user' => user}  
     assert_response 200
-    result = JSON.parse(@response.body)['resource_parcel']
+    result = JSON.parse(@response.body)
     assert_equal json.length, result['resources'].length, "The expected JSON and reutrn JSON not equal"
     
     
@@ -200,7 +200,7 @@ class DatabasesControllerTest < Test::Unit::TestCase
     #assert_equal '', @response.body
     assert_response 200
     result = @response.body
-    result = JSON.parse(result)['resource_parcel']
+    result = JSON.parse(result)
     assert_equal 4, result['resources'].length
     assert_equal total_records, result['total_resources']
     
@@ -223,7 +223,7 @@ class DatabasesControllerTest < Test::Unit::TestCase
     #assert_equal '', @response.body
     assert_response 200
     result = @response.body
-    result = JSON.parse(result)['resource_parcel']
+    result = JSON.parse(result)
     assert_equal 4, result['resources'].length
     assert_equal 'desc', result['direction']
     
@@ -244,7 +244,7 @@ class DatabasesControllerTest < Test::Unit::TestCase
     #assert_equal '', @response.body
     assert_response 200
     result = @response.body
-    result = JSON.parse(result)['resource_parcel']
+    result = JSON.parse(result)
     assert_equal result['resources_returned'], result['resources'].length
     assert_equal 'asc', result['direction']
     
@@ -265,7 +265,7 @@ class DatabasesControllerTest < Test::Unit::TestCase
     #assert_equal '', @response.body
     assert_response 200
     result = @response.body
-    result = JSON.parse(result)['resource_parcel']
+    result = JSON.parse(result)
     assert_equal 1, result['resources'].length
     assert_equal 'asc', result['direction']
     
@@ -536,14 +536,14 @@ class DatabasesControllerTest < Test::Unit::TestCase
     res_name = 'database'
     
     get :show, {:format => 'json', :id => id}, {'user' => user}
-    resource = JSON.parse(@response.body)['database']
+    resource = JSON.parse(@response.body)
     
     resource['name'] = 'GET AND PUT TEST'
     
     put :update, {:format => 'json', :id => 1, res_name => resource.to_json}, {'user' => user}
     #assert_equal '', @response.body
     assert_response 200
-    new_val = JSON.parse(@response.body)['database']
+    new_val = JSON.parse(@response.body)
     assert_equal resource['name'], new_val['name']    
     
   end
@@ -556,7 +556,7 @@ class DatabasesControllerTest < Test::Unit::TestCase
     res_name = 'database'
     
     get :show, {:format => 'json', :id => id}, {'user' => user}
-    resource = JSON.parse(@response.body)['database']
+    resource = JSON.parse(@response.body)
     
     resource['name'] = 'GET AND PUT TEST'
     resource['url'] = 'http://localhost:300/databases/' + res_id.to_s + '.json'
@@ -574,24 +574,24 @@ class DatabasesControllerTest < Test::Unit::TestCase
     res_name = 'database'
     
     get :show, {:format => 'json', :id => id}, {'user' => user}
-    resource1 = JSON.parse(@response.body)['database']
+    resource1 = JSON.parse(@response.body)
     
     resource1['name'] = 'GET AND PUT TEST'
     
     get :show, {:format => 'json', :id => id}, {'user' => user}
-    resource2 = JSON.parse(@response.body)['database']
+    resource2 = JSON.parse(@response.body)
     
     resource2['name'] = 'GET AND PUT TEST8'
     
     put :update, {:format => 'json', :id => 1, res_name => resource1.to_json}, {'user' => user}
     assert_response 200
-    new_val = JSON.parse(@response.body)['database']
+    new_val = JSON.parse(@response.body)
     assert_equal resource1['name'], new_val['name']    
     
     message = "Attempted to update a stale object"
     put :update, {:format => 'json', :id => 1, res_name => resource2.to_json}, {'user' => user}
     assert_response 409
-    assert_equal message, JSON.parse(@response.body)['error']['message']
+    assert_equal message, JSON.parse(@response.body)['message']
     
     
     
@@ -733,7 +733,7 @@ class DatabasesControllerTest < Test::Unit::TestCase
     klass = Database
     
     get :show, {:format => 'json', :id => id}, {'user' => user}
-    resource = JSON.parse(@response.body)['database']
+    resource = JSON.parse(@response.body)
     
     lock_version = resource['lock_version']
     
@@ -746,7 +746,7 @@ class DatabasesControllerTest < Test::Unit::TestCase
     post_count = klass.count
     assert_response 409
     assert_equal 0, post_count - pre_count
-    assert_equal message, JSON.parse(@response.body)['error']['message']
+    assert_equal message, JSON.parse(@response.body)['message']
   end
   
   def test_delete_with_lock_missing
@@ -780,7 +780,7 @@ class DatabasesControllerTest < Test::Unit::TestCase
     
     delete :destroy, {:format => 'json', :id => database, :lock_version => lock_version}, {'user' => user}
     assert_response 409
-    assert_equal message, JSON.parse(@response.body)['error']['message']
+    assert_equal message, JSON.parse(@response.body)['message']
     
   end
   
