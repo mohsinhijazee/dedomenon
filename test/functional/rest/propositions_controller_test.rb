@@ -103,7 +103,7 @@ class Rest::Propositions < Test::Unit::TestCase
     json = DetailValueProposition.find(:all, :conditions => ["detail_id=?", detail])
     get :index, {:format => 'json', :detail_id => detail}, {'user' => user}
     assert_response :success
-    result = JSON.parse(@response.body)['resource_parcel']
+    result = JSON.parse(@response.body)
     assert_equal json.length, result['resources'].length
     
     
@@ -167,7 +167,7 @@ class Rest::Propositions < Test::Unit::TestCase
     #assert_equal '', @response.body
     assert_response 200
     result = @response.body
-    result = JSON.parse(result)['resource_parcel']
+    result = JSON.parse(result)
     assert_equal max_results, result['resources'].length
     assert_equal total_records, result['total_resources']
     
@@ -192,7 +192,7 @@ class Rest::Propositions < Test::Unit::TestCase
     #assert_equal '', @response.body
     assert_response 200
     result = @response.body
-    result = JSON.parse(result)['resource_parcel']
+    result = JSON.parse(result)
     assert_equal max_results, result['resources'].length
     assert_equal 'desc', result['direction']
     
@@ -213,7 +213,7 @@ class Rest::Propositions < Test::Unit::TestCase
     #assert_equal '', @response.body
     assert_response 200
     result = @response.body
-    result = JSON.parse(result)['resource_parcel']
+    result = JSON.parse(result)
     assert_equal max_results, result['resources'].length
     assert_equal 'asc', result['direction']
     
@@ -234,7 +234,7 @@ class Rest::Propositions < Test::Unit::TestCase
     #assert_equal '', @response.body
     assert_response 200
     result = @response.body
-    result = JSON.parse(result)['resource_parcel']
+    result = JSON.parse(result)
     assert_equal 1, result['resources'].length
     assert_equal 'asc', result['direction']
    
@@ -354,7 +354,7 @@ class Rest::Propositions < Test::Unit::TestCase
     post_count = DetailValueProposition.count
     assert_response 201
     
-    json = JSON.parse(@response.body)['url']
+    json = JSON.parse(@response.body)
     assert_equal Array, json.class
     assert_equal 5, json.length
     assert_equal 5, post_count - pre_count
@@ -429,7 +429,7 @@ class Rest::Propositions < Test::Unit::TestCase
       {'user' => user}
     post_count = DetailValueProposition.count
     assert_response 201
-    json = JSON.parse(@response.body)['url']
+    json = JSON.parse(@response.body)
     assert_equal Array, json.class
     assert_equal 5, json.length
     assert_equal 5, post_count - pre_count
@@ -651,13 +651,13 @@ class Rest::Propositions < Test::Unit::TestCase
     res_name = 'detail_value_proposition'
     
     get :show, {:format => 'json', :id => id}, {'user' => user}
-    resource = JSON.parse(@response.body)['proposition']
+    resource = JSON.parse(@response.body)
     
     resource['value'] = 'GET AND PUT TEST'
     
     put :update, {:format => 'json', :id => id, res_name => resource.to_json}, {'user' => user}
     assert_response 200
-    new_val = JSON.parse(@response.body)['proposition']
+    new_val = JSON.parse(@response.body)
     assert_equal resource['value'], new_val['value']    
     
   end
@@ -670,7 +670,7 @@ class Rest::Propositions < Test::Unit::TestCase
     res_name = 'detail_value_proposition'
     
     get :show, {:format => 'json', :id => id}, {'user' => user}
-    resource = JSON.parse(@response.body)['proposition']
+    resource = JSON.parse(@response.body)
     
     resource['value'] = 'GET AND PUT TEST'
     resource['url'] = 'http://localhost:300/databases/' + res_id.to_s + '.json'
@@ -688,25 +688,25 @@ class Rest::Propositions < Test::Unit::TestCase
     res_name = 'detail_value_proposition'
     
     get :show, {:format => 'json', :id => id}, {'user' => user}
-    resource1 = JSON.parse(@response.body)['proposition']
+    resource1 = JSON.parse(@response.body)
     
     resource1['value'] = 'GET AND PUT TEST'
     
     get :show, {:format => 'json', :id => id}, {'user' => user}
-    resource2 = JSON.parse(@response.body)['proposition']
+    resource2 = JSON.parse(@response.body)
     
     resource2['value'] = 'GET AND PUT TEST8'
     
     put :update, {:format => 'json', :id => id, res_name => resource1.to_json}, {'user' => user}
     #assert_equal '', @response.body
     assert_response 200
-    new_val = JSON.parse(@response.body)['proposition']
+    new_val = JSON.parse(@response.body)
     assert_equal resource1['value'], new_val['value']    
     
     msg ="Attempted to update a stale object"
     put :update, {:format => 'json', :id => id, res_name => resource2.to_json}, {'user' => user}
     assert_response 409
-    assert_equal msg, JSON.parse(@response.body)['error']['message']
+    assert_equal msg, JSON.parse(@response.body)['message']
     
     
     
@@ -772,7 +772,7 @@ class Rest::Propositions < Test::Unit::TestCase
     
     get :show, {:format => 'json', :id => id}, {'user' => user}
     assert_response 200
-    resource = JSON.parse(@response.body)['proposition']
+    resource = JSON.parse(@response.body)
     
     #assert_equal '', resource.to_json
     lock_version = resource['lock_version']
@@ -787,7 +787,7 @@ class Rest::Propositions < Test::Unit::TestCase
     #assert_equal '', @response.body
     assert_response 409
     assert_equal 0, post_count - pre_count
-    assert_equal msg, JSON.parse(@response.body)['error']['message']
+    assert_equal msg, JSON.parse(@response.body)['message']
   end
   
   def test_delete_without_lock_version
