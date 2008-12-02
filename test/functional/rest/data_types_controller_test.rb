@@ -77,7 +77,7 @@ class DataTypesControllerTest < Test::Unit::TestCase
     json = DataType.find(:all)
     get :index, {:format => 'json'}, {'user' => user}
     assert_response :success
-    result = JSON.parse(@response.body)['resource_parcel']
+    result = JSON.parse(@response.body)
     assert_equal json.length, result['resources'].length
     
   end
@@ -117,7 +117,7 @@ class DataTypesControllerTest < Test::Unit::TestCase
     #assert_equal '', @response.body
     assert_response 200
     result = @response.body
-    result = JSON.parse(result)['resource_parcel']
+    result = JSON.parse(result)
     assert_equal max_results, result['resources'].length
     assert_equal total_records, result['total_resources']
     
@@ -142,7 +142,7 @@ class DataTypesControllerTest < Test::Unit::TestCase
     #assert_equal '', @response.body
     assert_response 200
     result = @response.body
-    result = JSON.parse(result)['resource_parcel']
+    result = JSON.parse(result)
     assert_equal max_results, result['resources'].length
     assert_equal 'desc', result['direction']
     
@@ -163,7 +163,7 @@ class DataTypesControllerTest < Test::Unit::TestCase
     #assert_equal '', @response.body
     assert_response 200
     result = @response.body
-    result = JSON.parse(result)['resource_parcel']
+    result = JSON.parse(result)
     assert_equal max_results, result['resources'].length
     assert_equal 'asc', result['direction']
     
@@ -184,7 +184,7 @@ class DataTypesControllerTest < Test::Unit::TestCase
     #assert_equal '', @response.body
     assert_response 200
     result = @response.body
-    result = JSON.parse(result)['resource_parcel']
+    result = JSON.parse(result)
     assert_equal 1, result['resources'].length
     assert_equal 'asc', result['direction']
    
