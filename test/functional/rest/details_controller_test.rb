@@ -224,7 +224,6 @@ class DetailsControllerTest < Test::Unit::TestCase
     # Get all the details of a an entitty with all correct
     #######################################################################
     get :index, {:format => 'json', :entity_id => entity}, {'user' => user}
-    
     entity = Entity.find(entity, :include=> :entity_details)
       
       details = []

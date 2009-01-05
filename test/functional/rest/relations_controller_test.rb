@@ -140,7 +140,7 @@ class RelationsControllerTest < Test::Unit::TestCase
     get :index, {:format => 'json', :entity_id => entity}, { 'user' => user }
     json = Relation.find(:all, :conditions => ["parent_id = ? or child_id = ?", entity, entity])
     assert_response :success
-    result = JSON.parse(@response.body)['resource_parcel']
+    result = JSON.parse(@response.body)
     assert_equal json.length, result['resources'].length
     
     
@@ -203,7 +203,7 @@ class RelationsControllerTest < Test::Unit::TestCase
     #assert_equal '', @response.body
     assert_response 200
     result = @response.body
-    result = JSON.parse(result)['resource_parcel']
+    result = JSON.parse(result)
     assert_equal max_results, result['resources'].length
     assert_equal total_records, result['total_resources']
     
@@ -228,7 +228,7 @@ class RelationsControllerTest < Test::Unit::TestCase
     #assert_equal '', @response.body
     assert_response 200
     result = @response.body
-    result = JSON.parse(result)['resource_parcel']
+    result = JSON.parse(result)
     assert_equal max_results, result['resources'].length
     assert_equal 'desc', result['direction']
     assert_equal 9, result['resources'][0]['url'].chomp('.json')[/\d+$/].to_i
@@ -250,7 +250,7 @@ class RelationsControllerTest < Test::Unit::TestCase
     #assert_equal '', @response.body
     assert_response 200
     result = @response.body
-    result = JSON.parse(result)['resource_parcel']
+    result = JSON.parse(result)
     assert_equal max_results, result['resources'].length
     assert_equal 'asc', result['direction']
     assert_equal 7, result['resources'][0]['url'].chomp('.json')[/\d+$/].to_i
@@ -272,7 +272,7 @@ class RelationsControllerTest < Test::Unit::TestCase
     #assert_equal '', @response.body
     assert_response 200
     result = @response.body
-    result = JSON.parse(result)['resource_parcel']
+    result = JSON.parse(result)
     assert_equal 1, result['resources'].length
     assert_equal 'asc', result['direction']
    
@@ -1255,7 +1255,7 @@ class RelationsControllerTest < Test::Unit::TestCase
     put :update, {:format => 'json', :id => relation, :relation => resource.to_json}, {'user' => user}
     assert_response :success
     json = @response.body
-    json = JSON.parse(json)['relation']
+    json = JSON.parse(json)
     assert_equal json['from_parent_to_child_name'], 'PARENT'
     assert_equal json['from_child_to_parent_name'], 'CHILD'
     
@@ -1333,7 +1333,7 @@ class RelationsControllerTest < Test::Unit::TestCase
     put :update, {:format => 'json', :entity_id => entity, :id => relation, :relation => resource.to_json}, {'user' => user}
     assert_response :success
     json = @response.body
-    json = JSON.parse(json)['relation']
+    json = JSON.parse(json)
     assert_equal json['from_parent_to_child_name'], 'PARENT'
     assert_equal json['from_child_to_parent_name'], 'CHILD'
     
@@ -1391,7 +1391,7 @@ class RelationsControllerTest < Test::Unit::TestCase
     
     get :show, {:format => 'json', :id => id}, {'user' => user}
     assert_response 200
-    resource = JSON.parse(@response.body)['relation']
+    resource = JSON.parse(@response.body)
     
     
     resource['from_parent_to_child_name'] = 'GET AND PUT TEST'
@@ -1400,7 +1400,7 @@ class RelationsControllerTest < Test::Unit::TestCase
     #assert_equal '', @response.body
     
     assert_response 200
-    new_val = JSON.parse(@response.body)['relation']
+    new_val = JSON.parse(@response.body)
     assert_equal resource['from_parent_to_child_name'], new_val['from_parent_to_child_name']    
     
   end
@@ -1413,7 +1413,7 @@ class RelationsControllerTest < Test::Unit::TestCase
     res_name = 'relation'
     
     get :show, {:format => 'json', :id => id}, {'user' => user}
-    resource = JSON.parse(@response.body)['relation']
+    resource = JSON.parse(@response.body)
     
     resource['from_parent_to_child_name'] = 'GET AND PUT TEST'
     resource['url'] = 'http://localhost:300/relations/' + res_id.to_s + '.json'
@@ -1432,32 +1432,32 @@ class RelationsControllerTest < Test::Unit::TestCase
     
     get :show, {:format => 'json', :id => id}, {'user' => user}
     assert_response :success
-    resource1 = JSON.parse(@response.body)['relation']
+    resource1 = JSON.parse(@response.body)
     
     resource1['from_parent_to_child_name'] = 'GET AND PUT TEST'
     
     get :show, {:format => 'json', :id => id}, {'user' => user}
     assert_response :success
-    resource2 = JSON.parse(@response.body)['relation']
+    resource2 = JSON.parse(@response.body)
     
     resource2['from_parent_to_child_name'] = 'GET AasddfasfND PUT TEST'
     
     put :update, {:format => 'json', :id => id, res_name => resource1.to_json}, {'user' => user}
     #assert_equal '', @response.body
     assert_response 200
-    new_val = JSON.parse(@response.body)['relation']
+    new_val = JSON.parse(@response.body)
     assert_equal resource1['name'], new_val['name']    
     
     msg = "Attempted to update a stale object"
     put :update, {:format => 'json', :id => id, res_name => resource2.to_json}, {'user' => user}
     assert_response 409
-    assert_equal msg, JSON.parse(@response.body)['error']['message']
+    assert_equal msg, JSON.parse(@response.body)['message']
     
     
     
     
   end
-  
+  \
   
   def test_delete
     # CASE 01: DELETE /relations/:id with all ok
@@ -1503,7 +1503,7 @@ class RelationsControllerTest < Test::Unit::TestCase
     get :show, {:format => 'json', :id => id}, {'user' => user}
     #assert_equal '', @response.body
     assert_response 200
-    resource = JSON.parse(@response.body)['relation']
+    resource = JSON.parse(@response.body)
     
     lock_version = resource['lock_version']
     
@@ -1516,7 +1516,8 @@ class RelationsControllerTest < Test::Unit::TestCase
     post_count = klass.count
     assert_response 409
     assert_equal 0, post_count - pre_count
-    assert_equal msg, JSON.parse(@response.body)['error']['message']
+    assert_equal msg, JSON.parse(@response.body)['message']
+    
   end
   
   def test_delete_with_entity_without_lock_version
