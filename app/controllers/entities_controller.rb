@@ -210,16 +210,17 @@ class EntitiesController < ApplicationController
     # this is the order collection of fields.
     @ordered_fields   = crosstab_result[:ordered_fields]
     
-    crosstab_count = CrosstabObject.connection.execute("select count(*) from #{crosstab_query} #{crosstab_filter}")[0][0]
+    
+    crosstab_count = CrosstabObject.connection.execute("select count(*) from #{crosstab_query} #{crosstab_filter}")[0]['count']
     list_length = MadbSettings.list_length
     if params["highlight"] and params["highlight"]!=""
       @instance = Instance.find params["highlight"]
       #highlight_count = CrosstabObject.connection.execute("select count(*) from #{crosstab_query} #{crosstab_filter} #{separator} id<#{CrosstabObject.connection.quote_string(params["highlight"].to_s)}")[0][0]
       #ERROR uploading empty file due to params["highlight"]
       value_query = "select #{order} from #{crosstab_query} #{crosstab_filter} #{separator} id=#{CrosstabObject.connection.quote_string(params["highlight"].to_s)}"
-      highlight_value = CrosstabObject.connection.execute(value_query)[0][0]
+      highlight_value = CrosstabObject.connection.execute(value_query)[0]['id']
       count_query = "select count(*) from #{crosstab_query} #{crosstab_filter} #{separator} #{order}<'#{CrosstabObject.connection.quote_string(highlight_value.to_s)}'"
-      highlight_count = CrosstabObject.connection.execute(count_query)[0][0]
+      highlight_count = CrosstabObject.connection.execute(count_query)[0]['count']
       
       page_number = (highlight_count.to_i/list_length)+1
     else
@@ -1002,18 +1003,18 @@ class EntitiesController < ApplicationController
     end
 
     if ids_to_keep.length>0
-      crosstab_count = CrosstabObject.connection.execute("select count(*) from #{crosstab_query} #{crosstab_filter}")[0][0]
+      crosstab_count = CrosstabObject.connection.execute("select count(*) from #{crosstab_query} #{crosstab_filter}")[0]['count']
       #use linked_count result to determine links display (to associate other entries)
-      linked_count = CrosstabObject.connection.execute("select count(*) from #{crosstab_query}  where id in (#{ids_to_keep}) ")[0][0]
+      linked_count = CrosstabObject.connection.execute("select count(*) from #{crosstab_query}  where id in (#{ids_to_keep}) ")[0]['count']
     else
       crosstab_count =0
     end
     separator = "and"
-    if crosstab_count.to_i>0
+    if crosstab_count.to_i > 0
       if params["highlight"]
       #  highlight_count = CrosstabObject.connection.execute("select count(*) from #{crosstab_query} #{crosstab_filter} and id<#{CrosstabObject.connection.quote_string(params["highlight"])}")[0][0]
-      highlight_value = CrosstabObject.connection.execute("select #{order} from #{crosstab_query} #{crosstab_filter} #{separator} id=#{CrosstabObject.connection.quote_string(params["highlight"].to_s)}")[0][0]
-      highlight_count = CrosstabObject.connection.execute("select count(*) from #{crosstab_query} #{crosstab_filter} #{separator} #{order}<'#{CrosstabObject.connection.quote_string(highlight_value.to_s)}'")[0][0]
+      highlight_value = CrosstabObject.connection.execute("select #{order} from #{crosstab_query} #{crosstab_filter} #{separator} id=#{CrosstabObject.connection.quote_string(params["highlight"].to_s)}")[0]['id']
+      highlight_count = CrosstabObject.connection.execute("select count(*) from #{crosstab_query} #{crosstab_filter} #{separator} #{order}<'#{CrosstabObject.connection.quote_string(highlight_value.to_s)}'")[0]['count']
         page_number = (highlight_count.to_i/10)+1
         response.headers["MYOWNDB_highlight"]  =  params["highlight"]
       else
