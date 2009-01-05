@@ -16,9 +16,9 @@ class Test::Unit::TestCase
   # This method takes an active reocrd model, and a hash that represents same
   # obejcts with its fields. it checks if both are same or not.
   #
-  def assert_similar(model, hash)
+  def assert_similar(model, hash, to_skip = [])
     hash = JSON.parse(hash) if hash.is_a? String
-    
+    to_skip.collect! {|attr| attr.to_s}
     # Remove the root element!
     if hash.keys.length == 1
       hash = hash[hash.keys[0]]
@@ -32,6 +32,7 @@ class Test::Unit::TestCase
     model.attributes.each do |attr, value|
       # skip date and time things for now
       if hash.has_key? attr
+        next if to_skip.include? attr.to_s
         hash[attr] = value.class.parse hash[attr] if [Date, DateTime, Time].include? value.class
         assert_equal value, hash[attr], "#{model.class.name}##{attr} differs!" if hash.has_key?(attr)
       end
