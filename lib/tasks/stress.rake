@@ -2,7 +2,7 @@
 # To change this template, choose Tools | Templates
 # and open the template in the editor.
  
-RAILS_ENV = ENV['RAILS_ENV'] = 'test'
+#RAILS_ENV = ENV['RAILS_ENV'] = 'test'
 MAX_ACCOUNTS = 1
 MAX_USERS = 1
 MAX_DATABASES = 1
