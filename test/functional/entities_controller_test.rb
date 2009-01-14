@@ -751,8 +751,9 @@ class EntitiesControllerTest < Test::Unit::TestCase
 		#check list order by looking at the ids order
     #FIXME: The order is not as expected. Why?
     # (Needs look into the joins and unions)
-		#assert_equal [92,81,72,74,90,85,84,83,94,82], ids
-    assert_equal [92, 81, 74, 72, 90, 85, 84, 83, 94, 86], ids
+    #[92, 81, 72, 74, 90, 85, 84, 83, 94, 86]
+	assert_equal [92,81,72,74,90,85,84,83,94,86], ids
+    #assert_equal [92, 81, 72, 74, 90, 85, 84, 83, 94, 86], ids
     #no order set
      assert_equal "nom", session["list_order"][assigns["list_id"]]
 
@@ -796,8 +797,8 @@ class EntitiesControllerTest < Test::Unit::TestCase
 		#check list order by looking at the ids order
     #FIXME: The order is not as expected. Investigate why?
     # (Needs a look into joins and unions)
-		#assert_equal [81,72,74], ids
-    assert_equal [81,74,72], ids
+    assert_equal [81,72,74], ids
+    #assert_equal [81,74,72], ids
     #ordered
      assert_equal "nom", session["list_order"][assigns["list_id"]]
 
@@ -888,7 +889,8 @@ class EntitiesControllerTest < Test::Unit::TestCase
     #FIXME: send_data does not sets HTTP Content-Type
 		#assert_equal "text/html; charset=UTF-8", @response.headers["Content-Type"]
 
-		instance_id = Instance.connection.execute("select last_value from instances_id_seq")[0]['last_value']
+		instance_row = Instance.connection.execute("select last_value from instances_id_seq")[0]
+		instance_id = instance_row[0] ? instance_row[0] : instance_row['last_value']
     instance = Instance.find instance_id
     assert_not_nil instance.created_at
 		# we highlight the created instance
@@ -920,7 +922,8 @@ class EntitiesControllerTest < Test::Unit::TestCase
 		#we get html back because insertion was successful 
     #FIXME: send_data does not set HTTP Content-Type
 		#assert_equal "text/html; charset=UTF-8", @response.headers["Content-Type"]
-		instance_id = Instance.connection.execute("select last_value from instances_id_seq")[0]['last_value']
+		instance_row = Instance.connection.execute("select last_value from instances_id_seq")[0]
+		instance_id = instance_row[0] ? instance_row[0] : instance_row['last_value']
 		# we highlight the created instance
 		assert_equal instance_id.to_i, @response.headers["MYOWNDB_highlight"]
 		# the row to be highlighted is present
@@ -951,7 +954,9 @@ class EntitiesControllerTest < Test::Unit::TestCase
     #FIXME: send_data does not set the HTTP Content-Type
 		#assert_equal "text/html; charset=UTF-8", @response.headers["Content-Type"]
     
-		instance_id = Instance.connection.execute("select last_value from instances_id_seq")[0]['last_value']
+    		instance_row =  Instance.connection.execute("select last_value from instances_id_seq")[0]
+		instance_id = instance_row[0] ? instance_row[0] : instance_row['last_value']
+
 		# we highlight the created instance
 		assert_equal instance_id.to_i, @response.headers["MYOWNDB_highlight"]
 		# the row to be highlighted is present
@@ -1159,7 +1164,8 @@ class EntitiesControllerTest < Test::Unit::TestCase
 
 
 		assert_response :redirect
-		instance_id = Instance.connection.execute("select last_value from instances_id_seq")[0]['last_value']
+		instance_row = Instance.connection.execute("select last_value from instances_id_seq")[0]
+		instance_id = instance_row[0] ? instance_row[0] : instance_row['last_value']
 		#we highlight the created entity
 		assert_redirected_to :controller => "entities", :action => "related_entities_list", :id => "74", :relation_id => 8, :type => "parents", :highlight => instance_id.to_i
 
