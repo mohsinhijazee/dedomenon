@@ -751,8 +751,8 @@ class EntitiesControllerTest < Test::Unit::TestCase
 		#check list order by looking at the ids order
     #FIXME: The order is not as expected. Why?
     # (Needs look into the joins and unions)
-	  #assert_equal [92,81,72,74,90,85,84,83,94,86], ids
-    assert_equal [92, 81, 74, 72, 90, 85, 84, 83, 94, 86], ids
+    assert_equal [92,81,72,74,90,85,84,83,94,86], ids
+    #assert_equal [92, 81, 74, 72, 90, 85, 84, 83, 94, 86], ids
     #no order set
      assert_equal "nom", session["list_order"][assigns["list_id"]]
 
@@ -796,8 +796,8 @@ class EntitiesControllerTest < Test::Unit::TestCase
 		#check list order by looking at the ids order
     #FIXME: The order is not as expected. Investigate why?
     # (Needs a look into joins and unions)
-    #assert_equal [81,72,74], ids
-    assert_equal [81,74,72], ids
+    assert_equal [81,72,74], ids
+    #assert_equal [81,74,72], ids
     #ordered
      assert_equal "nom", session["list_order"][assigns["list_id"]]
 
