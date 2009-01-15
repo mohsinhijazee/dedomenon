@@ -222,7 +222,7 @@ class EntitiesController < ApplicationController
       highlight_value = highlight_value_row[0] ? highlight_value_row[0] : highlight_value_row['id']
       count_query = "select count(*) from #{crosstab_query} #{crosstab_filter} #{separator} #{order}<'#{CrosstabObject.connection.quote_string(highlight_value.to_s)}'"
       highlight_row = CrosstabObject.connection.execute(count_query)[0]
-      highlight_count = highlight_row[0] ? highlight_row[0] : highlight['count']
+      highlight_count = highlight_row[0] ? highlight_row[0] : highlight_row['count']
       
       page_number = (highlight_count.to_i/list_length)+1
     else
