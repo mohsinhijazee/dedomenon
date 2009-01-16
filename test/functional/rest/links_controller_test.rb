@@ -98,7 +98,7 @@ class LinksControllerTest < Test::Unit::TestCase
     json = Link.find(:all, :conditions => ["parent_id = ? or child_id = ?", instance, instance])
     get :index , {:format => 'json', :instance_id => instance}, {'user' => user}
     assert_response :success
-    result = JSON.parse(@response.body)['resource_parcel']
+    result = JSON.parse(@response.body)
     assert_equal json.length, result['resources'].length
     
     
@@ -162,7 +162,9 @@ class LinksControllerTest < Test::Unit::TestCase
     #assert_equal '', @response.body
     assert_response 200
     result = @response.body
-    result = JSON.parse(result)['resource_parcel']
+
+    result = JSON.parse(result)
+
     assert_equal max_results, result['resources'].length
     assert_equal total_records, result['total_resources']
     
@@ -187,7 +189,9 @@ class LinksControllerTest < Test::Unit::TestCase
     #assert_equal '', @response.body
     assert_response 200
     result = @response.body
-    result = JSON.parse(result)['resource_parcel']
+
+    result = JSON.parse(result)
+
     assert_equal max_results, result['resources'].length
     assert_equal 'desc', result['direction']
     assert_equal 52, result['resources'][0]['url'].chomp('.json')[/\d+$/].to_i
@@ -209,7 +213,9 @@ class LinksControllerTest < Test::Unit::TestCase
     #assert_equal '', @response.body
     assert_response 200
     result = @response.body
-    result = JSON.parse(result)['resource_parcel']
+
+    result = JSON.parse(result)
+
     assert_equal max_results, result['resources'].length
     assert_equal 'asc', result['direction']
     assert_equal 42, result['resources'][0]['url'].chomp('.json')[/\d+$/].to_i
@@ -231,7 +237,9 @@ class LinksControllerTest < Test::Unit::TestCase
     #assert_equal '', @response.body
     assert_response 200
     result = @response.body
-    result = JSON.parse(result)['resource_parcel']
+
+    result = JSON.parse(result)
+
     assert_equal 1, result['resources'].length
     assert_equal 'asc', result['direction']
    
