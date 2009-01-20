@@ -78,7 +78,6 @@ class User < ActiveRecord::Base
   # *Description*
   #   Returns the user with the specified login and password nil otherwise.
   def self.authenticate(login, pass)
-    puts "GOING to find user with #{login} and password: #{pass}"
     #u = find_first(["login = ? AND verified = 1", login])
     u = User.find(:first, :conditions => ["login = ? AND verified = 1", login])
     
@@ -88,9 +87,6 @@ class User < ActiveRecord::Base
        return nil
     end
     
-    puts pass
-    puts u.password
-    puts salted_password(u.salt, hashed(pass))
     
     #find_first(["login = ? AND password = ? AND verified = 1", login, salted_password(u.salt, hashed(pass))]clear)
     find(:first, :conditions => ["login = ? AND password = ? AND verified = 1", login, salted_password(u.salt, hashed(pass))])
@@ -141,6 +137,10 @@ class User < ActiveRecord::Base
   before_create :generate_uuid, :crypt_password
   
   def crypt_password
+    RAILS_DEFAULT_LOGGER.info('running encrypt_password')
+    #work around needed as cryt_password is called twice in production environment
+    return if @encrypted
+    @encrypted=true
     write_attribute("salt", self.class.hashed("salt-#{Time.now}"))
     write_attribute("password", self.class.salted_password(salt, self.class.hashed(password)))
   end
