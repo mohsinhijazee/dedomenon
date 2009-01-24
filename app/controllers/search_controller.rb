@@ -231,7 +231,7 @@ class SearchController < ApplicationController
     r.concat  a
 
     # date_detail_values
-    condition = "value ilike ?"
+    condition = "value::text ilike ?"
     query_params=["%#{value}%"]
     if entity_id.to_i>0
       if detail_id.to_i==0
