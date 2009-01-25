@@ -20,8 +20,8 @@
 require 'pathname'
 
 class SystemNotifier < ActionMailer::Base
-  SYSTEM_EMAIL_ADDRESS = %w{ system@madb.net }
-  EXCEPTION_RECIPIENT = %w{ rb@raphinou.com }
+  SYSTEM_EMAIL_ADDRESS = AppConfig.system_email_address
+  EXCEPTION_RECIPIENT = AppConfig.exception_recipients
 
   def exception_notification(controller, request, exception, sent_on = Time.now)
     @subject = sprintf("[ERROR] %s\#%s  (%s) %s",
