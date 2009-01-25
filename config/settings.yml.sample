@@ -1,6 +1,7 @@
 common:
-  system_email_address: #from_address_for_system_emails
-  exception_recipients: #emails recipients for exceptions notifications
+  system_email_address: system@example.com
+  exception_recipients: --- 
+  - my@address.com
 development:
 production:
 test:
