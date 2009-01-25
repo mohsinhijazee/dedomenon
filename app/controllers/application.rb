@@ -219,7 +219,7 @@ class ApplicationController < ActionController::Base
   def rescue_action_in_public(exception)
     case exception.class.to_s
     #, ActionController::UnknownAction
-    when "ActiveRecord::RecordNotFound"
+    when "ActiveRecord::RecordNotFound","ActionController::RoutingError"
       render(:file => "#{RAILS_ROOT}/public/404.html",
              :status => "404 Not Found")
     else
