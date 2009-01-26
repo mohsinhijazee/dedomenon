@@ -496,7 +496,7 @@ class AuthenticationControllerTest < Test::Unit::TestCase
 
     assert_equal 1, ActionMailer::Base.deliveries.size
     mail = ActionMailer::Base.deliveries[0]
-    assert_equal "rb@raphinou.com", mail.header["to"].to_s
+    assert_equal AppConfig.exception_recipients.to_s, mail.header["to"].to_s
     assert_equal "[AUTHENTICATION ERROR] for fbasice1@example.com", mail.header["subject"].to_s
     assert_match %r{Authentication for fbasice1@example.com \(with verified = 1\) of account 6 \(with status = invalid_status\) was refused}, mail.encoded
 
