@@ -45,3 +45,6 @@
 .warning {
   color: red;
 }
+.deploy_date {
+  float: left;
+}
