@@ -56,14 +56,10 @@ function set_lang(ddl)
     <span class="version">version <%= File.open("#{RAILS_ROOT}/config/version"){|f| f.read}%></span>
   <%end %>
   <% #languages = Language.find(:all,:conditions => "active='t'",:order => "lang").collect{|l| [ t(l.lang), l.lang]}%>
-  <% languages= Globalite.languages.reject {|lang| !['en', 'fr'].include? lang.to_s } %>
+  <% languages= AppConfig.languages.reject {|lang| !['en', 'fr'].include? lang.to_s } %>
   <% languages.push([ t("madb_translation_ids"), "t_id"]) if ENV['RAILS_ENV']=="translate" %>
   <select name="lang" onchange="set_lang(this);"><%= options_for_select( languages, cookies[TranslationsConfig.cookie_name.to_s])%> </select>
 
-  <% if RAILS_ENV=="translate" %>
-  <%=link_to(t("madb_manage_translations"), :controller => "/admin/translations", :action => "index") %>
-  <a href="" onclick="id=prompt('<%=t('madb_enter_id_of_the_translation')%>');url='<%= url_for :controller => "/admin/translations", :action=> "new"%>/'+id;location.href=url+'/';return false;"><%=t("madb_new_translation")%></a>
-  <% end %>
 
 
 <% if session["user"].admin_user? %>

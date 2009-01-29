@@ -52,7 +52,7 @@ class SystemNotifier < ActionMailer::Base
     @subject = sprintf("[AUTHENTICATION ERROR] for %s", login)
     user = User.find_by_login(login)
     account = user.account
-    @body = { "controller" => controller, "request" => request, "user" => user, "account" => account,  "host" => request.env["HTTP_HOST"], "rails_root" => RAILS_ROOT}
+    @body = { "controller" => controller, "request" => request, "modb_user" => user, "account" => account,  "host" => request.env["HTTP_HOST"], "rails_root" => RAILS_ROOT}
     @sent_on = sent_on
     @from = SYSTEM_EMAIL_ADDRESS
     @recipients = EXCEPTION_RECIPIENT

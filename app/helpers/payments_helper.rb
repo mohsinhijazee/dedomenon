@@ -17,7 +17,7 @@
 #Copyright 2008 Raphaël Bauduin
 ################################################################################
 
-module PaymentsHelper
-  #include Paypal::Helpers
-  include Paypal::Helpers
-end
+#module PaymentsHelper
+#  #include Paypal::Helpers
+#  include Paypal::Helpers
+#end

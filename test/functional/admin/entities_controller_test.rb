@@ -271,7 +271,7 @@ class Admin::EntitiesControllerTest < Test::Unit::TestCase
     assert_response :redirect
     #redirected to show of correct entity
     #commented due to failur ein rails to test redirect correctly
-    assert_redirected_to :controller => "authentication", :action => "login"
+    assert_redirected_to :controller => "/authentication", :action => "login"
     #we haven't deleted any entry
     assert_equal 0, pre_details_count-post_details_count
   end

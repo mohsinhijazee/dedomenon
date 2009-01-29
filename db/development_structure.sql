@@ -15,6 +15,13 @@ SET escape_string_warning = off;
 COMMENT ON SCHEMA public IS 'Standard public schema';
 
 
+--
+-- Name: plpgsql; Type: PROCEDURAL LANGUAGE; Schema: -; Owner: -
+--
+
+CREATE PROCEDURAL LANGUAGE plpgsql;
+
+
 SET search_path = public, pg_catalog;
 
 --
@@ -86,6 +93,15 @@ CREATE FUNCTION connectby(text, text, text, text, text, integer, text) RETURNS S
 
 CREATE FUNCTION connectby(text, text, text, text, text, integer) RETURNS SETOF record
     AS '$libdir/tablefunc', 'connectby_text_serial'
+    LANGUAGE c STABLE STRICT;
+
+
+--
+-- Name: crosstab(text); Type: FUNCTION; Schema: public; Owner: -
+--
+
+CREATE FUNCTION crosstab(text) RETURNS SETOF record
+    AS '$libdir/tablefunc', 'crosstab'
     LANGUAGE c STABLE STRICT;
 
 
@@ -164,6 +180,7 @@ CREATE TABLE account_type_values (
 --
 
 CREATE SEQUENCE account_type_values_id_seq
+    START WITH 1
     INCREMENT BY 1
     NO MAXVALUE
     NO MINVALUE
@@ -226,11 +243,8 @@ CREATE TABLE accounts (
     city text,
     country text,
     status text DEFAULT 'inactive'::text,
-    end_date date DEFAULT now(),
-    subscription_id text,
-    subscription_gateway text,
+    end_date date,
     vat_number text,
-    attachment_count integer DEFAULT 0,
     lock_version integer DEFAULT 0
 );
 
@@ -321,7 +335,9 @@ CREATE TABLE date_detail_values (
     detail_id integer,
     instance_id integer,
     value timestamp without time zone,
-    lock_version integer DEFAULT 0
+    lock_version integer DEFAULT 0,
+    created_at timestamp without time zone,
+    updated_at timestamp without time zone
 );
 
 
@@ -330,6 +346,7 @@ CREATE TABLE date_detail_values (
 --
 
 CREATE SEQUENCE date_detail_values_id_seq
+    START WITH 1
     INCREMENT BY 1
     NO MAXVALUE
     NO MINVALUE
@@ -352,7 +369,9 @@ CREATE TABLE ddl_detail_values (
     detail_id integer,
     instance_id integer,
     detail_value_proposition_id integer,
-    lock_version integer DEFAULT 0
+    lock_version integer DEFAULT 0,
+    created_at timestamp without time zone,
+    updated_at timestamp without time zone
 );
 
 
@@ -361,6 +380,7 @@ CREATE TABLE ddl_detail_values (
 --
 
 CREATE SEQUENCE ddl_detail_values_id_seq
+    START WITH 1
     INCREMENT BY 1
     NO MAXVALUE
     NO MINVALUE
@@ -419,6 +439,7 @@ CREATE TABLE detail_value_propositions (
 --
 
 CREATE SEQUENCE detail_value_propositions_id_seq
+    START WITH 1
     INCREMENT BY 1
     NO MAXVALUE
     NO MINVALUE
@@ -442,7 +463,9 @@ CREATE TABLE detail_values (
     instance_id integer,
     value text,
     "type" text,
-    lock_version integer DEFAULT 0
+    lock_version integer DEFAULT 0,
+    created_at timestamp without time zone,
+    updated_at timestamp without time zone
 );
 
 
@@ -519,7 +542,7 @@ CREATE TABLE entities2details (
     detail_id integer,
     status_id integer,
     displayed_in_list_view boolean DEFAULT true,
-    maximum_number_of_values integer,
+    maximum_number_of_values integer DEFAULT 1 NOT NULL,
     display_order integer DEFAULT 100
 );
 
@@ -567,8 +590,9 @@ ALTER SEQUENCE entities_id_seq OWNED BY entities.id;
 CREATE TABLE instances (
     id integer NOT NULL,
     entity_id integer,
-    created_at timestamp with time zone,
-    lock_version integer DEFAULT 0
+    created_at timestamp without time zone,
+    lock_version integer DEFAULT 0,
+    updated_at timestamp without time zone
 );
 
 
@@ -599,7 +623,9 @@ CREATE TABLE integer_detail_values (
     detail_id integer,
     instance_id integer,
     value bigint,
-    lock_version integer DEFAULT 0
+    lock_version integer DEFAULT 0,
+    created_at timestamp without time zone,
+    updated_at timestamp without time zone
 );
 
 
@@ -608,6 +634,7 @@ CREATE TABLE integer_detail_values (
 --
 
 CREATE SEQUENCE integer_detail_values_id_seq
+    START WITH 1
     INCREMENT BY 1
     NO MAXVALUE
     NO MINVALUE
@@ -619,55 +646,6 @@ CREATE SEQUENCE integer_detail_values_id_seq
 --
 
 ALTER SEQUENCE integer_detail_values_id_seq OWNED BY integer_detail_values.id;
-
-
---
--- Name: invoice_numbers; Type: SEQUENCE; Schema: public; Owner: -
---
-
-CREATE SEQUENCE invoice_numbers
-    INCREMENT BY 1
-    NO MAXVALUE
-    NO MINVALUE
-    CACHE 1;
-
-
---
--- Name: invoices; Type: TABLE; Schema: public; Owner: -; Tablespace: 
---
-
-CREATE TABLE invoices (
-    id integer NOT NULL,
-    invoice_number integer DEFAULT nextval('invoice_numbers'::regclass),
-    invoice_date timestamp without time zone DEFAULT now(),
-    account_id integer,
-    gross_amount double precision,
-    amount double precision,
-    vat_applied double precision,
-    company text,
-    address text,
-    city text,
-    country text,
-    item text
-);
-
-
---
--- Name: invoices_id_seq; Type: SEQUENCE; Schema: public; Owner: -
---
-
-CREATE SEQUENCE invoices_id_seq
-    INCREMENT BY 1
-    NO MAXVALUE
-    NO MINVALUE
-    CACHE 1;
-
-
---
--- Name: invoices_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
---
-
-ALTER SEQUENCE invoices_id_seq OWNED BY invoices.id;
 
 
 --
@@ -687,6 +665,7 @@ CREATE TABLE links (
 --
 
 CREATE SEQUENCE links_id_seq
+    START WITH 1
     INCREMENT BY 1
     NO MAXVALUE
     NO MINVALUE
@@ -701,36 +680,13 @@ ALTER SEQUENCE links_id_seq OWNED BY links.id;
 
 
 --
--- Name: paypal_communications; Type: TABLE; Schema: public; Owner: -; Tablespace: 
+-- Name: plugin_schema_info; Type: TABLE; Schema: public; Owner: -; Tablespace: 
 --
 
-CREATE TABLE paypal_communications (
-    id integer NOT NULL,
-    t timestamp without time zone DEFAULT now(),
-    account_id integer,
-    txn_type text,
-    communication_type text,
-    direction text,
-    content text
+CREATE TABLE plugin_schema_info (
+    plugin_name character varying(255),
+    version integer
 );
-
-
---
--- Name: paypal_communications_id_seq; Type: SEQUENCE; Schema: public; Owner: -
---
-
-CREATE SEQUENCE paypal_communications_id_seq
-    INCREMENT BY 1
-    NO MAXVALUE
-    NO MINVALUE
-    CACHE 1;
-
-
---
--- Name: paypal_communications_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
---
-
-ALTER SEQUENCE paypal_communications_id_seq OWNED BY paypal_communications.id;
 
 
 --
@@ -749,6 +705,7 @@ CREATE TABLE preferences (
 --
 
 CREATE SEQUENCE preferences_id_seq
+    START WITH 1
     INCREMENT BY 1
     NO MAXVALUE
     NO MINVALUE
@@ -811,6 +768,7 @@ CREATE TABLE relations (
 --
 
 CREATE SEQUENCE relations_id_seq
+    START WITH 1
     INCREMENT BY 1
     NO MAXVALUE
     NO MINVALUE
@@ -825,48 +783,12 @@ ALTER SEQUENCE relations_id_seq OWNED BY relations.id;
 
 
 --
--- Name: schema_info; Type: TABLE; Schema: public; Owner: -; Tablespace: 
+-- Name: schema_migrations; Type: TABLE; Schema: public; Owner: -; Tablespace: 
 --
 
-CREATE TABLE schema_info (
-    version integer
+CREATE TABLE schema_migrations (
+    version character varying(255) NOT NULL
 );
-
-
---
--- Name: transfers; Type: TABLE; Schema: public; Owner: -; Tablespace: 
---
-
-CREATE TABLE transfers (
-    id integer NOT NULL,
-    created_at timestamp without time zone,
-    account_id integer,
-    user_id integer,
-    detail_value_id integer,
-    instance_id integer,
-    entity_id integer,
-    size integer NOT NULL,
-    file text,
-    direction text
-);
-
-
---
--- Name: transfers_id_seq; Type: SEQUENCE; Schema: public; Owner: -
---
-
-CREATE SEQUENCE transfers_id_seq
-    INCREMENT BY 1
-    NO MAXVALUE
-    NO MINVALUE
-    CACHE 1;
-
-
---
--- Name: transfers_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
---
-
-ALTER SEQUENCE transfers_id_seq OWNED BY transfers.id;
 
 
 --
@@ -906,12 +828,12 @@ CREATE TABLE users (
     account_id integer NOT NULL,
     user_type_id integer DEFAULT 2,
     "login" character varying(80),
-    "password" character varying,
+    "password" character varying(255),
     email character varying(40),
     firstname character varying(80),
     lastname character varying(80),
-    uuid character(32),
-    salt character(32),
+    uuid character varying(32),
+    salt character varying(32),
     verified integer DEFAULT 0,
     created_at timestamp without time zone,
     updated_at timestamp without time zone,
@@ -1046,21 +968,7 @@ ALTER TABLE integer_detail_values ALTER COLUMN id SET DEFAULT nextval('integer_d
 -- Name: id; Type: DEFAULT; Schema: public; Owner: -
 --
 
-ALTER TABLE invoices ALTER COLUMN id SET DEFAULT nextval('invoices_id_seq'::regclass);
-
-
---
--- Name: id; Type: DEFAULT; Schema: public; Owner: -
---
-
 ALTER TABLE links ALTER COLUMN id SET DEFAULT nextval('links_id_seq'::regclass);
-
-
---
--- Name: id; Type: DEFAULT; Schema: public; Owner: -
---
-
-ALTER TABLE paypal_communications ALTER COLUMN id SET DEFAULT nextval('paypal_communications_id_seq'::regclass);
 
 
 --
@@ -1082,13 +990,6 @@ ALTER TABLE relation_side_types ALTER COLUMN id SET DEFAULT nextval('relation_si
 --
 
 ALTER TABLE relations ALTER COLUMN id SET DEFAULT nextval('relations_id_seq'::regclass);
-
-
---
--- Name: id; Type: DEFAULT; Schema: public; Owner: -
---
-
-ALTER TABLE transfers ALTER COLUMN id SET DEFAULT nextval('transfers_id_seq'::regclass);
 
 
 --
@@ -1226,27 +1127,11 @@ ALTER TABLE ONLY integer_detail_values
 
 
 --
--- Name: invoices_pkey; Type: CONSTRAINT; Schema: public; Owner: -; Tablespace: 
---
-
-ALTER TABLE ONLY invoices
-    ADD CONSTRAINT invoices_pkey PRIMARY KEY (id);
-
-
---
 -- Name: links_pkey; Type: CONSTRAINT; Schema: public; Owner: -; Tablespace: 
 --
 
 ALTER TABLE ONLY links
     ADD CONSTRAINT links_pkey PRIMARY KEY (id);
-
-
---
--- Name: paypal_communications_pkey; Type: CONSTRAINT; Schema: public; Owner: -; Tablespace: 
---
-
-ALTER TABLE ONLY paypal_communications
-    ADD CONSTRAINT paypal_communications_pkey PRIMARY KEY (id);
 
 
 --
@@ -1271,22 +1156,6 @@ ALTER TABLE ONLY relation_side_types
 
 ALTER TABLE ONLY relations
     ADD CONSTRAINT relations_pkey PRIMARY KEY (id);
-
-
---
--- Name: transfers_pkey; Type: CONSTRAINT; Schema: public; Owner: -; Tablespace: 
---
-
-ALTER TABLE ONLY transfers
-    ADD CONSTRAINT transfers_pkey PRIMARY KEY (id);
-
-
---
--- Name: u_parent_child_relation; Type: CONSTRAINT; Schema: public; Owner: -; Tablespace: 
---
-
-ALTER TABLE ONLY links
-    ADD CONSTRAINT u_parent_child_relation UNIQUE (parent_id, child_id, relation_id);
 
 
 --
@@ -1317,20 +1186,6 @@ CREATE INDEX entities2details__detail_id ON entities2details USING btree (detail
 --
 
 CREATE INDEX entities2details__entity_id ON entities2details USING btree (entity_id);
-
-
---
--- Name: i_date_detail_value__detail_id; Type: INDEX; Schema: public; Owner: -; Tablespace: 
---
-
-CREATE INDEX i_date_detail_value__detail_id ON date_detail_values USING btree (detail_id);
-
-
---
--- Name: i_date_detail_value__instance_id; Type: INDEX; Schema: public; Owner: -; Tablespace: 
---
-
-CREATE INDEX i_date_detail_value__instance_id ON date_detail_values USING btree (instance_id);
 
 
 --
@@ -1408,6 +1263,20 @@ CREATE INDEX i_relations__child_id ON relations USING btree (child_id);
 --
 
 CREATE INDEX i_relations__parent_id ON relations USING btree (parent_id);
+
+
+--
+-- Name: u_parent_child_relation; Type: INDEX; Schema: public; Owner: -; Tablespace: 
+--
+
+CREATE UNIQUE INDEX u_parent_child_relation ON links USING btree (parent_id, child_id, relation_id);
+
+
+--
+-- Name: unique_schema_migrations; Type: INDEX; Schema: public; Owner: -; Tablespace: 
+--
+
+CREATE UNIQUE INDEX unique_schema_migrations ON schema_migrations USING btree (version);
 
 
 --
@@ -1555,238 +1424,6 @@ ALTER TABLE ONLY entities
 
 
 --
--- Name: fk_accounts_account_type_id; Type: FK CONSTRAINT; Schema: public; Owner: -
---
-
-ALTER TABLE ONLY accounts
-    ADD CONSTRAINT fk_accounts_account_type_id FOREIGN KEY (account_type_id) REFERENCES account_types(id) ON DELETE SET NULL;
-
-
---
--- Name: fk_databases_account_id; Type: FK CONSTRAINT; Schema: public; Owner: -
---
-
-ALTER TABLE ONLY databases
-    ADD CONSTRAINT fk_databases_account_id FOREIGN KEY (account_id) REFERENCES accounts(id) ON DELETE CASCADE;
-
-
---
--- Name: fk_date_detail_values__instance_id; Type: FK CONSTRAINT; Schema: public; Owner: -
---
-
-ALTER TABLE ONLY date_detail_values
-    ADD CONSTRAINT fk_date_detail_values__instance_id FOREIGN KEY (instance_id) REFERENCES instances(id) ON DELETE CASCADE;
-
-
---
--- Name: fk_ddl_detail_values__instance_id; Type: FK CONSTRAINT; Schema: public; Owner: -
---
-
-ALTER TABLE ONLY ddl_detail_values
-    ADD CONSTRAINT fk_ddl_detail_values__instance_id FOREIGN KEY (instance_id) REFERENCES instances(id) ON DELETE CASCADE;
-
-
---
--- Name: fk_ddl_detail_values__proposition_id; Type: FK CONSTRAINT; Schema: public; Owner: -
---
-
-ALTER TABLE ONLY ddl_detail_values
-    ADD CONSTRAINT fk_ddl_detail_values__proposition_id FOREIGN KEY (detail_value_proposition_id) REFERENCES detail_value_propositions(id) ON DELETE CASCADE;
-
-
---
--- Name: fk_detail_values__detail_id; Type: FK CONSTRAINT; Schema: public; Owner: -
---
-
-ALTER TABLE ONLY detail_values
-    ADD CONSTRAINT fk_detail_values__detail_id FOREIGN KEY (detail_id) REFERENCES details(id) ON DELETE CASCADE;
-
-
---
--- Name: fk_detail_values__instance_id; Type: FK CONSTRAINT; Schema: public; Owner: -
---
-
-ALTER TABLE ONLY detail_values
-    ADD CONSTRAINT fk_detail_values__instance_id FOREIGN KEY (instance_id) REFERENCES instances(id) ON DELETE CASCADE;
-
-
---
--- Name: fk_details_data_type_id; Type: FK CONSTRAINT; Schema: public; Owner: -
---
-
-ALTER TABLE ONLY details
-    ADD CONSTRAINT fk_details_data_type_id FOREIGN KEY (data_type_id) REFERENCES data_types(id) ON DELETE CASCADE;
-
-
---
--- Name: fk_details_database_id; Type: FK CONSTRAINT; Schema: public; Owner: -
---
-
-ALTER TABLE ONLY details
-    ADD CONSTRAINT fk_details_database_id FOREIGN KEY (database_id) REFERENCES databases(id) ON DELETE CASCADE;
-
-
---
--- Name: fk_details_status_id; Type: FK CONSTRAINT; Schema: public; Owner: -
---
-
-ALTER TABLE ONLY details
-    ADD CONSTRAINT fk_details_status_id FOREIGN KEY (status_id) REFERENCES detail_status(id) ON DELETE CASCADE;
-
-
---
--- Name: fk_entities2details_detail_id; Type: FK CONSTRAINT; Schema: public; Owner: -
---
-
-ALTER TABLE ONLY entities2details
-    ADD CONSTRAINT fk_entities2details_detail_id FOREIGN KEY (detail_id) REFERENCES details(id) ON DELETE CASCADE;
-
-
---
--- Name: fk_entities2details_entity_id; Type: FK CONSTRAINT; Schema: public; Owner: -
---
-
-ALTER TABLE ONLY entities2details
-    ADD CONSTRAINT fk_entities2details_entity_id FOREIGN KEY (entity_id) REFERENCES entities(id) ON DELETE CASCADE;
-
-
---
--- Name: fk_entities_database_id; Type: FK CONSTRAINT; Schema: public; Owner: -
---
-
-ALTER TABLE ONLY entities
-    ADD CONSTRAINT fk_entities_database_id FOREIGN KEY (database_id) REFERENCES databases(id) ON DELETE CASCADE;
-
-
---
--- Name: fk_entity_type; Type: FK CONSTRAINT; Schema: public; Owner: -
---
-
-ALTER TABLE ONLY instances
-    ADD CONSTRAINT fk_entity_type FOREIGN KEY (entity_id) REFERENCES entities(id) ON DELETE CASCADE;
-
-
---
--- Name: fk_from_id; Type: FK CONSTRAINT; Schema: public; Owner: -
---
-
-ALTER TABLE ONLY links
-    ADD CONSTRAINT fk_from_id FOREIGN KEY (parent_id) REFERENCES instances(id) ON DELETE CASCADE;
-
-
---
--- Name: fk_from_id; Type: FK CONSTRAINT; Schema: public; Owner: -
---
-
-ALTER TABLE ONLY relations
-    ADD CONSTRAINT fk_from_id FOREIGN KEY (parent_id) REFERENCES entities(id) ON DELETE CASCADE;
-
-
---
--- Name: fk_integer_detail_values__instance_id; Type: FK CONSTRAINT; Schema: public; Owner: -
---
-
-ALTER TABLE ONLY integer_detail_values
-    ADD CONSTRAINT fk_integer_detail_values__instance_id FOREIGN KEY (instance_id) REFERENCES instances(id) ON DELETE CASCADE;
-
-
---
--- Name: fk_invoices_account_id; Type: FK CONSTRAINT; Schema: public; Owner: -
---
-
-ALTER TABLE ONLY invoices
-    ADD CONSTRAINT fk_invoices_account_id FOREIGN KEY (account_id) REFERENCES accounts(id) ON DELETE SET NULL;
-
-
---
--- Name: fk_relation_id; Type: FK CONSTRAINT; Schema: public; Owner: -
---
-
-ALTER TABLE ONLY links
-    ADD CONSTRAINT fk_relation_id FOREIGN KEY (relation_id) REFERENCES relations(id) ON DELETE CASCADE;
-
-
---
--- Name: fk_relations__child_side_type_id; Type: FK CONSTRAINT; Schema: public; Owner: -
---
-
-ALTER TABLE ONLY relations
-    ADD CONSTRAINT fk_relations__child_side_type_id FOREIGN KEY (child_side_type_id) REFERENCES relation_side_types(id) ON DELETE CASCADE;
-
-
---
--- Name: fk_relations__parent_side_type_id; Type: FK CONSTRAINT; Schema: public; Owner: -
---
-
-ALTER TABLE ONLY relations
-    ADD CONSTRAINT fk_relations__parent_side_type_id FOREIGN KEY (parent_side_type_id) REFERENCES relation_side_types(id) ON DELETE CASCADE;
-
-
---
--- Name: fk_to_id; Type: FK CONSTRAINT; Schema: public; Owner: -
---
-
-ALTER TABLE ONLY links
-    ADD CONSTRAINT fk_to_id FOREIGN KEY (child_id) REFERENCES instances(id) ON DELETE CASCADE;
-
-
---
--- Name: fk_to_id; Type: FK CONSTRAINT; Schema: public; Owner: -
---
-
-ALTER TABLE ONLY relations
-    ADD CONSTRAINT fk_to_id FOREIGN KEY (child_id) REFERENCES entities(id) ON DELETE CASCADE;
-
-
---
--- Name: fk_transfers_account_id; Type: FK CONSTRAINT; Schema: public; Owner: -
---
-
-ALTER TABLE ONLY transfers
-    ADD CONSTRAINT fk_transfers_account_id FOREIGN KEY (account_id) REFERENCES accounts(id) ON DELETE CASCADE;
-
-
---
--- Name: fk_transfers_detail_value_id; Type: FK CONSTRAINT; Schema: public; Owner: -
---
-
-ALTER TABLE ONLY transfers
-    ADD CONSTRAINT fk_transfers_detail_value_id FOREIGN KEY (detail_value_id) REFERENCES detail_values(id) ON DELETE SET NULL;
-
-
---
--- Name: fk_transfers_instance_id; Type: FK CONSTRAINT; Schema: public; Owner: -
---
-
-ALTER TABLE ONLY transfers
-    ADD CONSTRAINT fk_transfers_instance_id FOREIGN KEY (instance_id) REFERENCES instances(id) ON DELETE SET NULL;
-
-
---
--- Name: fk_transfers_user_id; Type: FK CONSTRAINT; Schema: public; Owner: -
---
-
-ALTER TABLE ONLY transfers
-    ADD CONSTRAINT fk_transfers_user_id FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE;
-
-
---
--- Name: fk_users_account_id; Type: FK CONSTRAINT; Schema: public; Owner: -
---
-
-ALTER TABLE ONLY users
-    ADD CONSTRAINT fk_users_account_id FOREIGN KEY (account_id) REFERENCES accounts(id) ON DELETE CASCADE;
-
-
---
--- Name: fk_users_user_type_id; Type: FK CONSTRAINT; Schema: public; Owner: -
---
-
-ALTER TABLE ONLY users
-    ADD CONSTRAINT fk_users_user_type_id FOREIGN KEY (user_type_id) REFERENCES user_types(id) ON DELETE CASCADE;
-
-
---
 -- Name: instances_entity_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: -
 --
 
@@ -1894,4 +1531,70 @@ ALTER TABLE ONLY users
 -- PostgreSQL database dump complete
 --
 
-INSERT INTO schema_info (version) VALUES (35)
+INSERT INTO schema_migrations (version) VALUES ('1');
+
+INSERT INTO schema_migrations (version) VALUES ('2');
+
+INSERT INTO schema_migrations (version) VALUES ('3');
+
+INSERT INTO schema_migrations (version) VALUES ('4');
+
+INSERT INTO schema_migrations (version) VALUES ('5');
+
+INSERT INTO schema_migrations (version) VALUES ('6');
+
+INSERT INTO schema_migrations (version) VALUES ('7');
+
+INSERT INTO schema_migrations (version) VALUES ('8');
+
+INSERT INTO schema_migrations (version) VALUES ('9');
+
+INSERT INTO schema_migrations (version) VALUES ('10');
+
+INSERT INTO schema_migrations (version) VALUES ('11');
+
+INSERT INTO schema_migrations (version) VALUES ('12');
+
+INSERT INTO schema_migrations (version) VALUES ('13');
+
+INSERT INTO schema_migrations (version) VALUES ('14');
+
+INSERT INTO schema_migrations (version) VALUES ('15');
+
+INSERT INTO schema_migrations (version) VALUES ('16');
+
+INSERT INTO schema_migrations (version) VALUES ('17');
+
+INSERT INTO schema_migrations (version) VALUES ('18');
+
+INSERT INTO schema_migrations (version) VALUES ('20');
+
+INSERT INTO schema_migrations (version) VALUES ('21');
+
+INSERT INTO schema_migrations (version) VALUES ('22');
+
+INSERT INTO schema_migrations (version) VALUES ('23');
+
+INSERT INTO schema_migrations (version) VALUES ('24');
+
+INSERT INTO schema_migrations (version) VALUES ('25');
+
+INSERT INTO schema_migrations (version) VALUES ('26');
+
+INSERT INTO schema_migrations (version) VALUES ('27');
+
+INSERT INTO schema_migrations (version) VALUES ('29');
+
+INSERT INTO schema_migrations (version) VALUES ('30');
+
+INSERT INTO schema_migrations (version) VALUES ('31');
+
+INSERT INTO schema_migrations (version) VALUES ('32');
+
+INSERT INTO schema_migrations (version) VALUES ('33');
+
+INSERT INTO schema_migrations (version) VALUES ('34');
+
+INSERT INTO schema_migrations (version) VALUES ('35');
+
+INSERT INTO schema_migrations (version) VALUES ('36');

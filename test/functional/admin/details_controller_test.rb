@@ -63,7 +63,7 @@ class Admin::DetailsControllerTest < Test::Unit::TestCase
 
     #redirect?
     assert_response :redirect
-    assert_redirected_to :controller => "admin/entities", :action => "add_existing_precisions", :id => "11"
+    assert_redirected_to :controller => "admin/entities", :action => "add_existing_precisions", :id => "11", :detail_id => 104
     
     #One detail added?
     assert_equal 1, post_details_count_in_db-pre_details_count_in_db
@@ -224,7 +224,7 @@ class Admin::DetailsControllerTest < Test::Unit::TestCase
 
     #redirect?
     assert_response :redirect
-    assert_redirected_to :controller => "admin/entities", :action => "add_existing_precisions", :id => "11"
+    assert_redirected_to :controller => "admin/entities", :action => "add_existing_precisions", :id => "11", :detail_id => "101"
     
     #One detail added?
     assert_equal 1, post_details_count_in_db-pre_details_count_in_db
@@ -251,7 +251,7 @@ class Admin::DetailsControllerTest < Test::Unit::TestCase
 
     #redirect?
     assert_response :redirect
-    assert_redirected_to :controller => "admin/entities", :action => "add_existing_precisions", :id => "11"
+    assert_redirected_to :controller => "admin/entities", :action => "add_existing_precisions", :id => "11", :detail_id => "102"
     
     #One detail added?
     assert_equal 1, post_details_count_in_db-pre_details_count_in_db

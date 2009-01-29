@@ -91,7 +91,7 @@ class Admin::DatabasesControllerTest < Test::Unit::TestCase
   def test_index_with_non_admin_user
     get :index, {} , { 'user' => User.find_by_id(@db1_normal_user_id)}
     assert_response :redirect
-    assert_redirected_to  :controller => "database"
+    assert_redirected_to  :controller => "/database"
   end
 
   # *Description*
@@ -106,7 +106,7 @@ class Admin::DatabasesControllerTest < Test::Unit::TestCase
   def test_index_with_incorrect_user
     get :index, {} , { 'user' => User.find_by_id(@db2_user_id)}
     assert_response :redirect
-    assert_redirected_to  :controller => "database"
+    assert_redirected_to  :controller => "/database"
   end
 
   # *Description*
@@ -120,7 +120,7 @@ class Admin::DatabasesControllerTest < Test::Unit::TestCase
   def test_index_with_no_user
     get :index, {} , {}
     assert_response :redirect
-    assert_redirected_to  :controller => "authentication"
+    assert_redirected_to  :controller => "/authentication"
   end
 
   # *Description*

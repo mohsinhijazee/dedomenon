@@ -17,8 +17,8 @@ module Translations
     # As is the case with mailings
     # Pick current langauge and set new one
     if options[:lang]
-      lang = Globalite.current_language
-      Globalite.language = options[:lang]
+      lang = I18n.locale
+      I18n.locale = options[:lang]
     end
     
     token = nil
@@ -30,7 +30,7 @@ module Translations
     
     # If the lang was provided, set back
     if options[:lang]
-      Globalite.language = lang
+      I18n.locale = lang
     end
     
     return token
@@ -40,7 +40,8 @@ module Translations
 
 def set_user_lang
   lang = user_lang
-  Globalite.language = lang
+  #Globalite.language = lang
+  I18n.locale = lang
 end
 
   def user_lang
@@ -64,7 +65,7 @@ end
     #reverse sort so the prefered language is the first element of the array
     prefered_langs.sort!{|a,b| b[:weight].to_f<=>a[:weight].to_f}
     #languages = Language.find(:all).collect{|l| l.lang }
-    languages = Globalite.languages
+    languages = AppConfig.languages
     
     prefered_lang = nil
     prefered_langs.each do |l|
