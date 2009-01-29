@@ -58,4 +58,4 @@ end
 #Paypal::Notification.ipn_url = "https://www.sandbox.paypal.com/cgi-bin/webscr"
 
 require 'ruby-debug'
-Debugger.start_
+Debugger.start
