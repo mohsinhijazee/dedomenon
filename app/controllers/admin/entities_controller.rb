@@ -160,7 +160,6 @@ class Admin::EntitiesController < ApplicationController
           @db = Relation.find(params["id"]).parent.database
         rescue ActiveRecord::RecordNotFound
           flash["error"]= t("madb_error_incorrect_data")
-          puts "RELATION(params[:id] = #{params[:id]}) NOT FOUND"
           redirect_to :controller => "databases" and return false
         end
       else
@@ -168,14 +167,12 @@ class Admin::EntitiesController < ApplicationController
           @db = Entity.find(params["id"]).database
         rescue ActiveRecord::RecordNotFound
           flash["error"]=t("madb_error_incorrect_data")
-          puts "ENTITY(params[:id] = #{params[:id]}) NOT FOUND"
           redirect_to :controller => "databases" and return false
           
         end
       end
       if ! user_admin_dbs.include? @db
         flash["error"] = "entity_not_in_your_admin_dbs"
-        puts "DATABASE(#{@db.id}) IS NOT YOURS!"
         redirect_to :controller => "databases" and return false
         
       end
@@ -186,13 +183,11 @@ class Admin::EntitiesController < ApplicationController
         @db = Entity.find(params["parent_id"]).database
       rescue ActiveRecord::RecordNotFound
         flash["error"]=t("madb_error_incorrect_data")
-        puts "ENTITY(params[:parent_id] = #{params[:parent_id]}) NOT FOUND"
         redirect_to :controller => "databases" and return false
         
       end
       if ! user_admin_dbs.include? @db
         flash["error"] = "entity_not_in_your_admin_dbs"
-        puts "DATABASE(#{@db.id}) IS NOT YOURS!"
         redirect_to :controller => "databases" and return false
         
       end
@@ -202,19 +197,16 @@ class Admin::EntitiesController < ApplicationController
         @db = Entity.find(params["child_id"]).database
       rescue ActiveRecord::RecordNotFound
         flash["error"]=t("madb_error_incorrect_data")
-        puts "ENTITY(params[:child_id] = #{params[:child_id]}) NOT FOUND"
         redirect_to :controller => "databases" and return false
         
       end
       if ! user_admin_dbs.include? @db
         flash["error"] = "entity_not_in_your_admin_dbs"
-        puts "DATABASE(#{@db.id}) IS NOT YOURS!"
         redirect_to :controller => "databases" and return false
         
       end
     end
       
-    #puts "params[:db] = #{params[:db]} AND params[:database_id] = #{params[:database_id]}"  
     # The params[:db] is the databse id being passed before REST.
     # The params[database_id] is what SHOULD BE provided in case of 
     # entitiy being a nested resource of databases like this:
@@ -231,13 +223,11 @@ class Admin::EntitiesController < ApplicationController
       begin
         @db= Database.find(@db_id)
       rescue
-        puts "DATABASE(#{@db_id}) NOT FOUND!"
         flash["error"] = t("madb_requested_db_not_found")
         redirect_to :db => user_admin_dbs[0] and return false
       end
       if ! user_admin_dbs.include? @db
         flash["error"] = t("madb_requested_db_not_in_your_admin_dbs")
-        puts "DATABASE(#{@db.id}) IS NOT YOURS!"
         redirect_to :controller => "databases" and return false
       end
     end
@@ -247,17 +237,14 @@ class Admin::EntitiesController < ApplicationController
         @db = Detail.find(params["detail_id"]).database
         if params["db"] and @db.id.to_i!=params["db"].to_i
           flash["error"]=t("madb_error_incorrect_data")
-          puts "params[:db]=#{params[:db]} AND THE DATABASE ATTACEHD WITH params[:detail_id]=#{@db.id} DO NOT MATCH!"
           redirect_to :controller=> "databases" and return false
         end
       rescue ActiveRecord::RecordNotFound
         flash["error"]=t("madb_error_incorrect_data")
-        puts "DETAIL NOT FOUND!"
         redirect_to :controller => "databases" and return false
       end
       if ! user_admin_dbs.include? @db
         flash["error"] = "detail_not_in_your_admin_db"
-        puts "NOT YOUR DATABASE!"
         redirect_to :controller => "databases" and return false
       end
     end
@@ -268,7 +255,6 @@ class Admin::EntitiesController < ApplicationController
     items.each_pair do |model, id|
       next if id == nil
       if !class_from_name(model.to_s).exists?(id.to_i)
-        puts "#{model.to_s} does not have record with ID=#{id.to_s}"
         return false; 
       end
     end
@@ -479,7 +465,6 @@ class Admin::EntitiesController < ApplicationController
       
 #      if @db_id > 0
 #        db = Database.find @db_id
-#        puts "@db_id = #{@db_id}"
 #      else
 #        format.html
 #        format.json { render :json => 'Bad Request', :status => 400 }
@@ -770,17 +755,11 @@ class Admin::EntitiesController < ApplicationController
     #conn = Entity.connection
 
     @entity2detail = Entities2Detail.find(:first, :conditions => ["entity_id = ? and detail_id = ?", params["id"], params["detail_id"]], :include => [:detail, :entity])
-    #puts "Picking the entity_id = #{params["id"]} with detail_id = #{params["detail_id"]}"
-    #puts "BEFORE @entity2detail.maximum_number_of_values#{@entity2detail.maximum_number_of_values}"
     @entity2detail.maximum_number_of_values = params["maximum_number_of_values"]
-    #puts "AFTER @entity2detail.maximum_number_of_values#{@entity2detail.maximum_number_of_values}"
     @entity2detail.displayed_in_list_view=params["displayed_in_list_view"]
-    #puts "@entity2detail.displayed_in_list_view = #{@entity2detail.displayed_in_list_view}"
     @entity2detail.status_id=status.id
     @entity2detail.save
-    #puts "After save: @entity2detail.displayed_in_list_view = #{@entity2detail.displayed_in_list_view}"
     test = Entities2Detail.find(:first, :conditions => ["entity_id = ? and detail_id = ?", params["id"], params["detail_id"]], :include => [:detail, :entity])
-    #puts "test = #{test.displayed_in_list_view}"
     
     #update_query = "UPDATE entities2details SET display_order = #{params["display_order"]}, maximum_number_of_values = #{params["maximum_number_of_values"]}, displayed_in_list_view = '#{params["displayed_in_list_view"]}', status_id = #{status.id} WHERE entity_id = #{params["id"]} and detail_id= #{params["detail_id"]}"
     #conn.execute update_query
@@ -814,9 +793,6 @@ class Admin::EntitiesController < ApplicationController
     entity = Entity.find params["id"]
 
     
-#      details = entity.details.collect {|d| d.detail_id.to_i}
-#      puts details
-#      puts "params[\"detail_id\"] = #{params["detail_id"]}"
 
       if entity.details.collect{|d| d.detail_id.to_i}.include?  params["detail_id"].to_i
         flash["error"]=t("madb_error_incorrect_data")

@@ -200,21 +200,18 @@ class AuthenticationController < ApplicationController
       @user.attributes = params['user']
       begin
         @user.transaction do
-          #puts 'ABOUT TO SAVE USER '
-          #puts "#{@user.lock_version}"
-          #puts "#{User.find(@user.id).lock_version}"
           if @user.save
             @user.change_password(params['user']['password'])
             flash['notice'] = t("madb_notice_password_updated")
             @user = nil
-            puts 'Changed password about to redirect'
             redirect_back_or_default :action => 'welcome'
           end
           
         end
       rescue Exception => e
-        puts e.message
-        puts e.backtrace[0]
+        RAILS_DEFAULT_LOGGER.error "Error changing password for user #{@user.login}"
+        RAILS_DEFAULT_LOGGER.error e.message
+        RAILS_DEFAULT_LOGGER.error e.backtrace[0]
         flash['message'] = "Your password could not be changed at this time. Please retry."
       end
     when :get

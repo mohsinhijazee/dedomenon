@@ -102,8 +102,6 @@ class FileAttachment < DetailValue
     end
         
     write_attribute(:value, h)
-    puts "File size: #{v.size}"
-    puts self.value.to_json
   end
   
   def instance_prefix
@@ -119,7 +117,6 @@ class FileAttachment < DetailValue
     # to prevent the recursive calls.
     return if value[:uploaded] and value[:valueid]
     
-    #puts "In FileAttachment.save() "
     @attachment.rewind
     
     if !FileTest.directory?( local_instance_path )
@@ -139,15 +136,13 @@ class FileAttachment < DetailValue
      
      update_attribute(:value, o.to_yaml)
      
-     puts "File saved at: #{local_instance_path}#{self.id.to_s}"
   end
   
   def remove_file
-    puts "In FileAttachment.destroy() "
     begin
       File.delete("#{local_instance_path}/#{self.id.to_s}")
     rescue Exception => e
-      puts e.message
+      RAILS_DEFAULT_LOGGER.error e.message
     end
   end
   

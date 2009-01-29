@@ -1494,7 +1494,6 @@ class EntitiesControllerTest < Test::Unit::TestCase
 		post_links_count = Link.count
 
     assert_response :redirect
-    puts "flash[:error] = #{flash['error']}"
     assert_equal flash['error'],nil
     assert_equal pre_links_count+1, post_links_count
 

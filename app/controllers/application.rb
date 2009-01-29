@@ -27,7 +27,6 @@ class ApplicationController < ActionController::Base
     include Translations
   
   before_filter :set_user_lang
-  before_filter :list_params
     
     #model :user
     #model :translation
@@ -43,54 +42,6 @@ class ApplicationController < ActionController::Base
   helper_method :t
   after_filter :set_encoding, :except => ["apply_edit", "apply_link_to_new"]
     
-  
-  
-  # *Description*
-  #   Lists all the parameters of a request.
-  #   Written by Mohsin, purpose, Debugging.
-  def list_params
-    
-    @@request_parameters = ""
-    
-    #params.each_pair do |key, value|  
-    #  @@request_parameters =  @@request_parameters + "#{key}=====#{value}\n"
-      
-    #end
-      puts "================= REQUEST '#{request.class}' Params======================\n"
-      printHash params, ""
-      puts @@request_parameters
-      puts "================= END REQUESTParams=====================================\n"
-      
-#      puts "================= HEADER '#{headers.class}' Params======================\n"
-#      @@request_parameters = ""
-#      printHash headers, ""
-#      puts @@request_parameters
-#      puts "================= END HEADERS Params=====================================\n"
-      return true
-  end
-    
-  
-  # prints a hash.
-  def printHash(hash, prefix)
-    return if hash.nil?
-    
-    hash.each_pair do |key, value|  
-      if !value.nil?
-        if value.is_a?(Hash)
-          puts "#{key}\n"
-          printHash(value, "\t")
-        end
-      end
-      
-      #puts "#{prefix}#{key}:\t\t#{value}"
-      #if !value.is_a?(Hash)
-        @@request_parameters = @@request_parameters + "#{prefix}#{key}:\t#{value}\n"
-      #end
-      
-    end
-  end
-  
-  
   # *Description*
   #   Sets the encoding for the responce to be UTF-8
   def set_encoding

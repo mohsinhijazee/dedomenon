@@ -102,7 +102,6 @@ class Admin::DatabasesController < ApplicationController
     if params[:name]
       begin
         @databases = Database.find(:first, :conditions => ["name = ?", params[:name]])
-        puts "FOUND DATABASE BY NAME!"
       rescue ActiveRecord::RecordNotFound
         @databases = nil
       end
@@ -139,7 +138,6 @@ class Admin::DatabasesController < ApplicationController
   #  A new database is created and saved.
   
   def create
-    #puts "%$$$$$$$$$$$$$#{session[:user].account} IS IT ?????"
     @database = Database.new(params[:database])
     
     

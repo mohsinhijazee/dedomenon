@@ -107,7 +107,6 @@ class Admin::UsersController < ApplicationController
   #   
   # FIXME: Update for nested resoruces.
   def show
-    puts "Accoutn ID is #{params[:account_id]}"
     @account = Account.find(params[:account_id])
     #@users = User.find(params[:id])
     @users = @account.users.find(params[:id])

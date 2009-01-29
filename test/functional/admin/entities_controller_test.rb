@@ -323,10 +323,8 @@ class Admin::EntitiesControllerTest < Test::Unit::TestCase
     pre_links_count = Link.count
     pre_links_count = Link.count
     pre_relations_count = Relation.count
-    puts "Link count in test = #{Link.count}"
     get :delete_link, { :id => 7, :source_id => 19}, { 'user' => User.find_by_id(@db1_admin_user_id)}  
     post_links_count = Link.count
-    puts "Now link count is #{Link.count}"
     post_relations_count = Relation.count
 
     #redirected?
@@ -951,7 +949,6 @@ class Admin::EntitiesControllerTest < Test::Unit::TestCase
       post :update_existing_precisions, {:id => 21, :detail_id =>55 , :status_id=>2 ,:displayed_in_list_view=> 'true', :maximum_number_of_values => 5},{ 'user' => User.find_by_id(@db1_admin_user_id)}
       assert_response :redirect
       entity2detail = Entities2Detail.find(:first, :conditions => ["entity_id = ? and detail_id = ?", 21, 55])
-      #puts "In test, entity2detail.displayed_in_list_view = #{entity2detail.displayed_in_list_view}"
       #FIXME: This assertion is commented out as it almost always fails though the whole execution is
       # ALL THE ASSERSSIONS ARE NOT WORKING AS EXPECTED!
       # traced for any inconsistencies but none found.

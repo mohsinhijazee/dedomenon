@@ -236,7 +236,6 @@ class EntitiesController < ApplicationController
         query += " limit #{limit} offset #{offset}"
       end
       @list = CrosstabObject.find_by_sql(query)
-      puts query
     else
       @list = []
     end
@@ -314,7 +313,6 @@ class EntitiesController < ApplicationController
     @entity = @instance.entity :include => [ :entity_details ]
     @title = t("madb_entity_details", :vars => { 'entity' => t(@entity.name, :scope => "account")})
     @crosstab_object = CrosstabObject.find_by_sql(details_query_for_instance(@instance.id)+" order by display_order")
-    puts details_query_for_instance(@instance.id)+" order by display_order"
   end
 
   def edit
@@ -509,12 +507,10 @@ class EntitiesController < ApplicationController
     begin
       Entity.transaction do
         entity = Entity.find params["entity"]
-      puts "params[:entity] = #{params[:entity]}"
       # Negative IDs are used for creating the instances
       if id>0
         @instance = Instance.find(id)
       else
-        puts "New instance would be created."
         @instance = Instance.new
         @instance.entity=entity
         @instance.save
@@ -526,7 +522,6 @@ class EntitiesController < ApplicationController
           
           detail = entity_detail.detail
           params[detail.name].each do |i,value|
-            puts "|i, value|#{i}, #{value}"
             # if the value id is not provided, that means
             # the underlying DetailValue does not exists and we need to create
             # it.
@@ -806,35 +801,34 @@ class EntitiesController < ApplicationController
         return
       end
     end
-		if entity_saved
-			if params["parent_id"]
-					child = @instance
-					parent = Instance.find params["parent_id"]
-			elsif params["child_id"]
-				parent = @instance
-				child = Instance.find params["child_id"]
-			else
-				raise "Missing parameter parent_id (#{params["parent_id"]}) or child_id (#{params["child_id"]})"
-			end
-			relation = Relation.find params["relation_id"]
-			link_entities(parent,relation,child)
-			headers['Content-Type']='text/plain; charset=UTF-8'
-		else
-		#	if request.xhr?
-				headers['Content-Type']='text/plain; charset=UTF-8'
-				render :text => @invalid_list.join('######')
-				return
-		#	else
-					#redirect_to_url session['return-to']
-					#redirect_to :action => "list", :id => @instance.entity
-		#	end
-		end
+    if entity_saved
+      if params["parent_id"]
+              child = @instance
+              parent = Instance.find params["parent_id"]
+      elsif params["child_id"]
+          parent = @instance
+          child = Instance.find params["child_id"]
+      else
+          raise "Missing parameter parent_id (#{params["parent_id"]}) or child_id (#{params["child_id"]})"
+      end
+      relation = Relation.find params["relation_id"]
+      link_entities(parent,relation,child)
+      headers['Content-Type']='text/plain; charset=UTF-8'
+    else
+    #	if request.xhr?
+            headers['Content-Type']='text/plain; charset=UTF-8'
+            render :text => @invalid_list.join('######')
+            return
+    #	else
+                #redirect_to_url session['return-to']
+                #redirect_to :action => "list", :id => @instance.entity
+    #	end
+    end
   end
 
   def link_entities(parent,relation,child)
 	begin
     if relation.parent_side_type.name=="one"
-      puts "parent_id=#{parent.id} and relation_id=#{relation.id} AGAIN TRUE and is #{Link.count(:conditions => "child_id=#{parent.id} and relation_id=#{relation.id}")}"
       #parent side is one, so if child is already linked to one, cannot be linked again.....
       if Link.count(:conditions => "child_id=#{parent.id} and relation_id=#{relation.id}")>0
         raise "madb_not_respecting_to_one_relation"
@@ -914,7 +908,6 @@ class EntitiesController < ApplicationController
 	parent = Instance.find params[parent_id]
 	child = Instance.find params[child_id]
   
-  puts "Goint to connect Parent(#{parent.id}) with Child(#{child.id}) through Relation(#{relation.id})"
 	link_entities(parent,relation,child)
   end
 
@@ -1154,7 +1147,6 @@ class EntitiesController < ApplicationController
       rescue Exception => e
         flash["error"] = t("madb_error_occured_when_deleting_entity")
         logger.error "ERROR : in entities_controller, line #{__LINE__} :   #{e}"
-        puts "#{e.message}"
         return e
       end
       return nil

@@ -58,7 +58,6 @@ include DetailValueModule
     
     count = IntegerDetailValue.count(:conditions => ["instance_id=? AND detail_id=?", rec['instance_id'], detail.id])
     
-    puts "Limit is #{limit} and count is #{count}"
     
     if count >= limit
       msg = "#{detail.name}[#{detail.id}] of #{entity.name}[#{entity.id}] cannot have more then #{limit} values"

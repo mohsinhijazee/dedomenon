@@ -57,7 +57,6 @@ class AuthenticationControllerTest < Test::Unit::TestCase
     account.save
     post :login, "user" => { "login" => "fbasicc1@example.com", "password" => "atest" }
     assert(@response.has_session_object?( "user"))
-    puts "DO WE GET HERE?"
     
     u = User.find 1000010
     assert_equal u, @response.session["user"]

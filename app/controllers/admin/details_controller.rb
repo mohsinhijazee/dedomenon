@@ -169,18 +169,6 @@ class Admin::DetailsController < ApplicationController
   #   Renders a form for new details.
   #
   def new
-    if session['user'].nil?
-      puts "session['user'] is nil"
-    else
-        puts "session['user'] == #{session['user'].to_s}"
-    end      
-    
-    if session[:user].nil?
-      puts 'session[:user] is nil'
-    else
-        puts "session[:user] == #{session[:user].to_s}"
-    end
-    
     @details = Detail.new
     @data_types = DataType.find(:all).collect{ |dt| [t(dt.name), dt.id]}
     @choose_in_list_id = DataType.find_by_name("madb_choose_in_list").id

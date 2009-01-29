@@ -68,7 +68,6 @@ class DetailValue <  ActiveRecord::Base
     
     count = DetailValue.count(:conditions => ["instance_id=? AND detail_id=?", rec['instance_id'], detail.id])
     
-    puts "Limit is #{limit} and count is #{count}"
     
     if count >= limit
       msg = "#{detail.name}[#{detail.id}] of #{entity.name}[#{entity.id}] cannot have more then #{limit} values"
@@ -82,9 +81,6 @@ class DetailValue <  ActiveRecord::Base
 #    json = JSON.parse(super(options))
 #    
 #    #json['value'] = ''
-#    #puts 'VALUE NIL' if !self.value
-#    #puts 'HEREHEREHHER: ' + json['value']
-#    #puts json.to_json.gsub('\\', '')
 #    
 #    replace_with_url(json, 'id', :DetailValue, options)
 #    replace_with_url(json, 'detail_id', :Detail, options)
