@@ -26,7 +26,7 @@
    <form id="entity_form" method="post" action="<%= url_for :action=> "apply_edit" %>" <%= %{enctype="multipart/form-data"} if @entity.has_file_attachment_detail? %>>
     <input type="hidden" name="instance_id" value="-1">
     <input type="hidden" name="entity" value="<%=@entity.id%>">
-    <%= render :partial => "entity_form", :collection => @instance %>
+    <%= render :partial => "entity_form", :object => @instance %>
     <%= submit_tag(t("madb_submit"))%> <%= link_to_function t("madb_cancel"), "$('addition_form_div').style.display='none'; new Form.reset_madb_form (document.forms[0]);"%>
     </form>
 <a href="http://www.myowndb.com"><img style="display:block; margin-left:auto; margin-right: auto; border:0px" src="/images/logo-small.gif"/></a>
