@@ -14,7 +14,7 @@
 |type|service[0][value]|chomage|
 |type|coordonees_specifiques[0][value]|france|
 |click|commit||
-|pause|1000||
+|pause|3000||
 |assertTextPresent|AAAAAAlesi||
 |assertValue|//input[@name="nom[0][value]"]|AAAAAAlesi|
 |assertValue|//input[@name="prenom[0][value]"]|Jean|

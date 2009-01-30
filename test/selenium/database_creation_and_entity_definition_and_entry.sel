@@ -1,3 +1,4 @@
+|open|/selenium/setup?fixtures=account_types,accounts,databases,user_types,users,entities,data_types,detail_status,details,entities2details,instances,detail_values||
 |open|/app||
 |assertTitle|exact:madb_madb::||
 |type|user_login|raphinou@yahoo.com|
