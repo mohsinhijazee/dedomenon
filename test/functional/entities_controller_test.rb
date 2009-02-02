@@ -153,7 +153,7 @@ class EntitiesControllerTest < Test::Unit::TestCase
      assert_tag( { :tag => "td", :attributes => { :class=>"data_cell"}, :content => /\+32 2 227 61 01/})
      assert_tag( { :tag => "td", :attributes => { :class=>"data_cell"}, :content => /Ceci est le m\303\251mo qui est un long text/})
      assert_tag( { :tag => "td", :attributes => { :class=>"data_cell"}, :content => /sprl/})
-     assert_tag( { :tag => "a", :attributes => { :href=>"mailto:inf@axiosconsult.be"}, :content => "inf@axiosconsult.be"})
+     assert_tag( { :tag => "a", :attributes => { :href=>"mailto:inf@consultaix.com"}, :content => "inf@consultaix.com"})
 
      #Check labels number of rows
      assert_tag({ :tag => "table",:children =>{ :only => { :tag => "tr", :child => { :tag => "td",:attributes => { :class=> "label_cell"}}}, :count => 10}})
@@ -183,10 +183,10 @@ class EntitiesControllerTest < Test::Unit::TestCase
      assert_response :success
 
      #Check details display
-     assert_tag( { :tag => "td", :attributes => { :class=>"data_cell"}, :content => /Audoux/})
+     assert_tag( { :tag => "td", :attributes => { :class=>"data_cell"}, :content => /Audux/})
      assert_tag( { :tag => "td", :attributes => { :class=>"data_cell"}, :content => /Florence/})
      assert_tag( { :tag => "td", :attributes => { :class=>"data_cell"}, :content => /Consultante/})
-     assert_tag( { :tag => "a", :attributes => { :href=>"mailto:florence.audoux@axiosconsult.be"}, :content => "florence.audoux@axiosconsult.be"})
+     assert_tag( { :tag => "a", :attributes => { :href=>"mailto:florence.audux@consultaix.com"}, :content => "florence.audux@consultaix.com"})
 
      #Check labels number of rows
      assert_tag({ :tag => "table",:children =>{ :only => { :tag => "tr", :child => { :tag => "td",:attributes => { :class=> "label_cell"}}}, :count => 6}})
@@ -353,19 +353,19 @@ class EntitiesControllerTest < Test::Unit::TestCase
      
     
      assert_equal 12, lines 
-     #expected_csv="\"nom\";\"code_nace\";\"tva\";\"adresse\";\"personnes_occuppees\";\"telephone\";\"fax\";\"memo\";\"status\";\"company_email\";\n\"valtech\";\"hjhjhjk\";\"\";\"rue de perck\";\"2\";\"\";\"\";\"\";\"sprl\";\"\";\n\"raphinou\";\"\";\"BE 738 832 298\";\"kasteellaan 17\";\"1\";\"+32 479 989 969\";\"\";\"\";\"sprl\";\"rb@raphinou.com\";\n\"Euroclear\";\"\";\"\";\"Braine-l'Alleud\";\"2500\";\"\";\"\";\"\";\"sprl\";\"\";\n\"Axios\";\"230202020\";\"BE230202020\";\"Place De Brouckere 26\";\"10\";\"+32 2 227 61 00\";\"+32 2 227 61 01\";\"Ceci est le m\303\251mo qui est un long text\";\"sprl\";\"inf@axiosconsult.be\";\n\"SABAM\";\"\";\"\";\"Rue d'Arlon\";\"200\";\"\";\"\";\"\";\"sprl\";\"\";\n\"Banque Degroof\";\"\";\"\";\"Rue B\303\251liard\";\"150\";\"\";\"\";\"\";\"sa\";\"\";\n\"Commission  europ\303\251enne\";\"\";\"\";\"\";\"6000\";\"\";\"\";\"\";\"sprl\";\"\";\n\"Easynet Belgium\";\"\";\"\";\"Gulledelle 92\";\"65\";\"+32 2 432 37 00\";\"+32 2 432 37 01\";\"\";\"sa\";\"info@be.easynet.net\";\n\"Experteam\";\"\";\"\";\"\";\"30\";\"\";\"\";\"\";\"sprl\";\"info@experteam.be\";\n\"Mind\";\"\";\"\";\"\";\"\";\"\";\"\";\"\";\"sprl\";\"info@mind.be\";\n\"O'Reilly & Associates\";\"\";\"\";\"\";\"\";\"\";\"\";\"\";\"sprl\";\"\";\n"
+     #expected_csv="\"nom\";\"code_nace\";\"tva\";\"adresse\";\"personnes_occuppees\";\"telephone\";\"fax\";\"memo\";\"status\";\"company_email\";\n\"valtech\";\"hjhjhjk\";\"\";\"rue de perck\";\"2\";\"\";\"\";\"\";\"sprl\";\"\";\n\"raphinou\";\"\";\"BE 738 832 298\";\"kasteellaan 17\";\"1\";\"+32 479 989 969\";\"\";\"\";\"sprl\";\"rb@raphinou.com\";\n\"O-nuclear\";\"\";\"\";\"Braine-l'Alleud\";\"2500\";\"\";\"\";\"\";\"sprl\";\"\";\n\"Axios\";\"230202020\";\"BE230202020\";\"Place De Brouckere 26\";\"10\";\"+32 2 227 61 00\";\"+32 2 227 61 01\";\"Ceci est le m\303\251mo qui est un long text\";\"sprl\";\"inf@consultaix.com\";\n\"BARDAF\";\"\";\"\";\"Rue d'Arlon\";\"200\";\"\";\"\";\"\";\"sprl\";\"\";\n\"Banque Degroof\";\"\";\"\";\"Rue B\303\251liard\";\"150\";\"\";\"\";\"\";\"sa\";\"\";\n\"Commission  europ\303\251enne\";\"\";\"\";\"\";\"6000\";\"\";\"\";\"\";\"sprl\";\"\";\n\"Easynet Belgium\";\"\";\"\";\"Gulledelle 92\";\"65\";\"+32 2 432 37 00\";\"+32 2 432 37 01\";\"\";\"sa\";\"info@be.easynet.net\";\n\"Experteam\";\"\";\"\";\"\";\"30\";\"\";\"\";\"\";\"sprl\";\"info@experteam.be\";\n\"Mind\";\"\";\"\";\"\";\"\";\"\";\"\";\"\";\"sprl\";\"info@mind.be\";\n\"O'Conolly & Associates\";\"\";\"\";\"\";\"\";\"\";\"\";\"\";\"sprl\";\"\";\n"
      expected_csv = %Q~"nom";"code_nace";"tva";"adresse";"personnes_occuppees";"telephone";"fax";"memo";"status";"company_email";
 "valtech";"hjhjhjk";"";"rue de perck";"2";"";"";"";"sprl";"";
 "raphinou";"";"BE 738 832 298";"kasteellaan 17";"1";"+32 479 989 969";"";"";"sprl";"rb@raphinou.com";
-"Euroclear";"";"";"Braine-l'Alleud";"2500";"";"";"";"sprl";"";
-"Axios";"230202020";"BE230202020";"Place De Brouckere 26";"10";"+32 2 227 61 00";"+32 2 227 61 01";"Ceci est le mémo qui est un long text";"sprl";"inf@axiosconsult.be";
-"SABAM";"";"";"Rue d'Arlon";"200";"";"";"";"sprl";"";
+"O-nuclear";"";"";"Braine-l'Alleud";"2500";"";"";"";"sprl";"";
+"Axios";"230202020";"BE230202020";"Place De Brouckere 26";"10";"+32 2 227 61 00";"+32 2 227 61 01";"Ceci est le mémo qui est un long text";"sprl";"inf@consultaix.com";
+"BARDAF";"";"";"Rue d'Arlon";"200";"";"";"";"sprl";"";
 "Banque Degroof";"";"";"Rue Béliard";"150";"";"";"";"sa";"";
 "Commission  européenne";"";"";"";"6000";"";"";"";"sprl";"";
 "Easynet Belgium";"";"";"Gulledelle 92";"65";"+32 2 432 37 00";"+32 2 432 37 01";"";"sa";"info@be.easynet.net";
 "Experteam";"";"";"";"30";"";"";"";"";"info@experteam.be";
 "Mind";"";"";"";"";"";"";"";"sprl";"info@mind.be";
-"O'Reilly & Associates";"";"";"";"";"";"";"";"sprl";"";
+"O'Conolly & Associates";"";"";"";"";"";"";"";"sprl";"";
 ~
      
      assert_equal @response.body, expected_csv
@@ -720,7 +720,7 @@ class EntitiesControllerTest < Test::Unit::TestCase
           #check list order by looking at the ids order
           assert_equal [72,74,75,76,81,82,83,84,85,86], ids
           #check list order by looking at the noms order
-          assert_equal ["BAuduin", "Bauduin", "Siozis", "Siozis", "Audoux", "Kitsopoulos","Deloutte", "Danneels", "Berghmans", "Kitsopoulos"], noms
+          assert_equal ["BAuduin", "Bauduin", "Soizon", "Soizon", "Audux", "Kastagnette","Biloute", "Danneels", "Brughmans", "Kastagnette"], noms
           #no open_in_new_window link
           assert_no_tag :tag=> "a", :content => "open_in_new_window"
           #refresh link
@@ -1046,7 +1046,7 @@ class EntitiesControllerTest < Test::Unit::TestCase
 		pre_integer_values_count = IntegerDetailValue.count
 		pre_ddl_values_count = DdlDetailValue.count
 		pre_instances_count = Instance.count
-		xhr :post, :apply_edit, { "form_id"=>"Ih0bD5ph", "status"=>{"0"=>{"id"=>"18", "value"=>"11"}}, "nom"=>{"0"=>{"id"=>"347", "value"=>"Axios"}}, "entity"=>"11", "memo"=>{"0"=>{"id"=>"353", "value"=>"Ceci est le m\303\251mo qui est un long text"}}, "company_email"=>{"0"=>{"id"=>"354", "value"=>"inf@axiosconsult.be"}}, "action"=>"apply_edit", "instance_id"=>"77", "controller"=>"entities", "fax"=>{"0"=>{"id"=>"352", "value"=>"+32 2 227 61 01"}}, "code_nace"=>{"0"=>{"id"=>"348", "value"=>"230202020"}}, "telephone"=>{"0"=>{"id"=>"351", "value"=>"+32 2 227 61 00"}}, "adresse"=>{"0"=>{"id"=>"350", "value"=>"Place De Brouckere 26"}}, "TVA"=>{"0"=>{"id"=>"349", "value"=>"BE230202020"}}, "_"=>"", "personnes_occuppees"=>{"0"=>{"id"=>"8", "value"=>"10"}}} ,{'user' => User.find_by_id(@db1_user_id)} 
+		xhr :post, :apply_edit, { "form_id"=>"Ih0bD5ph", "status"=>{"0"=>{"id"=>"18", "value"=>"11"}}, "nom"=>{"0"=>{"id"=>"347", "value"=>"Axios"}}, "entity"=>"11", "memo"=>{"0"=>{"id"=>"353", "value"=>"Ceci est le m\303\251mo qui est un long text"}}, "company_email"=>{"0"=>{"id"=>"354", "value"=>"inf@consultaix.com"}}, "action"=>"apply_edit", "instance_id"=>"77", "controller"=>"entities", "fax"=>{"0"=>{"id"=>"352", "value"=>"+32 2 227 61 01"}}, "code_nace"=>{"0"=>{"id"=>"348", "value"=>"230202020"}}, "telephone"=>{"0"=>{"id"=>"351", "value"=>"+32 2 227 61 00"}}, "adresse"=>{"0"=>{"id"=>"350", "value"=>"Place De Brouckere 26"}}, "TVA"=>{"0"=>{"id"=>"349", "value"=>"BE230202020"}}, "_"=>"", "personnes_occuppees"=>{"0"=>{"id"=>"8", "value"=>"10"}}} ,{'user' => User.find_by_id(@db1_user_id)} 
 		post_values_count = DetailValue.count
 		post_integer_values_count = IntegerDetailValue.count
 		post_ddl_values_count = DdlDetailValue.count
@@ -1252,7 +1252,7 @@ class EntitiesControllerTest < Test::Unit::TestCase
 		assert_tag :tag => "input", :attributes => { :name => "fax[0][value]", :value => "+32 2 227 61 01"}
 		assert_tag :tag => "textarea", :attributes => { :name => "memo[0][value]"}, :content => "Ceci est le m\303\251mo qui est un long text"
 		assert_tag :tag => "select", :attributes => { :name => "status[0][value]"}, :child => { :tag => "option", :attributes => { :value => "11", :selected=> "selected"}, :content => "sprl"}
-		assert_tag :tag => "input", :attributes => { :name => "company_email[0][value]", :value => "inf@axiosconsult.be"}
+		assert_tag :tag => "input", :attributes => { :name => "company_email[0][value]", :value => "inf@consultaix.com"}
 
 		#detail watchers
 		assert_tag :tag =>"script", :content => Regexp.new("new DetailWatcher.*_societe_company_email\\[0\\].*63")

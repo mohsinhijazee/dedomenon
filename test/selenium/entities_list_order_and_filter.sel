@@ -25,9 +25,9 @@
 |assertTitle|exact:madb_madb::madb_list||
 |assertTable|entities_list_societe.1.0|valtech|
 |assertTable|entities_list_societe.2.0|raphinou|
-|assertTable|entities_list_societe.3.0|Euroclear|
+|assertTable|entities_list_societe.3.0|O-nuclear|
 |assertTable|entities_list_societe.4.0|Axios|
-|assertTable|entities_list_societe.5.0|SABAM|
+|assertTable|entities_list_societe.5.0|BARDAF|
 |assertTable|entities_list_societe.6.0|Banque Degroof|
 |assertTable|entities_list_societe.7.0|Commission européenne|
 |assertTable|entities_list_societe.8.0|Easynet Belgium|
@@ -37,30 +37,30 @@
 |assertTextPresent|1||
 |click|link=2||
 |pause|1000||
-|assertTextPresent|O'Reilly & Associates||
+|assertTextPresent|O'Conolly & Associates||
 |click|link=1||
 |pause|1000||
 |click|link=nom||
 |pause|1000||
-|assertTextPresent|O'Reilly & Associates||
+|assertTextPresent|O'Conolly & Associates||
 |type|value_filter|e|
 |click|//div[@id='societe_list_table_div']/form/input[3]||
 |pause|1000||
 |assertTextPresent|valtech||
-|assertTextPresent|Euroclear||
+|assertTextPresent|O-nuclear||
 |assertTextPresent|Banque Degroof||
 |assertTextPresent|Commission||
 |assertTextPresent|Easynet Belgium||
 |assertTextPresent|Experteam||
-|assertTextPresent|O'Reilly & Associates||
-|assertTextNotPresent|SABAM||
+|assertTextPresent|O'Conolly & Associates||
+|assertTextNotPresent|BARDAF||
 |click|link=madb_reset||
 |pause|1000||
 |assertTextPresent|valtech||
 |assertTextPresent|raphinou||
-|assertTextPresent|Euroclear||
+|assertTextPresent|O-nuclear||
 |assertTextPresent|Axios||
-|assertTextPresent|SABAM||
+|assertTextPresent|BARDAF||
 |assertTextPresent|anque Degroof||
 |assertTextPresent|européenne||
 |assertTextPresent|Easynet Belgium||
@@ -70,20 +70,20 @@
 |pause|1000||
 |assertTable|entities_list_societe.1.0|Axios|
 |assertTable|entities_list_societe.2.0|Banque Degroof|
-|assertTable|entities_list_societe.3.0|Commission européenne|
-|assertTable|entities_list_societe.4.0|Easynet Belgium|
-|assertTable|entities_list_societe.5.0|Euroclear|
+|assertTable|entities_list_societe.3.0|BARDAF|
+|assertTable|entities_list_societe.4.0|Commission européenne|
+|assertTable|entities_list_societe.5.0|Easynet Belgium|
 |assertTable|entities_list_societe.6.0|Experteam|
 |assertTable|entities_list_societe.7.0|Mind|
-|assertTable|entities_list_societe.8.0|O'Reilly & Associates|
-|assertTable|entities_list_societe.9.0|raphinou|
-|assertTable|entities_list_societe.10.0|SABAM|
+|assertTable|entities_list_societe.8.0|O'Conolly & Associates|
+|assertTable|entities_list_societe.9.0|O-nuclear|
+|assertTable|entities_list_societe.10.0|raphinou|
 |click|link=2||
 |pause|1000||
 |assertTextPresent|valtech||
 |click|link=personnes_occuppees||
 |pause|1000||
-|assertTextPresent|O'Reilly & Associates||
+|assertTextPresent|O'Conolly & Associates||
 |click|link=1||
 |pause|1000||
 |assertTable|entities_list_societe.1.0|raphinou|
@@ -92,8 +92,8 @@
 |assertTable|entities_list_societe.4.0|Experteam|
 |assertTable|entities_list_societe.5.0|Easynet Belgium|
 |assertTable|entities_list_societe.6.0|Banque Degroof|
-|assertTable|entities_list_societe.7.0|SABAM|
-|assertTable|entities_list_societe.8.0|Euroclear|
+|assertTable|entities_list_societe.7.0|BARDAF|
+|assertTable|entities_list_societe.8.0|O-nuclear|
 |assertTable|entities_list_societe.9.0|Commission européenne|
 |assertTable|entities_list_societe.10.0|Mind|
 |clickAndWait|link=madb_logout||

@@ -9,7 +9,7 @@ detail_values_147:
   detail_id: "63"
   instance_id: "84"
   id: "402"
-  value: christa.danneels@axiosconsult.be
+  value: christiane.danneels@consultaix.com
   type: "EmailDetailValue"
 detail_values_119: 
   detail_id: "58"
@@ -51,13 +51,13 @@ detail_values_148:
   detail_id: "48"
   instance_id: "73"
   id: "321"
-  value: Euroclear
+  value: O-nuclear
   type: "SimpleDetailValue"
 detail_values_034: 
   detail_id: "56"
   instance_id: "74"
   id: "330"
-  value: Cathy
+  value: Carol
   type: "SimpleDetailValue"
 detail_values_006: 
   detail_id: "55"
@@ -189,13 +189,13 @@ detail_values_095:
   detail_id: "48"
   instance_id: "76"
   id: "341"
-  value: Siozis
+  value: Soizon
   type: "SimpleDetailValue"
 detail_values_066: 
   detail_id: "63"
   instance_id: "70"
   id: "306"
-  value: valtech@skynet.be
+  value: valtech@broebel.net
   type: "EmailDetailValue"
 detail_values_038: 
   detail_id: "49"
@@ -207,7 +207,7 @@ detail_values_151:
   detail_id: "48"
   instance_id: "78"
   id: "355"
-  value: SABAM
+  value: BARDAF
   type: "SimpleDetailValue"
 detail_values_122: 
   detail_id: "48"
@@ -279,13 +279,13 @@ detail_values_069:
   detail_id: "48"
   instance_id: "75"
   id: "335"
-  value: Siozis
+  value: Soizon
   type: "SimpleDetailValue"
 detail_values_153: 
   detail_id: "63"
   instance_id: "94"
   id: "470"
-  value: josette.garcia@oreilly.co.uk
+  value: joelle.garcia@oconolly.co.uk
   type: "EmailDetailValue"
 detail_values_125: 
   detail_id: "59"
@@ -327,7 +327,7 @@ detail_values_012:
   detail_id: "48"
   instance_id: "81"
   id: "379"
-  value: Audoux
+  value: Audux
   type: "SimpleDetailValue"
 detail_values_041: 
   detail_id: "56"
@@ -351,7 +351,7 @@ detail_values_127:
   detail_id: "56"
   instance_id: "94"
   id: "466"
-  value: Josette
+  value: Joelle
   type: "SimpleDetailValue"
 detail_values_013: 
   detail_id: "54"
@@ -363,25 +363,25 @@ detail_values_070:
   detail_id: "48"
   instance_id: "93"
   id: "457"
-  value: "O'Reilly & Associates"
+  value: "O'Conolly & Associates"
   type: "SimpleDetailValue"
 detail_values_042: 
   detail_id: "63"
   instance_id: "81"
   id: "384"
-  value: florence.audoux@axiosconsult.be
+  value: florence.audux@consultaix.com
   type: "EmailDetailValue"
 detail_values_156: 
   detail_id: "48"
   instance_id: "85"
   id: "403"
-  value: Berghmans
+  value: Brughmans
   type: "SimpleDetailValue"
 detail_values_128: 
   detail_id: "56"
   instance_id: "84"
   id: "398"
-  value: Christa
+  value: Christiane
   type: "SimpleDetailValue"
 detail_values_071: 
   detail_id: "48"
@@ -447,7 +447,7 @@ detail_values_016:
   detail_id: "63"
   instance_id: "85"
   id: "408"
-  value: raphael.berghmans@sabam.be
+  value: raphael.brughmans@bardaf.be
   type: "EmailDetailValue"
 detail_values_159: 
   detail_id: "48"
@@ -495,7 +495,7 @@ detail_values_046:
   detail_id: "48"
   instance_id: "82"
   id: "385"
-  value: Kitsopoulos
+  value: Kastagnette
   type: "SimpleDetailValue"
 detail_values_101: 
   detail_id: "54"
@@ -543,7 +543,7 @@ detail_values_076:
   detail_id: "63"
   instance_id: "82"
   id: "390"
-  value: nicki.kitsopulos@axiosconsult.be
+  value: nicole.kitsopulos@consultaix.com
   type: "EmailDetailValue"
 detail_values_048: 
   detail_id: "57"
@@ -663,7 +663,7 @@ detail_values_021:
   detail_id: "48"
   instance_id: "86"
   id: "409"
-  value: Kitsopoulos
+  value: Kastagnette
   type: "SimpleDetailValue"
 detail_values_164: 
   detail_id: "49"
@@ -693,7 +693,7 @@ detail_values_022:
   detail_id: "63"
   instance_id: "77"
   id: "354"
-  value: inf@axiosconsult.be
+  value: inf@consultaix.com
   type: "EmailDetailValue"
 detail_values_165: 
   detail_id: "49"
@@ -759,7 +759,7 @@ detail_values_081:
   detail_id: "48"
   instance_id: "83"
   id: "391"
-  value: Deloutte
+  value: Biloute
   type: "SimpleDetailValue"
 detail_values_167: 
   detail_id: "50"
@@ -897,7 +897,7 @@ detail_values_057:
   detail_id: "48"
   instance_id: "87"
   id: "415"
-  value: Kitsopoulos
+  value: Kastagnette
   type: "SimpleDetailValue"
 detail_values_170: 
   detail_id: "50"
@@ -1035,7 +1035,7 @@ detail_values_117:
   detail_id: "63"
   instance_id: "83"
   id: "396"
-  value: stephanie.deloutte@axiosconsult.be
+  value: stephanie.deloutte@consultaix.com
   type: "EmailDetailValue"
 detail_values_003: 
   detail_id: "53"
@@ -1047,7 +1047,7 @@ detail_values_060:
   detail_id: "56"
   instance_id: "82"
   id: "386"
-  value: Nicki
+  value: Nicole
   type: "SimpleDetailValue"
 detail_values_146: 
   detail_id: "50"
@@ -1077,7 +1077,7 @@ detail_values_061:
   detail_id: "63"
   instance_id: "74"
   id: "334"
-  value: cathy.bauduin@euroclear.be
+  value: carol.bauduin@o-nuclear.be
   type: "EmailDetailValue"
 email_detail_values_002: 
   detail_id: "23"

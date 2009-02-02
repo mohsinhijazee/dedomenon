@@ -61,7 +61,7 @@ class SearchControllerTest < Test::Unit::TestCase
      assert_tag :tag => "div", :attributes => {:id => "contacts_search_result_div"} , :child => { :tag => "table", :children => { :only => { :tag => "tr"} , :count => 4}}
 	 assert_no_tag :tag=> "select", :attributes => { :name => "detail_id"} 
      #Check we get  the contacts raphael, cahty and florence
-     assert_tag :tag => "div", :attributes => {:id => "contacts_search_result_div"} , :child => { :tag=> "table" , :child => { :tag => "tr" , :child => { :tag => "td", :content => "Raphaël"} }, :child => { :tag => "tr" , :child => { :tag => "td", :content => "Cathy"} }, :child => { :tag => "tr" , :child => { :tag => "td", :content => "Florence"} }}
+     assert_tag :tag => "div", :attributes => {:id => "contacts_search_result_div"} , :child => { :tag=> "table" , :child => { :tag => "tr" , :child => { :tag => "td", :content => "Raphaël"} }, :child => { :tag => "tr" , :child => { :tag => "td", :content => "Carol"} }, :child => { :tag => "tr" , :child => { :tag => "td", :content => "Florence"} }}
      #Order links
      assert_tag :tag => "div", :attributes => {:id => "contacts_search_result_div"} , :child => { :tag=> "table" , :child => { :tag => "tr" , :child => { :tag => "th", 
 	     :child => { :tag => "a", :content => "company_email", :attributes => { :onclick => Regexp.new("/search/list_for_entity\\?.*contacts_search_result_order=company_email")  }},
@@ -119,10 +119,10 @@ class SearchControllerTest < Test::Unit::TestCase
      #Check we get  the contacts raphael, cahty and florence
      assert_tag  :tag=> "tbody" , 
 		 :child => { :tag => "tr" , :child => { :tag => "td", :content => "Raphaël"} }, 
-		 :child => { :tag => "tr" , :child => { :tag => "td", :content => "Cathy"} }, 
+		 :child => { :tag => "tr" , :child => { :tag => "td", :content => "Carol"} }, 
 		 :child => { :tag => "tr" , :child => { :tag => "td", :content => "Elisabeth"} },
 		 :child => { :tag => "tr" , :child => { :tag => "td", :content => "Stéphanie"} },
-		 :child => { :tag => "tr" , :child => { :tag => "td", :content => "Christa"} }
+		 :child => { :tag => "tr" , :child => { :tag => "td", :content => "Christiane"} }
 	 
      #Order links
      assert_tag  :tag=> "thead" , :child => { :tag => "tr" , :child => { :tag => "th", 
@@ -183,7 +183,7 @@ class SearchControllerTest < Test::Unit::TestCase
 		 :child => { :tag => "td", :child => { :tag =>"a", :attributes => { :href=> Regexp.new("/entities/view/72") } }},
 		 :child => { :tag => "td", :child => { :tag =>"a", :attributes => { :href=> Regexp.new("/entities/edit/72") } }}
 	 assert_tag :tag=> "tr", 
-		 :child => { :tag => "td", :content => "florence.audous@axiosconsult.be"} ,
+		 :child => { :tag => "td", :content => "florence.audous@consultaix.com"} ,
 		 :child => { :tag => "td", :child => { :tag =>"a", :attributes => { :href=> Regexp.new("/entities/view/81") } }},
 		 :child => { :tag => "td", :child => { :tag =>"a", :attributes => { :href=> Regexp.new("/entities/edit/81") } }}
      #Order links
@@ -206,7 +206,7 @@ class SearchControllerTest < Test::Unit::TestCase
     assert_equal 3, assigns["list"].length
     #check we return all columns
     assert_equal 7, assigns["list"][0].attributes.length
-    expected_csv="\"nom\";\"prenom\";\"fonction\";\"service\";\"coordonees_specifiques\";\"company_email\";\n\"BAuduin\";\"Rapha\303\253l\";\"\";\"\";\"trucksharing, madb, easynet\";\"rb@raphinou.com\";\n\"Bauduin\";\"Cathy\";\"Employ\303\251e\";\"\";\"\";\"cathy.bauduin@euroclear.be\";\n\"Audoux\";\"Florence\";\"Consultante\";\"\";\"\";\"florence.audoux@axiosconsult.be\";\n"
+    expected_csv="\"nom\";\"prenom\";\"fonction\";\"service\";\"coordonees_specifiques\";\"company_email\";\n\"BAuduin\";\"Rapha\303\253l\";\"\";\"\";\"trucksharing, madb, easynet\";\"rb@raphinou.com\";\n\"Bauduin\";\"Carol\";\"Employ\303\251e\";\"\";\"\";\"carol.bauduin@o-nuclear.be\";\n\"Audux\";\"Florence\";\"Consultante\";\"\";\"\";\"florence.audux@consultaix.com\";\n"
 
     assert_equal @response.body, expected_csv
 
@@ -293,14 +293,14 @@ class SearchControllerTest < Test::Unit::TestCase
 	assert_tag :tag =>"td", :content => "Dimitri"
 	assert_tag :tag =>"td", :content => "Rapha\303\253l"
 	assert_tag :tag =>"td", :content => "H\303\251l\303\250ne"
-	assert_tag :tag =>"td", :content => "Christa"
+	assert_tag :tag =>"td", :content => "Christiane"
 	assert_no_tag :tag =>"td", :content => "BAuduin"
 	assert_no_tag :tag =>"td", :content => "Peter"
-	assert_no_tag :tag =>"td", :content => "Josette"
+	assert_no_tag :tag =>"td", :content => "Joelle"
 	assert_no_tag :tag =>"td", :content => "Robert"
 	assert_no_tag :tag =>"td", :content => "Vincent"
 	assert_no_tag :tag =>"td", :content => "Florence"
-	assert_no_tag :tag =>"td", :content => "Nicki"
+	assert_no_tag :tag =>"td", :content => "Nicole"
 	assert_no_tag :tag =>"td", :content => "St\303\251phanie"
   #FIXME: Ermioni APPEARING!
 	#assert_no_tag :tag =>"td", :content => "Ermioni"
@@ -335,13 +335,13 @@ class SearchControllerTest < Test::Unit::TestCase
 	assert_tag :tag =>"td", :content => "Axios"
 	assert_tag :tag =>"td", :content => "Banque Degroof"
 	assert_tag :tag =>"td", :content => "valtech"
-	assert_tag :tag =>"td", :content => "SABAM"
-	assert_tag :tag =>"td", :content => "Euroclear"
+	assert_tag :tag =>"td", :content => "BARDAF"
+	assert_tag :tag =>"td", :content => "O-nuclear"
 	assert_tag :tag =>"td", :content => "Experteam"
 	assert_tag :tag =>"td", :content => "Commission  europ\303\251enne"
 	assert_tag :tag =>"td", :content => "Easynet Belgium"
 	assert_tag :tag =>"td", :content => "Mind"
-	assert_no_tag :tag =>"td", :content => "O'Reilly & Associates"
+	assert_no_tag :tag =>"td", :content => "O'Conolly & Associates"
 
   list = assigns["list"]
   assert_equal 71, list[0].id
