@@ -94,8 +94,13 @@ class EntitiesController < ApplicationController
       # to call render or redirect. The "and return false" is not needed but
       # its being added for backward compatibility.
       if !entity.has_public_form?
-        render :text => '', :status => 0 and return false;
+        render :text => '', :status => 200 and return false;
       end
+
+      if params["action"]=="apply_edit" and params[:instance_id]!="-1"
+        render :text => '', :status => 404 and return false;
+      end
+
       
     else
         begin

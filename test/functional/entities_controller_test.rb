@@ -1314,7 +1314,7 @@ class EntitiesControllerTest < Test::Unit::TestCase
     entity.has_public_form = false
     entity.save
     get :public_form, { :id => 11 }
-    assert_response 0
+    assert_response :success
 
 
     #accessible
@@ -1336,6 +1336,41 @@ class EntitiesControllerTest < Test::Unit::TestCase
   end
 
 
+	def test_unsuccessfull_update_from_public_form
+        i=Instance.find 91
+        before_nom = i.detail_values.reject{|v| v.detail.name!='nom'}[0].value
+        before_adress = i.detail_values.reject{|v| v.detail.name!='adresse'}[0].value
+        entity = Entity.find 11
+        entity.has_public_form = true
+        entity.save
+
+		pre_values_count = DetailValue.count
+		pre_integer_values_count = IntegerDetailValue.count
+		pre_ddl_values_count = DdlDetailValue.count
+		pre_instances_count = Instance.count
+		xhr :post, :apply_edit, { "form_id"=>"wCH1GxNJ",  "nom"=>{"0"=>{"id"=>"443", "value"=>"nom"}}, "entity"=>"11",  "action"=>"apply_edit", "instance_id"=>"91", "id"=>"11", "controller"=>"entities", "adresse"=>{"0"=>{"id"=>"446", "value"=>"Rue de Bruxelles"}}, "_"=>""} 
+		post_values_count = DetailValue.count
+		post_integer_values_count = IntegerDetailValue.count
+		post_ddl_values_count = DdlDetailValue.count
+		post_instances_count = Instance.count
+        i.reload
+        post_nom = i.detail_values.reject{|v| v.detail.name!='nom'}[0].value
+        post_adresse = i.detail_values.reject{|v| v.detail.name!='adresse'}[0].value
+		#request successfull
+		assert_response 404
+        assert_equal before_nom, post_nom
+        assert_equal before_adress, post_adresse
+		#we inserted 0 entries in detail_values (text,email,long_text)
+		assert_equal 0, post_values_count-pre_values_count
+		#we insert no empty values in IntegerDetailValue
+		assert_equal 0, post_integer_values_count-pre_integer_values_count
+		#we insert 0 DdlDetailValue
+		assert_equal 0, post_ddl_values_count-pre_ddl_values_count
+		#we insert 0 Instance
+		assert_equal 0, post_instances_count-pre_instances_count
+		#we get html back because insertion was successful 
+		assert_equal "", @response.body
+	end
 
 
 
