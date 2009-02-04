@@ -3,7 +3,7 @@ module EntitiesHelpers
 
   # div id containing list displayed
   def list_id
-    "#{@entity.name}_list"
+    @list_id || "#{@entity.name}_list"
   end
 
   #defined which parameter to use for ordering the list
@@ -16,9 +16,9 @@ module EntitiesHelpers
     session["list_order"]||={}
     if params[order_param] and ! params["highlight"] or params["highlight"]==""
       order=CrosstabObject.connection.quote_string(params[order_param].to_s)
-      session["list_order"][@list_id]=order
-    elsif session["list_order"].has_key? [@list_id]
-      order = session["list_order"][@list_id]
+      session["list_order"][list_id]=order
+    elsif session["list_order"].has_key? [list_id]
+      order = session["list_order"][list_id]
     else
       order = "id"
     end
@@ -100,7 +100,7 @@ module EntitiesHelpers
       highlight_count = highlight_row[0] ? highlight_row[0] : highlight_row['count']
       return  (highlight_count.to_i/list_length)+1
     else
-      return params[@list_id+"_page"]
+      return params[list_id+"_page"]
     end
   end
 
